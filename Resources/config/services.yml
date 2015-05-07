@@ -1,5 +1,7 @@
 parameters:
     agit.core.cachedir: %kernel.cache_dir%/agit
+    agit.core.php.version: ">=5.4.9"
+    agit.core.symfony.version: "2.3.*"
 
 services:
     agit.core.cache.persistent:
