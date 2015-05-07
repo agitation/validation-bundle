@@ -7,17 +7,7 @@
         "php": ">=5.4.9",
         "symfony/symfony": "2.3.*",
         "doctrine/cache" : "*",
-        "doctrine/orm" : "*",
-        "symfony/framework-bundle" : "*",
-        "symfony/class-loader" : "*",
-        "symfony/config" : "*",
-        "symfony/console" : "*",
-        "symfony/dependency-injection" : "*",
-        "symfony/event-dispatcher" : "*",
-        "symfony/finder" : "*",
-        "symfony/http-kernel" : "*",
-        "symfony/validator" : "*",
-        "symfony/yaml" : "*"
+        "doctrine/orm" : "*"
     },
     "autoload": {
         "psr-4": { "Agit\\CoreBundle\\": ""}
