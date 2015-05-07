@@ -1,5 +1,5 @@
 {
-    "name": "agitsol/core",
+    "name": "agitation/core",
     "type": "symfony-bundle",
     "minimum-stability" : "dev",
 
