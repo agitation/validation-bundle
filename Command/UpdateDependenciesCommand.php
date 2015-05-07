@@ -29,6 +29,9 @@ class UpdateDependenciesCommand extends AbstractCommand
 
     private $YamlParser;
 
+    // most likely already included through symfony
+    private $ignoreVendors = ['symfony', 'doctrine', 'twig'];
+
     protected function configure()
     {
         $this
@@ -125,6 +128,8 @@ class UpdateDependenciesCommand extends AbstractCommand
         $output->writeln("\nThe following package dependencies have been found:\n");
         $output->writeln(print_r($packageDependencies, 1));
 
+        $output->writeln("\nNOTE: You can probably ignore all symfony/*, doctrine/* and twig/* dependencies (except for symfony/symfony).");
+
         if (is_readable("$bundleDir/composer.json"))
         {
             $output->write("Updating composer.json … ");
@@ -132,7 +137,7 @@ class UpdateDependenciesCommand extends AbstractCommand
             $output->writeln("done.");
         }
 
-        $output->writeln("\n<info>ATTENTION: This tool may fail to find certain dependencies, make sure to manually check dependencies, too.</info>");
+        $output->writeln("\n<info>ATTENTION: This tool may fail to find certain dependencies, make sure to manually check EVERYTHING.</info>");
     }
 
     private function collectDependencies($files)
@@ -350,6 +355,14 @@ class UpdateDependenciesCommand extends AbstractCommand
 
         if (!is_object($tree))
             throw new \Exception("The '$composerFile' exists, but it's empty or contains invalid JSON.");
+
+        foreach ($packageDependencies as $pkgName => $pkgVersion)
+        {
+            $pkgVendor = strchr($pkgName, '/', true);
+
+            if ($pkgName !== 'symfony/symfony' && in_array($pkgVendor, $this->ignoreVendors))
+                unset($packageDependencies[$pkgName]);
+        }
 
         $tree->require = $packageDependencies;
 
