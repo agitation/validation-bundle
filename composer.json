@@ -1,0 +1,36 @@
+{
+    "name": "agitsol/core",
+    "type": "symfony-bundle",
+    "minimum-stability" : "dev",
+
+    "require": {
+        "php": ">=5.4.9",
+        "symfony/symfony": "2.3.*",
+        "doctrine/cache" : "*",
+        "doctrine/orm" : "*",
+        "symfony/framework-bundle" : "*",
+        "symfony/class-loader" : "*",
+        "symfony/config" : "*",
+        "symfony/console" : "*",
+        "symfony/dependency-injection" : "*",
+        "symfony/event-dispatcher" : "*",
+        "symfony/finder" : "*",
+        "symfony/http-kernel" : "*",
+        "symfony/validator" : "*",
+        "symfony/yaml" : "*"
+    },
+    "autoload": {
+        "psr-4": { "Agit\\CoreBundle\\": ""}
+    },
+
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AGITsol GmbH",
+            "homepage": "http://www.agitsol.com/"
+        }
+    ],
+
+    "description": "The core bundle of the Agitation framework, an extendible toolset on top of Symfony2 for e-commerce applications and backends.",
+    "keywords": ["agit", "agitation", "pluggable", "extendible", "tixys"]
+}
