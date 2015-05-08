@@ -17,6 +17,14 @@ Fair question. We won’t say that AgitIntlBundle is better than Symfony’s
 internationalisation features – but we did have a few reasons to create this bundle.
 
 - Performance: We use the PHP bindings to GNU Gettext, which means that Gettext catalogs are cached by PHP.
+- We can also translate messages from JavaScript.
+- Symfony doesn’t ship a Gettext extractor by default.
 - Bundles’ translations are independent from each other.
 - We can process much more than only controllers and Twig templates.
-- Translation catalogs are merged to one big catalog during cache warming.
+- Translation catalogs are merged to one big catalog.
+
+**Message domains**
+
+We have decided not to use message domains, because we want to take advantage of
+identical messages across packages. If a package needs to force a different
+translation for a certain existing message, it should use a contexted message.
