@@ -12,7 +12,6 @@ namespace Agit\IntlBundle\Service;
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 
 /**
  * This class provides wrappers around various gettext shell functions.
@@ -36,24 +35,21 @@ class GettextService
     /**
      * Extracts translatable strings from source files
      *
-     * @param $Finder instance of finder which contains the files to parse
+     * @param $fileList list of files to parse
      * @param $progLang programming language, as understood by `xgettext`
      * @param $keywords xgettext translation function keywords
      */
-    public function xgettext(Finder $Finder, $progLang, array $keywords)
+    public function xgettext(array $fileList, $progLang, array $keywords)
     {
         $fileListFile = $this->makeTmpFileName(__FUNCTION__);
         $messagesFile = $this->makeTmpFileName(__FUNCTION__);
-        $fileList = [];
-
-        foreach ($Finder as $File)
-            $fileList[] = $File->getRealpath();
 
         $this->Filesystem->dumpFile($fileListFile, implode("\n", $fileList));
         $this->Filesystem->dumpFile($messagesFile, '');
 
         $command = sprintf(
-            "xgettext --language=%s --from-code=utf-8 -j -f %s -o %s",
+            // we cannot use --omit-header because then the --from-code wouldn't work
+            "xgettext --language=%s --from-code=UTF-8 --no-wrap -j -f %s -o %s",
             escapeshellarg($progLang),
             escapeshellarg($fileListFile),
             escapeshellarg($messagesFile));
@@ -63,11 +59,15 @@ class GettextService
 
         exec($command, $output, $ret);
 
+        if ($ret) throw new InternalErrorException(sprintf("Error code $ret from msgattrib: %s\n", implode("\n", $output)));
+
         $messages = file_get_contents($messagesFile);
+
+        // remove headers, they cause trouble with other steps
+        $messages = $this->removeHeaders($messages);
+
         $this->Filesystem->remove($messagesFile);
         $this->Filesystem->remove($fileListFile);
-
-        if ($ret) throw new InternalErrorException(sprintf("Error code $ret from msgattrib: %s\n", implode("\n", $output)));
 
         return $messages;
     }
@@ -93,41 +93,45 @@ class GettextService
         $command1 = sprintf('msgmerge -q -F -N --no-wrap -o %1$s %1$s %2$s', escapeshellarg($catalogFile), escapeshellarg($newMessagesFile));
         exec($command1, $output1, $ret1);
 
-        // remove obsolete translations
-        $command2 = sprintf('msgattrib --no-fuzzy --no-wrap --no-obsolete -o %1$s %1$s', escapeshellarg($catalogFile));
+        if ($ret1) throw new InternalErrorException(sprintf("1: Error code $ret1 from msgmerge: %s\n", implode("\n", $output1)));
+
+        //remove obsolete translations
+        $command2 = sprintf('msgattrib --no-fuzzy --no-wrap --no-obsolete -o %1$s %2$s', escapeshellarg($catalogFile), escapeshellarg($catalogFile));
         exec($command2, $output2, $ret2);
 
         $newCatalog = file_get_contents($catalogFile);
+
         $this->Filesystem->remove($catalogFile);
         $this->Filesystem->remove($newMessagesFile);
 
-        if ($ret1) throw new InternalErrorException(sprintf("Error code $ret1 from msgattrib: %s\n", implode("\n", $output1)));
-        if ($ret2) throw new InternalErrorException(sprintf("Error code $ret2 from msgattrib: %s\n", implode("\n", $output2)));
+        if ($ret2) throw new InternalErrorException(sprintf("2: Error code $ret2 from msgattrib: %s\n", implode("\n", $output2)));
 
         return $newCatalog;
     }
 
     /**
-     * Joins two message sets. If duplicate messages are found, the first one is
+     * Joins multiple message sets. If duplicate messages are found, the first one is
      * used. NOTE: Do not pass catalogs with a header (i.e. empty msgid). They
      * will cause exceptions.
-     *
-     * @param $catalog1 first catalog
-     * @param $catalog2 second catalog
      */
-    public function msguniq($catalog1, $catalog2)
+    public function msguniq($catalog/*, ...*/)
     {
-        $catalogFile = $this->makeTmpFileName(__FUNCTION__);
-        $catalog = "$catalog1\n\n$catalog2";
-        $this->Filesystem->dumpFile($catalogFile, $catalog);
+        $catalog = implode("\n\n", func_get_args());
+        $newCatalog = '';
 
-        $command = sprintf('msguniq --use-first --no-wrap -o %1$s %1$s', escapeshellarg($catalogFile));
-        exec($command, $output, $ret);
+        if (trim($catalog))
+        {
+            $catalogFile = $this->makeTmpFileName(__FUNCTION__);
+            $this->Filesystem->dumpFile($catalogFile, $catalog);
 
-        $newCatalog = file_get_contents($catalogFile);
-        $this->Filesystem->remove($catalogFile);
+            $command = sprintf('msguniq --use-first --to-code=UTF-8 --no-wrap -o %1$s %1$s', escapeshellarg($catalogFile));
+            exec($command, $output, $ret);
 
-        if ($ret) throw new InternalErrorException(sprintf("Error code $ret from msguniq: %s\n", implode("\n", $output)));
+            $newCatalog = file_get_contents($catalogFile);
+            $this->Filesystem->remove($catalogFile);
+
+            if ($ret) throw new InternalErrorException(sprintf("Error code $ret from msguniq: %s\n", implode("\n", $output)));
+        }
 
         return $newCatalog;
     }
@@ -161,6 +165,26 @@ class GettextService
         return $machineCatalog;
     }
 
+    public function countMessages($catalog)
+    {
+        $lines = preg_split("|[\r\n]+|", $catalog);
+
+        $lines = array_filter($lines, function($line) {
+            return strpos($line, 'msgid ') === 0 && !preg_match('|msgid\s+""|', $line);
+        });
+
+        return count($lines);
+    }
+
+    // ATTENTION: This works only properly when the catalog was formatted with --no-wrap
+    public function removeHeaders($catalog)
+    {
+        $catalog = preg_replace('|^#\s.*$|m', '', $catalog); // comments
+        $catalog = preg_replace("|msgid\s+\"\"\nmsgstr\s+\"\"|", '', $catalog);  // header definitions
+        $catalog = preg_replace('|^".*"$|m', '', $catalog); // header lines
+
+        return trim($catalog);
+    }
 
     public function createCatalogHeader($locale)
     {

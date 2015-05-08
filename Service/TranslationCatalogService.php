@@ -10,7 +10,7 @@
 namespace Agit\IntlBundle\Service;
 
 use Agit\CoreBundle\Exception\InternalErrorException;
-use Symfony\Component\HttpKernel\Config\FileLocator;
+use Agit\CoreBundle\Service\FileCollector;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -26,7 +26,7 @@ use Symfony\Component\Finder\Finder;
 
 class TranslationCatalogService
 {
-    protected $FileLocator;
+    protected $FileCollector;
 
     protected $locales;
 
@@ -34,15 +34,17 @@ class TranslationCatalogService
 
     protected $globalCatalogPath;
 
+    protected $keywords = ['t', 'x:2c,1', 'n:1,2', 'ts:1', 'noop'];
+
     // where we expect a bundle's translation files, relative to the bundle's base path
     protected $bundleCatalogSubdir;
 
     protected $catalogName = 'agit';
 
-    public function __construct(GettextService $GettextService, FileLocator $FileLocator, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
+    public function __construct(GettextService $GettextService, FileCollector $FileCollector, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
     {
         $this->GettextService = $GettextService;
-        $this->FileLocator = $FileLocator;
+        $this->FileCollector = $FileCollector;
         $this->locales = $locales;
         $this->fileTypes = $fileTypes;
         $this->globalCatalogPath = $globalCatalogPath;
@@ -51,53 +53,63 @@ class TranslationCatalogService
     }
 
     /**
-     * @param $bundlePath can be an absolute path or a bundle alias
+     * @param $bundleAlias a bundle alias
      */
-    public function generateBundleCatalog($bundlePath)
+    public function generateBundleCatalog($bundleAlias)
     {
-        $bundlePath = $this->FileLocator->locate($bundlePath);
-        $bundleCatalogPath = "$bundlePath/{$this->bundleCatalogSubdir}";
-
-        $this->checkDirectoryAndCreateIfNeccessary($bundleCatalogPath);
-
-        $keywords = ['t', 'x:2c,1', 'n:1,2', 'ts:1', 'noop'];
-        $FinderList = [];
+        $bundlePath = $this->FileCollector->resolve($bundleAlias);
+        $bundleCatalogPath = "$bundlePath{$this->bundleCatalogSubdir}";
+        $foundMessages = [];
 
         foreach ($this->fileTypes as $ext => $progLang)
-            $FinderList[$progLang] = (new Finder())->in($bundlePath)->notPath('/Test.*/')->name("*\.$ext");
+        {
+            $fileList = [];
+            $Finder = (new Finder())->in($bundlePath)->notPath('/Test.*/')->notPath('/external/')->name("*\.$ext");
+
+            foreach ($Finder as $File)
+                $fileList[] = $File->getRealpath();
+
+            $foundMessages[] = $this->GettextService->xgettext($fileList, $progLang, $this->keywords);
+        }
 
         foreach ($this->locales as $locale)
         {
             $filename = "bundle.$locale.po";
             $filepath = "$bundleCatalogPath/$filename";
+            $localeHeader = $this->GettextService->createCatalogHeader($locale);
 
-            $this->checkCatalogFileAndCreateIfNeccessary($filepath, $locale);
+            $localeFoundMessages = $localeHeader . implode("\n\n", $foundMessages);
 
-            $catalog = file_get_contents($filepath);
-            $allCollectedMessages = '';
+            // filter all NEW messages
+            $localeFoundMessages = $this->GettextService->msguniq($localeFoundMessages);
 
-            foreach ($FinderList as $progLang => $Finder)
+            $catalog = $this->Filesystem->exists($filepath)
+                ? file_get_contents($filepath)
+                : $localeHeader;
+
+            $catalog = $this->GettextService->msgmerge($catalog, $localeFoundMessages);
+
+            if ($this->GettextService->countMessages($catalog))
             {
-                $filetypeMessages = $this->GettextService->xgettext($Finder, $progLang, $keywords, $locale);
-                $allCollectedMessages = $this->GettextService->msguniq($allCollectedMessages, $filetypeMessages);
+                // replace local paths
+                $catalog = str_replace($bundlePath, "@$bundleAlias/", $catalog);
+                $this->checkCatalogFileAndCreateIfNeccessary($filepath, $locale);
+                $this->Filesystem->dumpFile($filepath, $catalog);
             }
-
-            $catalog = $this->GettextService->msgmerge($catalog, $allCollectedMessages);
-            $this->Filesystem->dumpFile($filepath, $catalog);
         }
     }
 
     /**
-     * @param $bundlePathList a list of absolute paths or bundle aliases
+     * @param $bundleAliasList a list of bundle aliases
      */
-    public function generateGlobalCatalog(array $bundlePathList)
+    public function generateGlobalCatalog(array $bundleAliasList)
     {
         $poFiles = [];
         $catalogPath = "{$this->globalCatalogPath}/%s/LC_MESSAGES";
 
-        foreach ($bundlePathList as $path)
+        foreach ($bundleAliasList as $path)
         {
-            $bundlePath = $this->FileLocator->locate($path);
+            $bundlePath = $this->FileCollector->resolve($path);
             $bundleCatalogPath = "$bundlePath/{$this->bundleCatalogSubdir}";
 
             // we ignore bundles that don't "participate"
@@ -114,20 +126,30 @@ class TranslationCatalogService
             $locCatalogDirPath = sprintf($catalogPath, $locale);
             $locCatalogFilePath = "$locCatalogDirPath/{$this->catalogName}.po";
             $locMachineFilePath = "$locCatalogDirPath/{$this->catalogName}.mo";
-            $allMessages = '';
 
-            $this->checkDirectoryAndCreateIfNeccessary($locCatalogDirPath);
-            $this->checkCatalogFileAndCreateIfNeccessary($locCatalogFilePath, $locale);
+            $localeHeader = $this->GettextService->createCatalogHeader($locale);
+            $currentCatalog = $this->Filesystem->exists($locCatalogFilePath)
+                ? file_get_contents($locCatalogFilePath)
+                : $localeHeader;
+
+            $bundleTranslations = $localeHeader;
 
             foreach ($poFiles as $poFile)
                 if (strpos($poFile, ".$locale.") !== false)
-                    $allMessages = $this->GettextService->msguniq($allMessages, file_get_contents($poFile));
+                    $bundleTranslations .= $this->GettextService->removeHeaders(file_get_contents($poFile));
 
-            $catalog = $this->GettextService->msgmerge(file_get_contents($locCatalogFilePath), $allMessages);
-            $machine = $this->GettextService->msgfmt($catalog, $stats);
+            $bundleTranslations = $this->GettextService->removeHeaders($bundleTranslations);
+            $catalog = $this->GettextService->msguniq($currentCatalog, $bundleTranslations);
 
-            $this->Filesystem->dumpFile($locCatalogFilePath, $catalog);
-            $this->Filesystem->dumpFile($locMachineFilePath, $machine);
+            if ($this->GettextService->countMessages($catalog))
+            {
+                $this->checkDirectoryAndCreateIfNeccessary($locCatalogDirPath);
+                $this->checkCatalogFileAndCreateIfNeccessary($locCatalogFilePath, $locale);
+
+                $machine = $this->GettextService->msgfmt($catalog, $stats);
+                $this->Filesystem->dumpFile($locCatalogFilePath, $catalog);
+                $this->Filesystem->dumpFile($locMachineFilePath, $machine);
+            }
         }
     }
 
