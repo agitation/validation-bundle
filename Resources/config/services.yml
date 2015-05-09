@@ -1,12 +1,12 @@
 parameters:
     agit.intl.global.catalog.dir: "%kernel.root_dir%/Resources/translations"
     agit.intl.bundle.catalog.dir: "Resources/translations"
-    agit.intl.filetypes: { php : PHP, js : C } # JS files are parsed as C. strange, but works.
+    agit.intl.filetypes: { php : php, js : c } # JS files are parsed as C. strange, but works. TODO: recent xgettext versions support JS, check how this works.
 
 services:
     agit.intl.catalog:
         class: Agit\IntlBundle\Service\TranslationCatalogService
-        arguments: [@agit.intl.gettext, @agit.core.filecollector, %agit.intl.locales%, %agit.intl.filetypes%, %agit.intl.global.catalog.dir%, %agit.intl.bundle.catalog.dir%]
+        arguments: [@agit.intl.gettext, @agit.core.filecollector, @event_dispatcher, %agit.intl.locales%, %agit.intl.filetypes%, %agit.intl.global.catalog.dir%, %agit.intl.bundle.catalog.dir%]
 
     agit.intl.gettext:
         public: false

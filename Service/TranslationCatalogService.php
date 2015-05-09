@@ -9,10 +9,13 @@
 
 namespace Agit\IntlBundle\Service;
 
-use Agit\CoreBundle\Exception\InternalErrorException;
-use Agit\CoreBundle\Service\FileCollector;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Agit\CoreBundle\Exception\InternalErrorException;
+use Agit\CoreBundle\Service\FileCollector;
+use Agit\IntlBundle\Event\TranslationFilesRegistrationEvent;
+use Agit\IntlBundle\Event\CatalogFinishedEvent;
 
 /*
     test:
@@ -26,7 +29,11 @@ use Symfony\Component\Finder\Finder;
 
 class TranslationCatalogService
 {
+    protected $GettextService;
+
     protected $FileCollector;
+
+    protected $EventDispatcher;
 
     protected $locales;
 
@@ -41,10 +48,16 @@ class TranslationCatalogService
 
     protected $catalogName = 'agit';
 
-    public function __construct(GettextService $GettextService, FileCollector $FileCollector, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
+    protected $eventRegistrationTag = 'agit.intl.catalog';
+
+    // lists of files added through event listeners
+    protected $extraFileList = [];
+
+    public function __construct(GettextService $GettextService, FileCollector $FileCollector, EventDispatcher $EventDispatcher, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
     {
         $this->GettextService = $GettextService;
         $this->FileCollector = $FileCollector;
+        $this->EventDispatcher = $EventDispatcher;
         $this->locales = $locales;
         $this->fileTypes = $fileTypes;
         $this->globalCatalogPath = $globalCatalogPath;
@@ -61,6 +74,10 @@ class TranslationCatalogService
         $bundleCatalogPath = "$bundlePath{$this->bundleCatalogSubdir}";
         $foundMessages = [];
 
+        $this->EventDispatcher->dispatch(
+            "{$this->eventRegistrationTag}.files",
+            new TranslationFilesRegistrationEvent($this, $bundleAlias));
+
         foreach ($this->fileTypes as $ext => $progLang)
         {
             $fileList = [];
@@ -69,7 +86,10 @@ class TranslationCatalogService
             foreach ($Finder as $File)
                 $fileList[] = $File->getRealpath();
 
-            $foundMessages[] = $this->GettextService->xgettext($fileList, $progLang, $this->keywords);
+            if (isset($this->extraFileList[$progLang]))
+                $fileList = array_merge($fileList, $this->extraFileList[$progLang]);
+
+            $foundMessages[] = $this->GettextService->xgettext($fileList, strtolower($progLang), $this->keywords);
         }
 
         foreach ($this->locales as $locale)
@@ -97,6 +117,19 @@ class TranslationCatalogService
                 $this->Filesystem->dumpFile($filepath, $catalog);
             }
         }
+
+        // give extensions a chance to cleanup
+        $this->EventDispatcher->dispatch(
+            "{$this->eventRegistrationTag}.finish",
+            new CatalogFinishedEvent($bundleAlias));
+    }
+
+    public function registerCatalogFiles($progLang, array $fileList)
+    {
+        if (!isset($this->extraFileList[$progLang]))
+            $this->extraFileList[$progLang] = $fileList;
+        else
+            $this->extraFileList[$progLang] = array_merge($this->extraFileList[$progLang], $fileList);
     }
 
     /**

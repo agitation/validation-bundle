@@ -18,10 +18,9 @@ internationalisation features – but we did have a few reasons to create this b
 
 - Performance: We use the PHP bindings to GNU Gettext, which means that Gettext catalogs are cached by PHP.
 - We can also translate messages from JavaScript.
+- The translation collector can be extended through event listeners at runtime – e.g. to support Twig and annotations.
+- Translation catalogs are merged into one big catalog, which can be given to translators for better handling.
 - Symfony doesn’t ship a Gettext extractor by default.
-- Bundles’ translations are independent from each other.
-- We can process much more than only controllers and Twig templates.
-- Translation catalogs are merged to one big catalog.
 
 **Message domains**
 
