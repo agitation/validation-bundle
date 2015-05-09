@@ -72,6 +72,7 @@ class TranslationCatalogService
     {
         $bundlePath = $this->FileCollector->resolve($bundleAlias);
         $bundleCatalogPath = "$bundlePath{$this->bundleCatalogSubdir}";
+        $fileList = [];
         $foundMessages = [];
 
         $this->EventDispatcher->dispatch(
@@ -80,16 +81,21 @@ class TranslationCatalogService
 
         foreach ($this->fileTypes as $ext => $progLang)
         {
-            $fileList = [];
+            $langFileList = [];
             $Finder = (new Finder())->in($bundlePath)->notPath('/Test.*/')->notPath('/external/')->name("*\.$ext");
 
             foreach ($Finder as $File)
-                $fileList[] = $File->getRealpath();
+            {
+                $filePath = $File->getRealpath();
+                $fileRelPath = str_replace($bundlePath, '', $filePath);
+                $langFileList[$fileRelPath] = $filePath;
+            }
 
             if (isset($this->extraFileList[$progLang]))
-                $fileList = array_merge($fileList, $this->extraFileList[$progLang]);
+                $langFileList += $this->extraFileList[$progLang];
 
-            $foundMessages[] = $this->GettextService->xgettext($fileList, strtolower($progLang), $this->keywords);
+            $fileList += $langFileList;
+            $foundMessages[] = $this->GettextService->xgettext($langFileList, $progLang, $this->keywords);
         }
 
         foreach ($this->locales as $locale)
@@ -97,7 +103,6 @@ class TranslationCatalogService
             $filename = "bundle.$locale.po";
             $filepath = "$bundleCatalogPath/$filename";
             $localeHeader = $this->GettextService->createCatalogHeader($locale);
-
             $localeFoundMessages = $localeHeader . implode("\n\n", $foundMessages);
 
             // filter all NEW messages
@@ -111,8 +116,14 @@ class TranslationCatalogService
 
             if ($this->GettextService->countMessages($catalog))
             {
-                // replace local paths
-                $catalog = str_replace($bundlePath, "@$bundleAlias/", $catalog);
+                $replacements = [];
+
+                array_walk($fileList, function($path, $id) use ($bundleAlias, &$replacements) {
+                    $replacements["#: $path"] = "#: @$bundleAlias/$id";
+                });
+
+                $catalog = str_replace(array_keys($replacements), array_values($replacements), $catalog);
+
                 $this->checkCatalogFileAndCreateIfNeccessary($filepath, $locale);
                 $this->Filesystem->dumpFile($filepath, $catalog);
             }
