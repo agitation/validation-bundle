@@ -15,12 +15,17 @@ class UrlService
 {
     private $domains = [];
 
-    public function __construct($backendDomain, $frontendDomain, $cdnDomain)
+    private $protocol;
+
+    public function __construct($backendDomain, $frontendDomain, $cdnDomain, $forceHttps)
     {
         $this->domains = [
             'backend' => $backendDomain,
             'frontend' => $frontendDomain,
             'cdn' => $cdnDomain];
+
+        $this->protocol = ($forceHttps || (isset($_SERVER['SERVER_PROTOCOL']) && stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true))
+            ? 'https' : 'http';
     }
 
     public function getBackendDomain()
@@ -58,7 +63,7 @@ class UrlService
         if (!isset($this->domains[$type]))
             throw new InternalErrorException("Invalid domain type");
 
-        $url = sprintf("https://%s/%s", $this->domains[$type], ltrim($path, '/'));
+        $url = sprintf("%s://%s/%s", $this->protocol, $this->domains[$type], ltrim($path, '/'));
 
         if (count($params))
             $url = $this->append($url, $params);

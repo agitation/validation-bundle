@@ -13,7 +13,7 @@ services:
 
     agit.core.url:
         class: Agit\CoreBundle\Service\UrlService
-        arguments: [%agit.core.domain.backend%, %agit.core.domain.frontend%, %agit.core.domain.cdn%]
+        arguments: [%agit.core.domain.backend%, %agit.core.domain.frontend%, %agit.core.domain.cdn%, %agit.core.url.force.https%]
 
     agit.plugin.manager:
         arguments: [@event_dispatcher]
