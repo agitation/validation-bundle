@@ -64,7 +64,7 @@ class TranslationExtension extends \Twig_Extension
 
     public function ts($string)
     {
-        $args = array_slice(func_get_args(), 2);
+        $args = array_slice(func_get_args(), 1);
         $translated = $this->t($string);
         return vsprintf($translated, $args);
     }
