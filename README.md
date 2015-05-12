@@ -17,7 +17,7 @@ follows:
 - Unlike the Symfony event mechanisms, this doesn't happen at run-time, but during cache-warming.
 - Plugins can be loaded at runtime from the cache.
 
-Take, for example, the [https://www.github.com/agitation/AgitValidationBundle](AgitValidationBundle):
+Take, for example, the [AgitValidationBundle](https://www.github.com/agitation/AgitValidationBundle):
 
 The bundle defines the `agit.validation` service. At the same time, it accepts
 the registration of additional validators. It uses the *object “strategy”*, which
