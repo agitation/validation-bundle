@@ -35,6 +35,6 @@ The pluggability features also allow managing “fixtures”, i.e. entity values
 which are to be inserted into the database at the time of bundle installation or
 update.
 
-A good example is the [https://www.github.com/agitation/AgitLocaleDataBundle](AgitLocaleDataBundle):
+A good example is the [AgitLocaleDataBundle](https://www.github.com/agitation/AgitLocaleDataBundle):
 It provides (among others) an entity classes for countries, and when the plugin loader is run,
 it will populate the database with all known countries from the CLDR repository.
