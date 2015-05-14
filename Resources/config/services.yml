@@ -80,3 +80,19 @@ services:
         arguments: [@agit.core.cache.persistent]
         class: Agit\CoreBundle\Pluggable\Strategy\Object\ObjectLoaderFactory
 
+    # factory services for the "combined" strategy
+
+    # event listeners for a pluggable service
+    agit.pluggable.combined.listener.factory:
+        arguments: [@agit.pluggable.object.processor.factory, @agit.pluggable.fixture.processor.factory]
+        class: Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedListenerFactory
+
+#     # combined processors
+    agit.pluggable.combined.processor.factory:
+        arguments: [@agit.core.cache.persistent]
+        class: Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedProcessorFactory
+#
+#     # event listeners for plugins to a pluggable service
+    agit.plugin.combined.listener.factory:
+        arguments: [@agit.core.classcollector]
+        class: Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedPluginListenerFactory
