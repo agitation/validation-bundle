@@ -2,7 +2,7 @@ services:
 
     agit.validation:
         class: Agit\ValidationBundle\Service\ValidationService
-        arguments: [@_agit.validation.loader, @service_container]
+        arguments: [@agit.validation.loader, @service_container]
 
     # listening for validators to be registered
     agit.validator.register:
@@ -14,7 +14,7 @@ services:
         tags: [{ name: kernel.event_listener, event: agit.pluggable, method: onRegistration }]
 
     # retrieving the registered objects
-    _agit.validation.loader:
+    agit.validation.loader:
         private: true
         class: ObjectLoader
         factory_service:  agit.plugin.object.loader.factory
@@ -22,7 +22,7 @@ services:
         arguments: [ agit.validation ]
 
     # registering our own validators
-    _agit.validation.extensions:
+    agit.validation.extensions:
         private: true
         class: ObjectPluginListener
         factory_service:  agit.plugin.object.listener.factory
