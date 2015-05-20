@@ -2,7 +2,7 @@ services:
 
     agit.validation:
         class: Agit\ValidationBundle\Service\ValidationService
-        arguments: [@agit.validation.loader, @service_container]
+        arguments: [@agit.validation.loader, @agit.intl.translate, @service_container]
 
     # listening for validators to be registered
     agit.validator.register:

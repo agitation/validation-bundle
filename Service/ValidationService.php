@@ -12,6 +12,8 @@ namespace Agit\ValidationBundle\Service;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectLoader;
+use Agit\IntlBundle\Service\Translate;
+use Agit\ValidationBundle\Exception\InvalidValueException;
 
 class ValidationService
 {
@@ -19,13 +21,16 @@ class ValidationService
 
     private $ObjectLoader;
 
+    private $Translate;
+
     private $ValidatorList = [];
 
-    public function __construct(ObjectLoader $ObjectLoader, ContainerInterface $Container)
+    public function __construct(ObjectLoader $ObjectLoader, Translate $Translate, ContainerInterface $Container)
     {
         $this->ObjectLoader = $ObjectLoader;
         $this->Container = $Container;
         $this->ObjectLoader->setObjectFactory([$this, 'objectFactory']);
+        $this->Translate = $Translate;
     }
 
     // shortcut
@@ -34,6 +39,18 @@ class ValidationService
         call_user_func_array(
             [$this->getValidator($id), 'validate'],
             array_slice(func_get_args(), 1));
+    }
+
+    // shortcut. extends the error message with a reference to the field.
+    public function validateField($fieldName, $id, $value)
+    {
+        try {
+            call_user_func_array(
+                [$this->getValidator($id), 'validate'],
+                array_slice(func_get_args(), 2));
+        } catch(\Exception $e) {
+            throw new InvalidValueException(sprintf($this->Translate->t("Invalid value for %s: %s"), $fieldName, $e->getMessage()));
+        }
     }
 
     // shortcut. ATTENTION: instead of throwing an exception, it returns true/false
