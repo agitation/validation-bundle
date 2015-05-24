@@ -44,7 +44,7 @@ class CombinedPluginListener
             $entityNameList = $RegistrationEvent->getEntityNames();
 
             if (!$ClassRefl->isSubclassOf('Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedPluginInterface'))
-                throw new InternalErrorException("$class must implement the CombinedPluginInterface.");
+                continue;
 
             if (!$ClassRefl->isSubclassOf($parentClass))
                 throw new InternalErrorException(sprintf("$class must be a child of %s.", $parentClass));

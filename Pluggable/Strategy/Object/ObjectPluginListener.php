@@ -43,7 +43,7 @@ class ObjectPluginListener
             $object = new $class();
 
             if (!($object instanceof PluginObjectInterface))
-                throw new InternalErrorException("Class $class must implement the PluginObjectInterface.");
+                continue;
 
             $ObjectData = $RegistrationEvent->createContainer();
             $ObjectData->setId($object->getId());
