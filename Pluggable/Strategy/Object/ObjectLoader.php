@@ -34,7 +34,7 @@ class ObjectLoader extends CacheLoader
         return $this->ObjectList[$id]['instance'];
     }
 
-    protected function getAllObjects()
+    public function getAllObjects()
     {
         $list = [];
         $this->loadObjectList();
