@@ -77,7 +77,7 @@ services:
 
     # object loaders
     agit.plugin.object.loader.factory:
-        arguments: [@agit.core.cache.persistent]
+        arguments: [@agit.core.cache.persistent, @service_container]
         class: Agit\CoreBundle\Pluggable\Strategy\Object\ObjectLoaderFactory
 
     # factory services for the "combined" strategy

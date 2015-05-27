@@ -9,9 +9,10 @@
 
 namespace Agit\CoreBundle\Pluggable\Strategy\Object;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Cache\CacheProvider;
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\CoreBundle\Pluggable\Strategy\Cache\CacheLoader;
-
 /**
  * Provides registered objects to the pluggable service at run-time.
  */
@@ -22,6 +23,17 @@ class ObjectLoader extends CacheLoader
     private $ObjectList;
 
     private $objectFactoryCallback;
+
+    private $Container;
+
+    public function __construct(CacheProvider $CacheProvider, $registrationTag, ContainerInterface $Container = null)
+    {
+        parent::__construct($CacheProvider, $registrationTag);
+
+        // NOTE: The container is only set if the pluggable service
+        // allows dependency injection.
+        $this->Container = $Container;
+    }
 
     public function setObjectFactory($callback)
     {
@@ -60,7 +72,13 @@ class ObjectLoader extends CacheLoader
         if (!isset($this->ObjectList[$id]['instance']))
         {
             $objectFactoryCallback = $this->objectFactoryCallback ?: [$this, 'objectFactory'];
-            $this->ObjectList[$id]['instance'] = call_user_func($objectFactoryCallback, $id, $this->ObjectList[$id]['class']);
+            $instance = call_user_func($objectFactoryCallback, $id, $this->ObjectList[$id]['class']);
+
+            if ($this->Container && in_array(__NAMESPACE__ . '\ServiceAwarePlugin', class_uses($instance)))
+                foreach ($instance->getServiceDependencies() as $serviceName)
+                    $instance->setService($serviceName, $this->Container->get($serviceName));
+
+            $this->ObjectList[$id]['instance'] = $instance;
         }
     }
 
@@ -73,11 +91,8 @@ class ObjectLoader extends CacheLoader
             foreach ($this->loadPlugins() as $id => $class)
                 $this->ObjectList[$id] = ['class' => $class, 'instance' => null];
         }
-
     }
 
-    // NOTE: We don't support the ServiceAwarePlugin trait here.
-    // It is up to the pluggable service to decide if plugins can access services.
     protected function objectFactory($id, $class)
     {
         return new $class();

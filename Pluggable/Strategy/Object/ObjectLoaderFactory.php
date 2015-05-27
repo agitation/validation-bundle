@@ -10,18 +10,22 @@
 namespace Agit\CoreBundle\Pluggable\Strategy\Object;
 
 use Doctrine\Common\Cache\CacheProvider;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ObjectLoaderFactory
 {
     private $CacheProvider;
 
-    public function __construct(CacheProvider $CacheProvider)
+    private $Container;
+
+    public function __construct(CacheProvider $CacheProvider, ContainerInterface $Container)
     {
         $this->CacheProvider = $CacheProvider;
+        $this->Container = $Container;
     }
 
-    public function create($registrationTag)
+    public function create($registrationTag, $allowServiceInjection = false)
     {
-        return new ObjectLoader($this->CacheProvider, $registrationTag);
+        return new ObjectLoader($this->CacheProvider, $registrationTag, $allowServiceInjection ? $this->Container : null);
     }
 }
