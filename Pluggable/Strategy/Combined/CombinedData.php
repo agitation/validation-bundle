@@ -22,14 +22,8 @@ class CombinedData extends ObjectData
     public function setFixtures($entityName, array $fixtures)
     {
         foreach ($fixtures as $fixture)
-        {
             if (!is_array($fixture))
                 throw new InternalErrorException("Fixture data must be passed as arrays.");
-
-            foreach ($fixture as $value)
-                if (!is_scalar($value))
-                    throw new InternalErrorException("Fixture values must be scalar.");
-        }
 
         if (!isset($this->fixtures[$entityName]))
             $this->fixtures[$entityName] = [];
