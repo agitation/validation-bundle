@@ -15,7 +15,7 @@ use Agit\CoreBundle\Pluggable\Strategy\Fixture\FixtureProcessorFactory;
 use Agit\CoreBundle\Pluggable\Strategy\Fixture\FixtureData;
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedData;
-use Agit\CoreBundle\Pluggable\Strategy\Cache\CacheData;
+use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectData;
 
 /**
  * This processor internally combines the ObjectProcessor and the FixtureProcessor.
@@ -85,10 +85,10 @@ class CombinedProcessor implements ProcessorInterface
         if (!$ClassRefl->isSubclassOf($this->parentClass))
             throw new InternalErrorException(sprintf("Class %s must be a subclass of %s.", $CombinedData->getClass(), $this->parentClass));
 
-        $CacheData = new CacheData();
-        $CacheData->setId($CombinedData->getId());
-        $CacheData->setData($CombinedData->getClass());
-        $this->ObjectProcessor->register($CacheData, $priority);
+        $ObjectData = new ObjectData();
+        $ObjectData->setId($CombinedData->getId());
+        $ObjectData->setClass($CombinedData->getClass());
+        $this->ObjectProcessor->registerObject($ObjectData, $priority);
 
         foreach ($this->FixtureProcessorList as $entityName => $FixtureProcessor)
         {
