@@ -28,16 +28,31 @@ class ObjectProcessor extends CacheProcessor
         $this->parentClass = $parentClass;
     }
 
+    public function createRegistrationEvent()
+    {
+        return new ObjectRegistrationEvent($this);
+    }
+
+    public function getParentClass()
+    {
+        return $this->parentClass;
+    }
+
     public function register(CacheData $CacheData, $priority)
     {
-        if (!is_string($CacheData->getData()) || !class_exists($CacheData->getData()))
+        throw new InternalErrorException("This method is not available on this processor. Use registerObject() instead.");
+    }
+
+    public function registerObject(ObjectData $ObjectData, $priority)
+    {
+        if (!is_string($ObjectData->getClass()) || !class_exists($ObjectData->getClass()))
             throw new InternalErrorException("Invalid plugin class.");
 
-        $refl = new \ReflectionClass($CacheData->getData());
+        $refl = new \ReflectionClass($ObjectData->getClass());
 
         if (!$refl->isSubclassOf($this->parentClass))
-            throw new InternalErrorException("Plugin class must be a child of {$this->parentClass}.");
+            throw new InternalErrorException(sprintf("%s must be a subclass of %s.", $ObjectData->getClass(), $this->parentClass));
 
-        parent::register($CacheData, $priority);
+        $this->addPlugin($ObjectData->getId(), $ObjectData->getClass());
     }
 }

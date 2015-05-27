@@ -10,30 +10,14 @@
 namespace Agit\CoreBundle\Pluggable\Strategy\Combined;
 
 use Agit\CoreBundle\Exception\InternalErrorException;
+use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectData;
 
 /**
- * Data container for objects to be registered.
+ * Data container for fixture-aware objects to be registered.
  */
-class CombinedData
+class CombinedData extends ObjectData
 {
-    private $id;
-
-    private $class;
-
     private $fixtures = [];
-
-    public function setId($id)
-    {
-        if (!is_string($id))
-            throw new InternalErrorException("The ID must be a string.");
-
-        $this->id = $id;
-    }
-
-    public function setClass($class)
-    {
-        $this->class = $class;
-    }
 
     public function setFixtures($entityName, array $fixtures)
     {
@@ -51,16 +35,6 @@ class CombinedData
             $this->fixtures[$entityName] = [];
 
         $this->fixtures[$entityName] = $fixtures;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getClass()
-    {
-        return $this->class;
     }
 
     public function getFixtures($entityName)

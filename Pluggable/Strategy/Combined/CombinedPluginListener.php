@@ -47,7 +47,7 @@ class CombinedPluginListener
                 continue;
 
             if (!$ClassRefl->isSubclassOf($parentClass))
-                throw new InternalErrorException(sprintf("$class must be a child of %s.", $parentClass));
+                continue;
 
             $CombinedData = $RegistrationEvent->createContainer();
             $CombinedData->setClass($class);

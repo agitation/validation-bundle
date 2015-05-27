@@ -44,7 +44,12 @@ class CacheProcessor implements ProcessorInterface
 
     public function register(CacheData $CacheData, $priority)
     {
-        $this->plugins[$CacheData->getId()] = $CacheData->getData();
+        $this->addPlugin($CacheData->getId(), $CacheData->getData());
+    }
+
+    protected function addPlugin($id, $data)
+    {
+        $this->plugins[$id] = $data;
     }
 
     public function process()
