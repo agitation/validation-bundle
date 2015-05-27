@@ -76,6 +76,8 @@ class ObjectLoader extends CacheLoader
 
     }
 
+    // NOTE: We don't support the ServiceAwarePlugin trait here.
+    // It is up to the pluggable service to decide if plugins can access services.
     protected function objectFactory($id, $class)
     {
         return new $class();
