@@ -30,8 +30,8 @@ class ObjectLoader extends CacheLoader
     {
         parent::__construct($CacheProvider, $registrationTag);
 
-        // NOTE: The container is only set if the pluggable service
-        // allows dependency injection.
+        // If the ObjectLoader should do DI, the factory must provide
+        // the container.
         $this->Container = $Container;
     }
 
