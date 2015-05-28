@@ -11,20 +11,20 @@ namespace Agit\CoreBundle\Pluggable\Strategy\Combined;
 
 use Agit\CoreBundle\Pluggable\Strategy\ProcessorInterface;
 use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectProcessorFactory;
-use Agit\CoreBundle\Pluggable\Strategy\Fixture\FixtureProcessorFactory;
-use Agit\CoreBundle\Pluggable\Strategy\Fixture\FixtureData;
+use Agit\CoreBundle\Pluggable\Strategy\Seed\SeedProcessorFactory;
+use Agit\CoreBundle\Pluggable\Strategy\Seed\SeedData;
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedData;
 use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectData;
 
 /**
- * This processor internally combines the ObjectProcessor and the FixtureProcessor.
+ * This processor internally combines the ObjectProcessor and the SeedProcessor.
  */
 class CombinedProcessor implements ProcessorInterface
 {
     private $ObjectProcessor;
 
-    private $FixtureProcessorList;
+    private $SeedProcessorList;
 
     private $registrationTag;
 
@@ -34,25 +34,25 @@ class CombinedProcessor implements ProcessorInterface
 
     public function __construct(
         ObjectProcessorFactory $ObjectProcessorFactory,
-        FixtureProcessorFactory $FixtureProcessorFactory,
+        SeedProcessorFactory $SeedProcessorFactory,
         $registrationTag,
         $parentClass,
         array $entityNameList, // NOTE: order equals priority
-        $fixtureDeleteObsolete = true,
-        $fixtureUpdateExisting = true)
+        $seedDeleteObsolete = true,
+        $seedUpdateExisting = true)
     {
         $this->ObjectProcessor = $ObjectProcessorFactory->create($registrationTag, $parentClass);
         $this->registrationTag = $registrationTag;
         $this->parentClass = $parentClass;
         $this->entityNameList = $entityNameList;
-        $fixturePriority = 0;
+        $seedPriority = 0;
 
         foreach ($entityNameList as $entityName)
-            $this->FixtureProcessorList[$entityName] = $FixtureProcessorFactory->create(
+            $this->SeedProcessorList[$entityName] = $SeedProcessorFactory->create(
             $entityName,
-            $fixturePriority += 10,
-            $fixtureDeleteObsolete,
-            $fixtureUpdateExisting);
+            $seedPriority += 10,
+            $seedDeleteObsolete,
+            $seedUpdateExisting);
     }
 
     public function createRegistrationEvent()
@@ -90,15 +90,15 @@ class CombinedProcessor implements ProcessorInterface
         $ObjectData->setClass($CombinedData->getClass());
         $this->ObjectProcessor->registerObject($ObjectData, $priority);
 
-        foreach ($this->FixtureProcessorList as $entityName => $FixtureProcessor)
+        foreach ($this->SeedProcessorList as $entityName => $SeedProcessor)
         {
-            $fixtures = $CombinedData->getFixtures($entityName);
+            $seeds = $CombinedData->getSeeds($entityName);
 
-            foreach ($fixtures as $entry)
+            foreach ($seeds as $entry)
             {
-                $FixtureData = new FixtureData();
-                $FixtureData->setData($entry);
-                $FixtureProcessor->register($FixtureData);
+                $SeedData = new SeedData();
+                $SeedData->setData($entry);
+                $SeedProcessor->register($SeedData);
             }
         }
     }
@@ -112,7 +112,7 @@ class CombinedProcessor implements ProcessorInterface
     {
         $this->ObjectProcessor->process();
 
-        foreach ($this->FixtureProcessorList as $FixtureProcessor)
-            $FixtureProcessor->process();
+        foreach ($this->SeedProcessorList as $SeedProcessor)
+            $SeedProcessor->process();
     }
 }

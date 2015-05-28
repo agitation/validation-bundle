@@ -7,7 +7,7 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CoreBundle\Pluggable\Strategy\Fixture;
+namespace Agit\CoreBundle\Pluggable\Strategy\Seed;
 
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\CoreBundle\Pluggable\Strategy\Cache\CacheData;
@@ -16,6 +16,6 @@ use Agit\CoreBundle\Pluggable\Strategy\Cache\CacheData;
  * Data container for objects to be registered. Simply reusing the CacheData
  * container for now, as it has all we need.
  */
-class FixtureData extends CacheData
+class SeedData extends CacheData
 {
 }

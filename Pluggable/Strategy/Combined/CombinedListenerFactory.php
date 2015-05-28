@@ -10,7 +10,7 @@
 namespace Agit\CoreBundle\Pluggable\Strategy\Combined;
 
 use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectProcessorFactory;
-use Agit\CoreBundle\Pluggable\Strategy\Fixture\FixtureProcessorFactory;
+use Agit\CoreBundle\Pluggable\Strategy\Seed\SeedProcessorFactory;
 
 /**
  * Creates object collector listeners.
@@ -19,23 +19,23 @@ class CombinedListenerFactory
 {
     private $ObjectProcessorFactory;
 
-    private $FixtureProcessorFactory;
+    private $SeedProcessorFactory;
 
-    public function __construct(ObjectProcessorFactory $ObjectProcessorFactory, FixtureProcessorFactory $FixtureProcessorFactory)
+    public function __construct(ObjectProcessorFactory $ObjectProcessorFactory, SeedProcessorFactory $SeedProcessorFactory)
     {
         $this->ObjectProcessorFactory = $ObjectProcessorFactory;
-        $this->FixtureProcessorFactory = $FixtureProcessorFactory;
+        $this->SeedProcessorFactory = $SeedProcessorFactory;
     }
 
-    public function create($registrationTag, $parentClass, array $entityNameList, $fixtureDeleteObsolete = true, $fixtureUpdateExisting = true)
+    public function create($registrationTag, $parentClass, array $entityNameList, $seedDeleteObsolete = true, $seedUpdateExisting = true)
     {
         return new CombinedListener(
             $this->ObjectProcessorFactory,
-            $this->FixtureProcessorFactory,
+            $this->SeedProcessorFactory,
             $registrationTag,
             $parentClass,
             $entityNameList,
-            $fixtureDeleteObsolete,
-            $fixtureUpdateExisting);
+            $seedDeleteObsolete,
+            $seedUpdateExisting);
     }
 }

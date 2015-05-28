@@ -7,16 +7,16 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CoreBundle\Pluggable\Strategy\Fixture;
+namespace Agit\CoreBundle\Pluggable\Strategy\Seed;
 
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Validator;
 
 /**
- * Creates an fixture processor instance.
+ * Creates an seed processor instance.
  */
-class FixtureProcessorFactory
+class SeedProcessorFactory
 {
     private $EntityManager;
 
@@ -30,7 +30,7 @@ class FixtureProcessorFactory
 
     public function create($entityName, $priority, $removeObsolete = true, $updateExisting = true)
     {
-        return new FixtureProcessor(
+        return new SeedProcessor(
             $this->EntityManager,
             $this->EntityValidator,
             $entityName,

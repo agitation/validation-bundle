@@ -7,22 +7,22 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CoreBundle\Pluggable\Strategy\Fixture;
+namespace Agit\CoreBundle\Pluggable\Strategy\Seed;
 
 /**
  * Creates object collector listeners.
  */
-class FixtureListenerFactory
+class SeedListenerFactory
 {
     protected $FileLocator;
 
-    public function __construct(FixtureProcessorFactory $ProcessorFactory)
+    public function __construct(SeedProcessorFactory $ProcessorFactory)
     {
         $this->ProcessorFactory = $ProcessorFactory;
     }
 
     public function create($entityName, $priority, $removeObsolete = false, $updateExisting = true)
     {
-        return new FixtureListener($this->ProcessorFactory, $entityName, $priority, $removeObsolete, $updateExisting);
+        return new SeedListener($this->ProcessorFactory, $entityName, $priority, $removeObsolete, $updateExisting);
     }
 }

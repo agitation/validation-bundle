@@ -45,17 +45,17 @@ services:
         class: Agit\CoreBundle\Pluggable\Strategy\Cache\CacheLoaderFactory
 
 
-    # factory services for the "fixture" strategy
+    # factory services for the "seed" strategy
 
-    # fixture processors
-    agit.pluggable.fixture.processor.factory:
+    # seed processors
+    agit.pluggable.seed.processor.factory:
         arguments: [@doctrine.orm.entity_manager, @validator]
-        class: Agit\CoreBundle\Pluggable\Strategy\Fixture\FixtureProcessorFactory
+        class: Agit\CoreBundle\Pluggable\Strategy\Seed\SeedProcessorFactory
 
     # event listeners for a pluggable service
-    agit.pluggable.fixture.listener.factory:
-        arguments: [@agit.pluggable.fixture.processor.factory]
-        class: Agit\CoreBundle\Pluggable\Strategy\Fixture\FixtureListenerFactory
+    agit.pluggable.seed.listener.factory:
+        arguments: [@agit.pluggable.seed.processor.factory]
+        class: Agit\CoreBundle\Pluggable\Strategy\Seed\SeedListenerFactory
 
 
     # factory services for the "object" strategy
@@ -84,7 +84,7 @@ services:
 
     # event listeners for a pluggable service
     agit.pluggable.combined.listener.factory:
-        arguments: [@agit.pluggable.object.processor.factory, @agit.pluggable.fixture.processor.factory]
+        arguments: [@agit.pluggable.object.processor.factory, @agit.pluggable.seed.processor.factory]
         class: Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedListenerFactory
 
 #     # combined processors

@@ -7,27 +7,27 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CoreBundle\Pluggable\Strategy\Fixture;
+namespace Agit\CoreBundle\Pluggable\Strategy\Seed;
 
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Data container for fixture objects.
+ * Data container for seed objects.
  */
-class FixtureRegistrationEvent extends Event
+class SeedRegistrationEvent extends Event
 {
-    public function __construct(FixtureProcessor $Processor)
+    public function __construct(SeedProcessor $Processor)
     {
         $this->Processor = $Processor;
     }
 
     public function createContainer()
     {
-        return new FixtureData();
+        return new SeedData();
     }
 
-    public function register(FixtureData $FixtureData)
+    public function register(SeedData $SeedData)
     {
-        return $this->Processor->register($FixtureData);
+        return $this->Processor->register($SeedData);
     }
 }

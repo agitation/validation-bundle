@@ -15,5 +15,5 @@ interface CombinedPluginInterface
     public static function getPluginId();
 
     // returns an array of data rows
-    public static function getFixtures($entityName);
+    public static function getSeeds($entityName);
 }

@@ -17,16 +17,16 @@
 //  */
 // class CombinedProcessorFactory
 // {
-//     public function __construct(ObjectProcessorFactory $ObjectProcessorFactory, FixtureProcessorFactory $FixtureProcessorFactory)
+//     public function __construct(ObjectProcessorFactory $ObjectProcessorFactory, SeedProcessorFactory $SeedProcessorFactory)
 //     {
 //         $this->ObjectProcessorFactory = $ObjectProcessorFactory;
-//         $this->FixtureProcessorFactory = $FixtureProcessorFactory;
+//         $this->SeedProcessorFactory = $SeedProcessorFactory;
 //     }
 //
 //     /**
 //      * @param string $parentClass name of the class/interface which plugin objects should inherit/implement.
 //      */
-//     public function create($registrationTag, $parentClass, array $entityNameList, $fixtureDeleteObsolete, $fixtureUpdateExisting)
+//     public function create($registrationTag, $parentClass, array $entityNameList, $seedDeleteObsolete, $seedUpdateExisting)
 //     {
 //         return new CombinedProcessor($this->CacheProvider, $registrationTag, $parentClass);
 //     }

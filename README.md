@@ -29,9 +29,9 @@ services as well as the plugins to the services can simply select a registration
 processing strategy and set it up through service configuration. Or they can
 extend the basic strategies for more advanced extendibility scenarios.
 
-### Fixtures
+### Seeds
 
-The pluggability features also allow managing “fixtures”, i.e. entity values
+The pluggability features also allow managing “seeds”, i.e. entity values
 which are to be inserted into the database at the time of bundle installation or
 update.
 

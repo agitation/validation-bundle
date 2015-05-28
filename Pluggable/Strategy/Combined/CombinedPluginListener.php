@@ -54,7 +54,7 @@ class CombinedPluginListener
             $CombinedData->setId($class::getPluginId());
 
             foreach ($entityNameList as $entityName)
-                $CombinedData->setFixtures($entityName, $class::getFixtures($entityName));
+                $CombinedData->setSeeds($entityName, $class::getSeeds($entityName));
 
             $RegistrationEvent->register($CombinedData, $this->priority);
         }

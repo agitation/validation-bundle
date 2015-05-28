@@ -11,17 +11,17 @@ namespace Agit\CoreBundle\Pluggable\Strategy\Combined;
 
 use Agit\CoreBundle\Pluggable\PluggableServiceRegistrationEvent;
 use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectProcessorFactory;
-use Agit\CoreBundle\Pluggable\Strategy\Fixture\FixtureProcessorFactory;
+use Agit\CoreBundle\Pluggable\Strategy\Seed\SeedProcessorFactory;
 
 /**
  * This class is used by pluggable services themselves to generate listeners
- * for their expected objects/fixtures. Use CombinedListenerFactory to create instances.
+ * for their expected objects/seeds. Use CombinedListenerFactory to create instances.
  */
 class CombinedListener
 {
     private $ObjectProcessorFactory;
 
-    private $FixtureProcessorFactory;
+    private $SeedProcessorFactory;
 
     private $registrationTag;
 
@@ -29,38 +29,38 @@ class CombinedListener
 
     private $entityNameList;
 
-    private $fixtureDeleteObsolete;
+    private $seedDeleteObsolete;
 
-    private $fixtureUpdateExisting;
+    private $seedUpdateExisting;
 
     public function __construct(
         ObjectProcessorFactory $ObjectProcessorFactory,
-        FixtureProcessorFactory $FixtureProcessorFactory,
+        SeedProcessorFactory $SeedProcessorFactory,
         $registrationTag,
         $parentClass,
         array $entityNameList,
-        $fixtureDeleteObsolete,
-        $fixtureUpdateExisting)
+        $seedDeleteObsolete,
+        $seedUpdateExisting)
     {
         $this->ObjectProcessorFactory = $ObjectProcessorFactory;
-        $this->FixtureProcessorFactory = $FixtureProcessorFactory;
+        $this->SeedProcessorFactory = $SeedProcessorFactory;
         $this->registrationTag = $registrationTag;
         $this->parentClass = $parentClass;
         $this->entityNameList = $entityNameList;
-        $this->fixtureDeleteObsolete = $fixtureDeleteObsolete;
-        $this->fixtureUpdateExisting = $fixtureUpdateExisting;
+        $this->seedDeleteObsolete = $seedDeleteObsolete;
+        $this->seedUpdateExisting = $seedUpdateExisting;
     }
 
     public function onRegistration(PluggableServiceRegistrationEvent $RegistrationEvent)
     {
         $RegistrationEvent->registerProcessor(new CombinedProcessor(
             $this->ObjectProcessorFactory,
-            $this->FixtureProcessorFactory,
+            $this->SeedProcessorFactory,
             $this->registrationTag,
             $this->parentClass,
             $this->entityNameList,
-            $this->fixtureDeleteObsolete,
-            $this->fixtureUpdateExisting
+            $this->seedDeleteObsolete,
+            $this->seedUpdateExisting
         ));
     }
 }

@@ -7,15 +7,15 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CoreBundle\Pluggable\Strategy\Fixture;
+namespace Agit\CoreBundle\Pluggable\Strategy\Seed;
 
 use Agit\CoreBundle\Pluggable\PluggableServiceRegistrationEvent;
 
 
 /**
- * Reusable listener for pluggable fixtures.
+ * Reusable listener for pluggable seeds.
  */
-class FixtureListener
+class SeedListener
 {
     private $ProcessorFactory;
 
@@ -27,7 +27,7 @@ class FixtureListener
 
     private $updateExisting;
 
-    public function __construct(FixtureProcessorFactory $ProcessorFactory, $entityName, $priority, $removeObsolete, $updateExisting)
+    public function __construct(SeedProcessorFactory $ProcessorFactory, $entityName, $priority, $removeObsolete, $updateExisting)
     {
         $this->ProcessorFactory = $ProcessorFactory;
         $this->entityName = $entityName;

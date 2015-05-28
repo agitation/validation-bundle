@@ -13,26 +13,26 @@ use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectData;
 
 /**
- * Data container for fixture-aware objects to be registered.
+ * Data container for seed-aware objects to be registered.
  */
 class CombinedData extends ObjectData
 {
-    private $fixtures = [];
+    private $seeds = [];
 
-    public function setFixtures($entityName, array $fixtures)
+    public function setSeeds($entityName, array $seeds)
     {
-        foreach ($fixtures as $fixture)
-            if (!is_array($fixture))
-                throw new InternalErrorException("Fixture data must be passed as arrays.");
+        foreach ($seeds as $seed)
+            if (!is_array($seed))
+                throw new InternalErrorException("Seed data must be passed as arrays.");
 
-        if (!isset($this->fixtures[$entityName]))
-            $this->fixtures[$entityName] = [];
+        if (!isset($this->seeds[$entityName]))
+            $this->seeds[$entityName] = [];
 
-        $this->fixtures[$entityName] = $fixtures;
+        $this->seeds[$entityName] = $seeds;
     }
 
-    public function getFixtures($entityName)
+    public function getSeeds($entityName)
     {
-        return $this->fixtures[$entityName];
+        return $this->seeds[$entityName];
     }
 }

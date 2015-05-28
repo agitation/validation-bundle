@@ -7,7 +7,7 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CoreBundle\Pluggable\Strategy\Fixture;
+namespace Agit\CoreBundle\Pluggable\Strategy\Seed;
 
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\CoreBundle\Pluggable\Strategy\ProcessorInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator;
 /**
  * Processes registered objects
  */
-class FixtureProcessor implements ProcessorInterface
+class SeedProcessor implements ProcessorInterface
 {
     private $EntityManager;
 
@@ -33,7 +33,7 @@ class FixtureProcessor implements ProcessorInterface
 
     private $updateExisting;
 
-    private $FixtureDataList = [];
+    private $SeedDataList = [];
 
     public function __construct(EntityManager $EntityManager, Validator $EntityValidator, $entityName, $priority, $removeObsolete = true, $updateExisting = true)
     {
@@ -50,7 +50,7 @@ class FixtureProcessor implements ProcessorInterface
 
     public function createRegistrationEvent()
     {
-        return new FixtureRegistrationEvent($this);
+        return new SeedRegistrationEvent($this);
     }
 
     public function getRegistrationTag()
@@ -58,9 +58,9 @@ class FixtureProcessor implements ProcessorInterface
         return $this->entityName;
     }
 
-    public function register(FixtureData $FixtureData)
+    public function register(SeedData $SeedData)
     {
-        $this->FixtureDataList[] = $FixtureData;
+        $this->SeedDataList[] = $SeedData;
     }
 
     public function process()
@@ -69,12 +69,12 @@ class FixtureProcessor implements ProcessorInterface
         $entityClass = $this->Metadata->getName();
         $EntityList = $this->getExistingObjects($idField);
 
-        foreach ($this->FixtureDataList as $FixtureData)
+        foreach ($this->SeedDataList as $SeedData)
         {
-            $entry = $FixtureData->getData();
+            $entry = $SeedData->getData();
 
             if (!isset($entry[$idField]))
-                throw new InternalErrorException("The fixture data for $entityClass is missing the mandatory '$idField' field.");
+                throw new InternalErrorException("The seed data for $entityClass is missing the mandatory '$idField' field.");
 
             if (isset($EntityList[$entry[$idField]]))
             {
@@ -119,12 +119,12 @@ class FixtureProcessor implements ProcessorInterface
     private function getIdField()
     {
         if ($this->Metadata->usesIdGenerator())
-            throw new InternalErrorException("Fixture entities must not use an ID generator.");
+            throw new InternalErrorException("Seed entities must not use an ID generator.");
 
         $idFieldList = $this->Metadata->getIdentifier();
 
         if (!is_array($idFieldList) || count($idFieldList) !== 1)
-            throw new InternalErrorException("Fixture entities must have exactly one ID field.");
+            throw new InternalErrorException("Seed entities must have exactly one ID field.");
 
         return reset($idFieldList);
     }
