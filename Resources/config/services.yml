@@ -18,7 +18,7 @@ services:
 
     agit.intl.locale:
         class: Agit\IntlBundle\Service\LocaleService
-        arguments: [%agit.intl.locales%, %agit.intl.global.catalog.dir%, "agit"]
+        arguments: [@?agit.intl.localeconfig, %agit.intl.locales%, %agit.intl.global.catalog.dir%, "agit"]
 
     # Twig extension for template text block translations
     # (optional, no dependency on Twig, as long it's not instantiated)

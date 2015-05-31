@@ -21,7 +21,9 @@ class LocaleService
 
     private $availableLocales;
 
-    public function __construct($availableLocales, $translationsPath, $textdomain)
+    private $LocaleConfigService;
+
+    public function __construct(LocaleConfigInterface $LocaleConfigService = null, $availableLocales, $translationsPath, $textdomain)
     {
         $this->availableLocales = $availableLocales;
 
@@ -29,16 +31,35 @@ class LocaleService
         textdomain($textdomain);
 
         $this->setLocale($this->defaultLocale);
+        $this->LocaleConfigService = $LocaleConfigService;
     }
 
+    // default locale for this distribution
     public function getDefaultLocale()
     {
         return $this->defaultLocale;
     }
 
+    // available locales for this distribution
     public function getAvailableLocales()
     {
         return $this->availableLocales;
+    }
+
+    // default locale for this installation
+    public function getPrimaryLocale()
+    {
+        return $this->LocaleConfigService
+            ? $this->LocaleConfigService->getPrimaryLocale()
+            : $this->defaultLocale;
+    }
+
+    // available locales for this installation
+    public function getActiveLocales()
+    {
+        return $this->LocaleConfigService
+            ? $this->LocaleConfigService->getActiveLocales()
+            : $this->availableLocales;
     }
 
     public function setLocale($locale)
