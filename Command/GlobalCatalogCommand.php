@@ -37,6 +37,9 @@ class GlobalCatalogCommand extends AbstractCommand
         foreach ($Container->getParameter('kernel.bundles') as $alias => $namespace)
             $pathList[] = "@$alias";
 
-        $Container->get('agit.intl.catalog')->generateGlobalCatalog($pathList);
+        $res = $Container->get('agit.intl.catalog')->generateGlobalCatalog($pathList);
+
+        if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity())
+            print_r($res);
     }
 }

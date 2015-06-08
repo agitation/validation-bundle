@@ -142,7 +142,7 @@ class GettextService
      *
      * @param $catalog catalog to convert
      */
-    public function msgfmt($catalog, &$stats=null)
+    public function msgfmt($catalog, &$stats = null)
     {
         $catalogFile = $this->makeTmpFileName(__FUNCTION__);
         $machineFile = $this->makeTmpFileName(__FUNCTION__);
@@ -165,12 +165,23 @@ class GettextService
         return $machineCatalog;
     }
 
-    public function countMessages($catalog)
+    public function countAllMessages($catalog)
     {
         $lines = preg_split("|[\r\n]+|", $catalog);
 
         $lines = array_filter($lines, function($line) {
             return strpos($line, 'msgid ') === 0 && !preg_match('|msgid\s+""|', $line);
+        });
+
+        return count($lines);
+    }
+
+    public function countTranslatedMessages($catalog)
+    {
+        $lines = preg_split("|[\r\n]+|", $catalog);
+
+        $lines = array_filter($lines, function($line) {
+            return preg_match('|^msgstr(\[0\])?\s+"|', $line) && !preg_match('|msgstr\s+""|', $line);
         });
 
         return count($lines);

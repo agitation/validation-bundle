@@ -25,15 +25,18 @@ class BundleCatalogCommand extends AbstractCommand
         $this
             ->setName('agit:intl:catalog:bundle')
             ->setDescription('Collects translatable strings from a bundle and generates a translation catalog for it.')
-            ->addArgument('path', InputArgument::REQUIRED, 'path to bundle, or bundle alias');
+            ->addArgument('bundle', InputArgument::REQUIRED, 'bundle alias, e.g. AcmeFoobarBundle');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$this->flock(__FILE__)) return;
 
-        $this->getContainer()
+        $res = $this->getContainer()
             ->get('agit.intl.catalog')
-            ->generateBundleCatalog($input->getArgument('path'));
+            ->generateBundleCatalog($input->getArgument('bundle'));
+
+        if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity())
+            print_r($res);
     }
 }

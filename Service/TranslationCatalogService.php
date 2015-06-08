@@ -74,6 +74,7 @@ class TranslationCatalogService
         $bundleCatalogPath = "$bundlePath{$this->bundleCatalogSubdir}";
         $fileList = [];
         $foundMessages = [];
+        $counts = [];
 
         $this->EventDispatcher->dispatch(
             "{$this->eventRegistrationTag}.files",
@@ -114,7 +115,12 @@ class TranslationCatalogService
 
             $catalog = $this->GettextService->msgmerge($catalog, $localeFoundMessages);
 
-            if ($this->GettextService->countMessages($catalog))
+            $counts[$filename] = [
+                'total' => $this->GettextService->countAllMessages($catalog),
+                'translated' => $this->GettextService->countTranslatedMessages($catalog)
+            ];
+
+            if ($counts[$filename]['translated'])
             {
                 $replacements = [];
 
@@ -133,6 +139,8 @@ class TranslationCatalogService
         $this->EventDispatcher->dispatch(
             "{$this->eventRegistrationTag}.finish",
             new CatalogFinishedEvent($bundleAlias));
+
+        return $counts;
     }
 
     public function registerCatalogFiles($progLang, array $fileList)
@@ -150,6 +158,7 @@ class TranslationCatalogService
     {
         $poFiles = [];
         $catalogPath = "{$this->globalCatalogPath}/%s/LC_MESSAGES";
+        $counts = [];
 
         foreach ($bundleAliasList as $path)
         {
@@ -185,7 +194,12 @@ class TranslationCatalogService
             $bundleTranslations = $this->GettextService->removeHeaders($bundleTranslations);
             $catalog = $this->GettextService->msguniq($currentCatalog, $bundleTranslations);
 
-            if ($this->GettextService->countMessages($catalog))
+            $counts[$locale] = [
+                'total' => $this->GettextService->countAllMessages($catalog),
+                'translated' => 0
+            ];
+
+            if ($counts[$locale])
             {
                 $this->checkDirectoryAndCreateIfNeccessary($locCatalogDirPath);
                 $this->checkCatalogFileAndCreateIfNeccessary($locCatalogFilePath, $locale);
@@ -193,8 +207,12 @@ class TranslationCatalogService
                 $machine = $this->GettextService->msgfmt($catalog, $stats);
                 $this->Filesystem->dumpFile($locCatalogFilePath, $catalog);
                 $this->Filesystem->dumpFile($locMachineFilePath, $machine);
+
+                $counts[$locale]['translated'] = $stats[0];
             }
         }
+
+        return $counts;
     }
 
     protected function checkDirectoryAndCreateIfNeccessary($path)
