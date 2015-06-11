@@ -50,8 +50,8 @@ class TranslationCatalogService
 
     protected $eventRegistrationTag = 'agit.intl.catalog';
 
-    // lists of files added through event listeners
-    protected $extraFileList = [];
+    // lists of source files added through event listeners
+    protected $sourceFileList = [];
 
     public function __construct(GettextService $GettextService, FileCollector $FileCollector, EventDispatcher $EventDispatcher, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
     {
@@ -92,8 +92,8 @@ class TranslationCatalogService
                 $langFileList[$fileRelPath] = $filePath;
             }
 
-            if (isset($this->extraFileList[$progLang]))
-                $langFileList += $this->extraFileList[$progLang];
+            if (isset($this->sourceFileList[$progLang]))
+                $langFileList += $this->sourceFileList[$progLang];
 
             $fileList += $langFileList;
             $foundMessages[] = $this->GettextService->xgettext($langFileList, $progLang, $this->keywords);
@@ -143,12 +143,12 @@ class TranslationCatalogService
         return $counts;
     }
 
-    public function registerCatalogFiles($progLang, array $fileList)
+    public function registerSourceFile($progLang, $fileId, $filePath)
     {
-        if (!isset($this->extraFileList[$progLang]))
-            $this->extraFileList[$progLang] = $fileList;
-        else
-            $this->extraFileList[$progLang] = array_merge($this->extraFileList[$progLang], $fileList);
+        if (!isset($this->sourceFileList[$progLang]))
+            $this->sourceFileList[$progLang] = [];
+
+        $this->sourceFileList[$progLang][$fileId] = $filePath;
     }
 
     /**

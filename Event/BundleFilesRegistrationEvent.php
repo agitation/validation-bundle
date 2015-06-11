@@ -15,7 +15,7 @@ use Agit\IntlBundle\Service\TranslationCatalogService;
 /**
  * This event is triggered before the files for generating a bundle catalog are
  * collected and extracted. Listeners should set up the files for the bundle in
- * question, and pass them to the registerCatalogFiles method.
+ * question, and pass them to the registerSourceFile method.
  *
  * To remove temporary files, listen to the BundleCatalogFinishedEvent.
  */
@@ -36,8 +36,8 @@ class BundleFilesRegistrationEvent extends Event
         return $this->bundleAlias;
     }
 
-    public function registerCatalogFiles($progLang, array $fileList)
+    public function registerSourceFile($progLang, $fileId, $filePath)
     {
-        return $this->TranslationCatalogService->registerCatalogFiles($progLang, $fileList);
+        return $this->TranslationCatalogService->registerSourceFile($progLang, $fileId, $filePath);
     }
 }
