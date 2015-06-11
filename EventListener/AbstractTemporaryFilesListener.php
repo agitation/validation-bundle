@@ -12,9 +12,9 @@ namespace Agit\IntlBundle\EventListener;
 use Agit\IntlBundle\Event\BundleFilesRegistrationEvent;
 use Agit\CoreBundle\Service\FileCollector;
 
-abstract class AbstractCatalogListener
+abstract class AbstractTemporaryFilesListener
 {
-    private $relCachePathPrefix = "agit.ui.cache.intl.templates";
+    private $relCachePathPrefix = "agit.intl.temp";
 
     protected function getCachePath($bundleAlias)
     {

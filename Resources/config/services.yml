@@ -23,7 +23,7 @@ services:
     # reusable event listener for the agit.intl.catalog.finish
     agit.intl.listener.catalog.finish:
         abstract: true
-        class: Agit\IntlBundle\EventListener\CatalogFinishedListener
+        class: Agit\IntlBundle\EventListener\BundleFilesCleanupListener
         arguments: [ @filesystem ]
 
     # Twig extension for template text block translations

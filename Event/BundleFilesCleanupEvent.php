@@ -20,7 +20,7 @@ use Agit\IntlBundle\Service\TranslationCatalogService;
  * This event does not offer any registration methods, as it is only used for
  * notification.
  */
-class BundleCatalogFinishedEvent extends Event
+class BundleFilesCleanupEvent extends Event
 {
     private $bundleAlias;
 

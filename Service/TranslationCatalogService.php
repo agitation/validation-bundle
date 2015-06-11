@@ -15,7 +15,9 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\CoreBundle\Service\FileCollector;
 use Agit\IntlBundle\Event\BundleFilesRegistrationEvent;
-use Agit\IntlBundle\Event\BundleCatalogFinishedEvent;
+use Agit\IntlBundle\Event\BundleFilesCleanupEvent;
+use Agit\IntlBundle\Event\CatalogRegistrationEvent;
+use Agit\IntlBundle\Event\CatalogCleanupEvent;
 
 /*
     test:
@@ -135,10 +137,10 @@ class TranslationCatalogService
             $this->Filesystem->dumpFile($filepath, $catalog);
         }
 
-        // give extensions a chance to cleanup
+        // allow extensions to clean up
         $this->EventDispatcher->dispatch(
             "{$this->eventRegistrationTag}.bundle.finish",
-            new BundleCatalogFinishedEvent($bundleAlias));
+            new BundleFilesCleanupEvent($bundleAlias));
 
         return $counts;
     }
@@ -194,7 +196,6 @@ class TranslationCatalogService
             $this->Filesystem->dumpFile($locMachineFilePath, $machine);
 
             $counts[$locale]['translated'] = $stats[0];
-
         }
 
         return $counts;
