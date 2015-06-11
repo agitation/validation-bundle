@@ -17,9 +17,9 @@ use Agit\IntlBundle\Service\TranslationCatalogService;
  * collected and extracted. Listeners should set up the files for the bundle in
  * question, and pass them to the registerCatalogFiles method.
  *
- * To remove temporary files, listen to the CatalogFinishedEvent.
+ * To remove temporary files, listen to the BundleCatalogFinishedEvent.
  */
-class TranslationFilesRegistrationEvent extends Event
+class BundleFilesRegistrationEvent extends Event
 {
     private $bundleAlias;
 

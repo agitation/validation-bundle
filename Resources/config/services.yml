@@ -20,6 +20,12 @@ services:
         class: Agit\IntlBundle\Service\LocaleService
         arguments: [@?agit.intl.localeconfig, %agit.intl.locales%, %agit.intl.global.catalog.dir%, "agit"]
 
+    # reusable event listener for the agit.intl.catalog.finish
+    agit.intl.listener.catalog.finish:
+        abstract: true
+        class: Agit\IntlBundle\EventListener\CatalogFinishedListener
+        arguments: [ @filesystem ]
+
     # Twig extension for template text block translations
     # (optional, no dependency on Twig, as long it's not instantiated)
     agit.intl.twig.translation:

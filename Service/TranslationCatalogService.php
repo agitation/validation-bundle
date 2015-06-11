@@ -14,8 +14,8 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\CoreBundle\Service\FileCollector;
-use Agit\IntlBundle\Event\TranslationFilesRegistrationEvent;
-use Agit\IntlBundle\Event\CatalogFinishedEvent;
+use Agit\IntlBundle\Event\BundleFilesRegistrationEvent;
+use Agit\IntlBundle\Event\BundleCatalogFinishedEvent;
 
 /*
     test:
@@ -77,8 +77,8 @@ class TranslationCatalogService
         $counts = [];
 
         $this->EventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.files",
-            new TranslationFilesRegistrationEvent($this, $bundleAlias));
+            "{$this->eventRegistrationTag}.bundle.files",
+            new BundleFilesRegistrationEvent($this, $bundleAlias));
 
         foreach ($this->fileTypes as $ext => $progLang)
         {
@@ -137,8 +137,8 @@ class TranslationCatalogService
 
         // give extensions a chance to cleanup
         $this->EventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.finish",
-            new CatalogFinishedEvent($bundleAlias));
+            "{$this->eventRegistrationTag}.bundle.finish",
+            new BundleCatalogFinishedEvent($bundleAlias));
 
         return $counts;
     }
