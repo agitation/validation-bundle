@@ -20,11 +20,17 @@ services:
         class: Agit\IntlBundle\Service\LocaleService
         arguments: [@?agit.intl.localeconfig, %agit.intl.locales%, %agit.intl.global.catalog.dir%, "agit"]
 
-    # reusable event listener for the agit.intl.catalog.finish
-    agit.intl.listener.catalog.finish:
+    # reusable event listener for the agit.intl.files.cleanup event
+    agit.intl.listener.files.cleanup:
         abstract: true
         class: Agit\IntlBundle\EventListener\BundleFilesCleanupListener
         arguments: [ @filesystem ]
+
+    # one-time cleanup event listener for agit.intl.catalog.cleanup
+    agit.intl.listener.catalog.cleanup:
+        class: Agit\IntlBundle\EventListener\CatalogCleanupListener
+        arguments: [ @filesystem ]
+        tags: [{ name: kernel.event_listener, event: agit.intl.catalog.cleanup, method: onRegistration }]
 
     # Twig extension for template text block translations
     # (optional, no dependency on Twig, as long it's not instantiated)

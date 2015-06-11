@@ -50,7 +50,7 @@ class TranslationCatalogService
 
     protected $catalogName = 'agit';
 
-    protected $eventRegistrationTag = 'agit.intl.catalog';
+    protected $eventRegistrationTag = 'agit.intl';
 
     // lists of source files added through event listeners
     protected $sourceFileList = [];
@@ -82,7 +82,7 @@ class TranslationCatalogService
         $counts = [];
 
         $this->EventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.bundle.files",
+            "{$this->eventRegistrationTag}.files.register",
             new BundleFilesRegistrationEvent($this, $bundleAlias));
 
         foreach ($this->fileTypes as $ext => $progLang)
@@ -139,7 +139,7 @@ class TranslationCatalogService
 
         // allow extensions to clean up
         $this->EventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.bundle.finish",
+            "{$this->eventRegistrationTag}.files.cleanup",
             new BundleFilesCleanupEvent($bundleAlias));
 
         return $counts;
@@ -164,7 +164,7 @@ class TranslationCatalogService
         $this->collectBundlePoFiles($bundleAliasList);
 
         $this->EventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.catalog.files",
+            "{$this->eventRegistrationTag}.catalog.register",
             new CatalogRegistrationEvent($this));
 
         foreach ($this->locales as $locale)
@@ -204,7 +204,7 @@ class TranslationCatalogService
 
         // allow extensions to clean up
         $this->EventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.catalog.finish",
+            "{$this->eventRegistrationTag}.catalog.cleanup",
             new CatalogCleanupEvent());
 
         return $counts;
