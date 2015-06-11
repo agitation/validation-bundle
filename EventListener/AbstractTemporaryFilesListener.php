@@ -16,9 +16,17 @@ abstract class AbstractTemporaryFilesListener
 {
     private $relCachePathPrefix = "agit.intl.temp";
 
-    protected function getCachePath($bundleAlias)
+    // $bundleId: it is advised to pass a bundle id if a listener creates many
+    // different files that could easily collide with files from other bundles.
+    // May be the bundle alias or some other key fit to serve as a subdirectory name.
+    protected function getCachePath($bundleId = null)
     {
-        return sprintf("%s/%s.%s/%s", sys_get_temp_dir(), $this->relCachePathPrefix, $this->getRelCachePath(), $bundleAlias);
+        $path = sprintf("%s/%s.%s", sys_get_temp_dir(), $this->relCachePathPrefix, $this->getRelCachePath(), $bundleId);
+
+        if (is_string($bundleId) && strlen($bundleId))
+            $path .= "/$bundleId";
+
+        return $path;
     }
 
     private function getRelCachePath()
