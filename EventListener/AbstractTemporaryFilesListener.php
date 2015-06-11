@@ -9,9 +9,6 @@
 
 namespace Agit\IntlBundle\EventListener;
 
-use Agit\IntlBundle\Event\BundleFilesRegistrationEvent;
-use Agit\CoreBundle\Service\FileCollector;
-
 abstract class AbstractTemporaryFilesListener
 {
     private $relCachePathPrefix = "agit.intl.temp";
