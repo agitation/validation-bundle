@@ -186,17 +186,15 @@ class TranslationCatalogService
                 'translated' => 0
             ];
 
-            if ($counts[$locale])
-            {
-                $this->checkDirectoryAndCreateIfNeccessary($locCatalogDirPath);
-                $this->checkCatalogFileAndCreateIfNeccessary($locCatalogFilePath, $locale);
+            $this->checkDirectoryAndCreateIfNeccessary($locCatalogDirPath);
+            $this->checkCatalogFileAndCreateIfNeccessary($locCatalogFilePath, $locale);
 
-                $machine = $this->GettextService->msgfmt($catalog, $stats);
-                $this->Filesystem->dumpFile($locCatalogFilePath, $catalog);
-                $this->Filesystem->dumpFile($locMachineFilePath, $machine);
+            $machine = $this->GettextService->msgfmt($catalog, $stats);
+            $this->Filesystem->dumpFile($locCatalogFilePath, $catalog);
+            $this->Filesystem->dumpFile($locMachineFilePath, $machine);
 
-                $counts[$locale]['translated'] = $stats[0];
-            }
+            $counts[$locale]['translated'] = $stats[0];
+
         }
 
         return $counts;
