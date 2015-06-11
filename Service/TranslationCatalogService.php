@@ -53,6 +53,9 @@ class TranslationCatalogService
     // lists of source files added through event listeners
     protected $sourceFileList = [];
 
+    // lists of catalog files added through event listeners
+    protected $catalogFileList = [];
+
     public function __construct(GettextService $GettextService, FileCollector $FileCollector, EventDispatcher $EventDispatcher, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
     {
         $this->GettextService = $GettextService;
@@ -120,19 +123,16 @@ class TranslationCatalogService
                 'translated' => $this->GettextService->countTranslatedMessages($catalog)
             ];
 
-            if ($counts[$filename]['translated'])
-            {
-                $replacements = [];
+            $replacements = [];
 
-                array_walk($fileList, function($path, $id) use ($bundleAlias, &$replacements) {
-                    $replacements["#: $path"] = "#: @$bundleAlias/$id";
-                });
+            array_walk($fileList, function($path, $id) use ($bundleAlias, &$replacements) {
+                $replacements["#: $path"] = "#: @$bundleAlias/$id";
+            });
 
-                $catalog = str_replace(array_keys($replacements), array_values($replacements), $catalog);
+            $catalog = str_replace(array_keys($replacements), array_values($replacements), $catalog);
 
-                $this->checkCatalogFileAndCreateIfNeccessary($filepath, $locale);
-                $this->Filesystem->dumpFile($filepath, $catalog);
-            }
+            $this->checkCatalogFileAndCreateIfNeccessary($filepath, $locale);
+            $this->Filesystem->dumpFile($filepath, $catalog);
         }
 
         // give extensions a chance to cleanup
@@ -156,23 +156,10 @@ class TranslationCatalogService
      */
     public function generateGlobalCatalog(array $bundleAliasList)
     {
-        $poFiles = [];
         $catalogPath = "{$this->globalCatalogPath}/%s/LC_MESSAGES";
         $counts = [];
 
-        foreach ($bundleAliasList as $path)
-        {
-            $bundlePath = $this->FileCollector->resolve($path);
-            $bundleCatalogPath = "$bundlePath/{$this->bundleCatalogSubdir}";
-
-            // we ignore bundles that don't "participate"
-            if (!is_dir($bundleCatalogPath)) continue;
-
-            $Finder = (new Finder())->in($bundleCatalogPath)->name("*\.po");
-
-            foreach ($Finder as $File)
-                $poFiles[] = $File->getRealpath();
-        }
+        $this->collectBundlePoFiles($bundleAliasList);
 
         foreach ($this->locales as $locale)
         {
@@ -187,8 +174,8 @@ class TranslationCatalogService
 
             $bundleTranslations = $localeHeader;
 
-            foreach ($poFiles as $poFile)
-                if (strpos($poFile, ".$locale.") !== false)
+            if (isset($this->catalogFileList[$locale]))
+                foreach ($this->catalogFileList[$locale] as $poFile)
                     $bundleTranslations .= $this->GettextService->removeHeaders(file_get_contents($poFile));
 
             $bundleTranslations = $this->GettextService->removeHeaders($bundleTranslations);
@@ -215,6 +202,14 @@ class TranslationCatalogService
         return $counts;
     }
 
+    public function registerCatalogFile($locale, $filePath)
+    {
+        if (!isset($this->catalogFileList[$locale]))
+            $this->catalogFileList[$locale] = [];
+
+        $this->catalogFileList[$locale][] = $filePath;
+    }
+
     protected function checkDirectoryAndCreateIfNeccessary($path)
     {
         clearstatcache(true);
@@ -233,5 +228,26 @@ class TranslationCatalogService
             $this->Filesystem->dumpFile($path, $this->GettextService->createCatalogHeader($locale));
         elseif (!is_file($path) || !is_writable($path))
             throw new InternalErrorException("The file '$path' does not exist or is not writable.");
+    }
+
+    protected function collectBundlePoFiles($bundleAliasList)
+    {
+        foreach ($bundleAliasList as $path)
+        {
+            $bundlePath = $this->FileCollector->resolve($path);
+            $bundleCatalogPath = "$bundlePath/{$this->bundleCatalogSubdir}";
+
+            // we ignore bundles that don't "participate"
+            if (!is_dir($bundleCatalogPath)) continue;
+
+            $Finder = (new Finder())->in($bundleCatalogPath)->name("*\.po");
+
+            foreach ($Finder as $File)
+            {
+                $filePath = $File->getRealpath();
+                $locale = preg_replace('|^.*([a-z]{2}_[A-Z]{2}).po$|', '\1', $filePath);
+                $this->registerCatalogFile($locale, $filePath);
+            }
+        }
     }
 }
