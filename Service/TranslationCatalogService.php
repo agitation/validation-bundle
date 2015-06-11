@@ -163,6 +163,10 @@ class TranslationCatalogService
 
         $this->collectBundlePoFiles($bundleAliasList);
 
+        $this->EventDispatcher->dispatch(
+            "{$this->eventRegistrationTag}.catalog.files",
+            new CatalogRegistrationEvent($this));
+
         foreach ($this->locales as $locale)
         {
             $locCatalogDirPath = sprintf($catalogPath, $locale);
@@ -197,6 +201,11 @@ class TranslationCatalogService
 
             $counts[$locale]['translated'] = $stats[0];
         }
+
+        // allow extensions to clean up
+        $this->EventDispatcher->dispatch(
+            "{$this->eventRegistrationTag}.catalog.finish",
+            new CatalogCleanupEvent());
 
         return $counts;
     }
