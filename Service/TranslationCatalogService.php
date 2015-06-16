@@ -76,6 +76,10 @@ class TranslationCatalogService
     public function generateBundleCatalog($bundleAlias)
     {
         $bundlePath = $this->FileCollector->resolve($bundleAlias);
+
+        if (!$bundlePath || !is_dir($bundlePath) || !is_readable($bundlePath))
+            throw new InternalErrorException("Invalid bundle alias '$bundleAlias'.");
+
         $bundleCatalogPath = "$bundlePath{$this->bundleCatalogSubdir}";
         $fileList = [];
         $foundMessages = [];
