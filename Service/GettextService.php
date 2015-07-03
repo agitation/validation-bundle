@@ -144,6 +144,10 @@ class GettextService
      */
     public function msgfmt($catalog, &$stats = null)
     {
+        // remove all comments. this will especially remove tags like
+        // "php-format"; they serve no purpose and only cause trouble
+        $catalog = preg_replace('|^#.*$|m', '', $catalog);
+
         $catalogFile = $this->makeTmpFileName(__FUNCTION__);
         $machineFile = $this->makeTmpFileName(__FUNCTION__);
         $this->Filesystem->dumpFile($catalogFile, $catalog);
