@@ -174,14 +174,10 @@ class TranslationCatalogService
         foreach ($this->locales as $locale)
         {
             $locCatalogDirPath = sprintf($catalogPath, $locale);
-            $locCatalogFilePath = "$locCatalogDirPath/{$this->catalogName}.po";
             $locMachineFilePath = "$locCatalogDirPath/{$this->catalogName}.mo";
 
             $localeHeader = $this->GettextService->createCatalogHeader($locale);
-            $currentCatalog = $this->Filesystem->exists($locCatalogFilePath)
-                ? file_get_contents($locCatalogFilePath)
-                : $localeHeader;
-
+            $currentCatalog = $localeHeader;
             $bundleTranslations = $localeHeader;
 
             if (isset($this->catalogFileList[$locale]))
@@ -190,20 +186,15 @@ class TranslationCatalogService
 
             $bundleTranslations = $this->GettextService->removeHeaders($bundleTranslations);
             $catalog = $this->GettextService->msguniq($currentCatalog, $bundleTranslations);
+            $machineFormat = $this->GettextService->msgfmt($catalog, $stats);
 
             $counts[$locale] = [
                 'total' => $this->GettextService->countAllMessages($catalog),
-                'translated' => 0
+                'translated' => $stats[0]
             ];
 
             $this->checkDirectoryAndCreateIfNeccessary($locCatalogDirPath);
-            $this->checkCatalogFileAndCreateIfNeccessary($locCatalogFilePath, $locale);
-
-            $machine = $this->GettextService->msgfmt($catalog, $stats);
-            $this->Filesystem->dumpFile($locCatalogFilePath, $catalog);
-            $this->Filesystem->dumpFile($locMachineFilePath, $machine);
-
-            $counts[$locale]['translated'] = $stats[0];
+            $this->Filesystem->dumpFile($locMachineFilePath, $machineFormat);
         }
 
         // allow extensions to clean up
