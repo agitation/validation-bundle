@@ -7,6 +7,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "nplurals=2; plural=(n != 1);\n"
 
+#: @AgitValidationBundle/Service/ValidationService.php:52
+#, php-format
+msgid "Invalid value for %s: %s"
+msgstr ""
+
 #: @AgitValidationBundle/Validator/ArrayValidator.php:19
 #: @AgitValidationBundle/Validator/MultiSelectionValidator.php:19
 msgid "The value must be an array."
