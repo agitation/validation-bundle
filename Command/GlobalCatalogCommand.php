@@ -12,9 +12,8 @@ namespace Agit\IntlBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Agit\CoreBundle\Command\AbstractCommand;
 
-class GlobalCatalogCommand extends AbstractCommand
+class GlobalCatalogCommand extends AbstractCatalogCommand
 {
     private $globalLocSubdir = "Resources/translations";
 
@@ -39,7 +38,9 @@ class GlobalCatalogCommand extends AbstractCommand
 
         $res = $Container->get('agit.intl.catalog')->generateGlobalCatalog($pathList);
 
-        if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity())
-            print_r($res);
+        if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity() && count($res))
+        {
+            $this->summary($output, $res);
+        }
     }
 }
