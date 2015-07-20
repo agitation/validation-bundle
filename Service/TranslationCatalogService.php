@@ -124,7 +124,7 @@ class TranslationCatalogService
 
             $catalog = $this->GettextService->msgmerge($catalog, $localeFoundMessages);
 
-            $counts[$filename] = [
+            $counts[$locale] = [
                 'total' => $this->GettextService->countAllMessages($catalog),
                 'translated' => $this->GettextService->countTranslatedMessages($catalog)
             ];
