@@ -24,8 +24,9 @@ class UrlService
             'frontend' => $frontendDomain,
             'cdn' => $cdnDomain];
 
-        $this->protocol = ($forceHttps || (isset($_SERVER['SERVER_PROTOCOL']) && stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true))
-            ? 'https' : 'http';
+        $this->protocol = ($forceHttps || (isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] && strtolower($_SERVER['HTTPS']) !== 'off'))
+            ? 'https'
+            : 'http';
     }
 
     public function getBackendDomain()
