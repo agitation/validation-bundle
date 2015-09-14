@@ -9,7 +9,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Agit\\UiBundle\\": ""
+            "Agit\\CronBundle\\": ""
         }
     },
     "license": "MIT",
