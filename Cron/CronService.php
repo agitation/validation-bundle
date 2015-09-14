@@ -21,6 +21,7 @@ class CronService
 
     private $serviceList = [];
 
+    // min/max values for minute, hour, day, month, weekday
     private $ranges = [[0, 59], [0, 23], [1, 31], [1, 12], [0, 6]];
 
     private $now;
