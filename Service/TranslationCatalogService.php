@@ -169,7 +169,7 @@ class TranslationCatalogService
 
         $this->EventDispatcher->dispatch(
             "{$this->eventRegistrationTag}.catalog.register",
-            new CatalogRegistrationEvent($this));
+            new CatalogRegistrationEvent($this, $this->GettextService));
 
         foreach ($this->locales as $locale)
         {
