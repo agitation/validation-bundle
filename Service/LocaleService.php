@@ -67,6 +67,7 @@ class LocaleService
         if (!in_array($locale, $this->availableLocales))
             throw new InternalErrorException("The locale '$locale' is not available.");
 
+        putenv("LANGUAGE=$locale.UTF-8"); // for CLI
         setlocale(LC_ALL, "$locale.utf8");
         setlocale(LC_NUMERIC, "en_GB.utf8"); // avoid strange results with floats in sprintf
 
