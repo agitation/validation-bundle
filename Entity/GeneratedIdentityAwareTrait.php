@@ -9,9 +9,14 @@
 
 namespace Agit\CoreBundle\Entity;
 
-trait IdentityAwareTrait
+trait GeneratedIdentityAwareTrait
 {
-    // NOTE: The $id property and its annotations must be defined in a "child" trait or an entity.
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
     /**
      * Get id
