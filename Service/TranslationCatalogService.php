@@ -43,7 +43,7 @@ class TranslationCatalogService
 
     protected $globalCatalogPath;
 
-    protected $keywords = ['t', 'x:2c,1', 'n:1,2', 'ts:1', 'noop', 'noopX:2c,1'];
+    protected $keywords = ['t', 'x:2c,1', 'n:1,2', 'ts:1', 'noop', 'noopN:1,2', 'noopX:2c,1'];
 
     // where we expect a bundle's translation files, relative to the bundle's base path
     protected $bundleCatalogSubdir;

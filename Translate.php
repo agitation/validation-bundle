@@ -54,6 +54,14 @@ class Translate
     }
 
     /**
+     * Same as noop(), only for strings with plural forms
+     */
+    static public function noopN($string1, $string2, $num)
+    {
+        return $string1;
+    }
+
+    /**
      * Same as noop(), only for strings with context
      */
     static public function noopX($string, $context)
