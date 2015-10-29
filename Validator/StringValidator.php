@@ -13,7 +13,7 @@ use Agit\ValidationBundle\Exception\InvalidValueException;
 
 class StringValidator extends AbstractValidator
 {
-    public function validate($value, $minLength=null, $maxLength=null, $noCtl=false)
+    public function validate($value, $minLength = null, $maxLength = null, $allowLinebreaks = false)
     {
         if (!is_string($value))
             throw new InvalidValueException($this->translate->t("The value must be a string."));
@@ -25,7 +25,7 @@ class StringValidator extends AbstractValidator
             throw new InvalidValueException(sprintf($this->translate->t("The value is too long, it must have at most %s characters."), $maxLength));
 
         // filtering for control characters, but maybe allow \n, \r and \t
-        $allowedCntrlChars = $noCtl ? [] : [9, 10, 13];
+        $allowedCntrlChars = $allowLinebreaks ? [9, 10, 13] : [];
 
         if (preg_match_all('/[[:cntrl:]]/', $value, $matches))
         {
