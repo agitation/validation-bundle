@@ -118,9 +118,6 @@ class SeedProcessor implements ProcessorInterface
 
     private function getIdField()
     {
-        if ($this->Metadata->usesIdGenerator())
-            throw new InternalErrorException("Seed entities must not use an ID generator.");
-
         $idFieldList = $this->Metadata->getIdentifier();
 
         if (!is_array($idFieldList) || count($idFieldList) !== 1)
