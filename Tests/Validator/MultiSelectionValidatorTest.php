@@ -21,8 +21,8 @@ class MultiSelectionValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $MultiSelectionValidator = new MultiSelectionValidator();
-            $MultiSelectionValidator->validate($value, $possibleValues);
+            $multiSelectionValidator = new MultiSelectionValidator();
+            $multiSelectionValidator->validate($value, $possibleValues);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class MultiSelectionValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, array $possibleValues = [])
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $MultiSelectionValidator = new MultiSelectionValidator();
-        $MultiSelectionValidator->validate($value, $possibleValues);
+        $multiSelectionValidator = new MultiSelectionValidator();
+        $multiSelectionValidator->validate($value, $possibleValues);
     }
 
     public function providerTestValidateGood()

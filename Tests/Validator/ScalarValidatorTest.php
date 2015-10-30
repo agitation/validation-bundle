@@ -21,8 +21,8 @@ class ScalarValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $ScalarValidator = new ScalarValidator();
-            $ScalarValidator->validate($value);
+            $scalarValidator = new ScalarValidator();
+            $scalarValidator->validate($value);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class ScalarValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $ScalarValidator = new ScalarValidator();
-        $ScalarValidator->validate($value);
+        $scalarValidator = new ScalarValidator();
+        $scalarValidator->validate($value);
     }
 
     public function providerTestValidateGood()

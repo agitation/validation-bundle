@@ -21,8 +21,8 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $StringValidator = new StringValidator();
-            $StringValidator->validate($value, $minLength, $maxLength, $noCtl);
+            $stringValidator = new StringValidator();
+            $stringValidator->validate($value, $minLength, $maxLength, $noCtl);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $minLength, $maxLength, $noCtl)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $StringValidator = new StringValidator();
-        $StringValidator->validate($value, $minLength, $maxLength, $noCtl);
+        $stringValidator = new StringValidator();
+        $stringValidator->validate($value, $minLength, $maxLength, $noCtl);
     }
 
     public function providerTestValidateGood()

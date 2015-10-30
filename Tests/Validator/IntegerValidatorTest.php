@@ -21,8 +21,8 @@ class IntegerValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $IntegerValidator = new IntegerValidator();
-            $IntegerValidator->validate($value, $min, $max);
+            $integerValidator = new IntegerValidator();
+            $integerValidator->validate($value, $min, $max);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class IntegerValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $min = null, $max = null)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $IntegerValidator = new IntegerValidator();
-        $IntegerValidator->validate($value, $min, $max);
+        $integerValidator = new IntegerValidator();
+        $integerValidator->validate($value, $min, $max);
     }
 
     public function providerTestValidateGood()

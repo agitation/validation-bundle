@@ -21,8 +21,8 @@ class UrlValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $UrlValidator = new UrlValidator();
-            $UrlValidator->validate($value, $strict);
+            $urlValidator = new UrlValidator();
+            $urlValidator->validate($value, $strict);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class UrlValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $strict = true)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $UrlValidator = new UrlValidator();
-        $UrlValidator->validate($value, $strict);
+        $urlValidator = new UrlValidator();
+        $urlValidator->validate($value, $strict);
     }
 
     public function providerTestValidateGood()

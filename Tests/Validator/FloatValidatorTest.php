@@ -21,8 +21,8 @@ class FloatValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $FloatValidator = new FloatValidator();
-            $FloatValidator->validate($value, $min = null, $max = null);
+            $floatValidator = new FloatValidator();
+            $floatValidator->validate($value, $min = null, $max = null);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class FloatValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $min, $max)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $FloatValidator = new FloatValidator();
-        $FloatValidator->validate($value, $min, $max);
+        $floatValidator = new FloatValidator();
+        $floatValidator->validate($value, $min, $max);
     }
 
     public function providerTestValidateGood()

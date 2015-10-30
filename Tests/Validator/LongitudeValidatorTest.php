@@ -21,8 +21,8 @@ class LongitudeValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $LongitudeValidator = new LongitudeValidator();
-            $LongitudeValidator->validate($value);
+            $longitudeValidator = new LongitudeValidator();
+            $longitudeValidator->validate($value);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class LongitudeValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $LongitudeValidator = new LongitudeValidator();
-        $LongitudeValidator->validate($value);
+        $longitudeValidator = new LongitudeValidator();
+        $longitudeValidator->validate($value);
     }
 
     public function providerTestValidateGood()

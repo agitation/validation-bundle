@@ -17,20 +17,20 @@ use Agit\ValidationBundle\Exception\InvalidValueException;
 
 class ValidationService
 {
-    private $Container;
+    private $container;
 
-    private $ObjectLoader;
+    private $objectLoader;
 
-    private $Translate;
+    private $translate;
 
-    private $ValidatorList = [];
+    private $validatorList = [];
 
-    public function __construct(ObjectLoader $ObjectLoader, Translate $Translate, ContainerInterface $Container)
+    public function __construct(ObjectLoader $objectLoader, Translate $translate, ContainerInterface $container)
     {
-        $this->ObjectLoader = $ObjectLoader;
-        $this->Container = $Container;
-        $this->ObjectLoader->setObjectFactory([$this, 'objectFactory']);
-        $this->Translate = $Translate;
+        $this->objectLoader = $objectLoader;
+        $this->container = $container;
+        $this->objectLoader->setObjectFactory([$this, 'objectFactory']);
+        $this->translate = $translate;
     }
 
     // shortcut
@@ -49,7 +49,7 @@ class ValidationService
                 [$this->getValidator($id), 'validate'],
                 array_slice(func_get_args(), 2));
         } catch(\Exception $e) {
-            throw new InvalidValueException(sprintf($this->Translate->t("Invalid value for %s: %s"), $fieldName, $e->getMessage()));
+            throw new InvalidValueException(sprintf($this->translate->t("Invalid value for %s: %s"), $fieldName, $e->getMessage()));
         }
     }
 
@@ -70,19 +70,19 @@ class ValidationService
 
     public function getValidator($id)
     {
-        return $this->ObjectLoader->getObject($id);
+        return $this->objectLoader->getObject($id);
     }
 
     public function objectFactory($id, $className)
     {
-        $Validator = new $className();
+        $validator = new $className();
 
-        foreach ($Validator->getServiceDependencies() as $depName)
-            $Validator->setService($depName, $this->Container->get($depName));
+        foreach ($validator->getServiceDependencies() as $depName)
+            $validator->setService($depName, $this->container->get($depName));
 
-        foreach ($Validator->getValidatorDependencies() as $depName)
-            $Validator->setValidator($depName, $this->getValidator($depName));
+        foreach ($validator->getValidatorDependencies() as $depName)
+            $validator->setValidator($depName, $this->getValidator($depName));
 
-        return $Validator;
+        return $validator;
     }
 }

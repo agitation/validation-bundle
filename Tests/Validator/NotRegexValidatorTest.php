@@ -21,8 +21,8 @@ class NotRegexValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $NotRegexValidator = new NotRegexValidator();
-            $NotRegexValidator->validate($value, $regex);
+            $notRegexValidator = new NotRegexValidator();
+            $notRegexValidator->validate($value, $regex);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class NotRegexValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $regex)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $NotRegexValidator = new NotRegexValidator();
-        $NotRegexValidator->validate($value, $regex);
+        $notRegexValidator = new NotRegexValidator();
+        $notRegexValidator->validate($value, $regex);
     }
 
     public function providerTestValidateGood()

@@ -24,11 +24,11 @@ class GeolocationValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $GeolocationValidator = new GeolocationValidator();
-            $GeolocationValidator->setValidator('array', new ArrayValidator());
-            $GeolocationValidator->setValidator('longitude', new LongitudeValidator());
-            $GeolocationValidator->setValidator('latitude', new LatitudeValidator());
-            $GeolocationValidator->validate($value);
+            $geolocationValidator = new GeolocationValidator();
+            $geolocationValidator->setValidator('array', new ArrayValidator());
+            $geolocationValidator->setValidator('longitude', new LongitudeValidator());
+            $geolocationValidator->setValidator('latitude', new LatitudeValidator());
+            $geolocationValidator->validate($value);
         }
         catch(\Exception $e)
         {
@@ -44,11 +44,11 @@ class GeolocationValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $GeolocationValidator = new GeolocationValidator();
-        $GeolocationValidator->setValidator('array', new ArrayValidator());
-        $GeolocationValidator->setValidator('longitude', new LongitudeValidator());
-        $GeolocationValidator->setValidator('latitude', new LatitudeValidator());
-        $GeolocationValidator->validate($value);
+        $geolocationValidator = new GeolocationValidator();
+        $geolocationValidator->setValidator('array', new ArrayValidator());
+        $geolocationValidator->setValidator('longitude', new LongitudeValidator());
+        $geolocationValidator->setValidator('latitude', new LatitudeValidator());
+        $geolocationValidator->validate($value);
     }
 
     public function providerTestValidateGood()

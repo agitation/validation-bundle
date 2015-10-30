@@ -21,8 +21,8 @@ class RegexValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $RegexValidator = new RegexValidator();
-            $RegexValidator->validate($value, $regex);
+            $regexValidator = new RegexValidator();
+            $regexValidator->validate($value, $regex);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class RegexValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $regex)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $RegexValidator = new RegexValidator();
-        $RegexValidator->validate($value, $regex);
+        $regexValidator = new RegexValidator();
+        $regexValidator->validate($value, $regex);
     }
 
     public function providerTestValidateGood()

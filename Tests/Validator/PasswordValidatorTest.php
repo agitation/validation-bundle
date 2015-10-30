@@ -21,8 +21,8 @@ class PasswordValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $PasswordValidator = new PasswordValidator();
-            $PasswordValidator->validate($value, $value2);
+            $passwordValidator = new PasswordValidator();
+            $passwordValidator->validate($value, $value2);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class PasswordValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $value2 = null)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $PasswordValidator = new PasswordValidator();
-        $PasswordValidator->validate($value, $value2);
+        $passwordValidator = new PasswordValidator();
+        $passwordValidator->validate($value, $value2);
     }
 
     public function providerTestValidateGood()

@@ -21,8 +21,8 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $EmailValidator = new EmailValidator();
-            $EmailValidator->validate($value);
+            $emailValidator = new EmailValidator();
+            $emailValidator->validate($value);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $EmailValidator = new EmailValidator();
-        $EmailValidator->validate($value);
+        $emailValidator = new EmailValidator();
+        $emailValidator->validate($value);
     }
 
     public function providerTestValidateGood()

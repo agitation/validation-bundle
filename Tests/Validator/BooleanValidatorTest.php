@@ -21,8 +21,8 @@ class BooleanValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $BooleanValidator = new BooleanValidator();
-            $BooleanValidator->validate($value, $allowNull);
+            $booleanValidator = new BooleanValidator();
+            $booleanValidator->validate($value, $allowNull);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class BooleanValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $allowNull)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $BooleanValidator = new BooleanValidator();
-        $BooleanValidator->validate($value, $allowNull);
+        $booleanValidator = new BooleanValidator();
+        $booleanValidator->validate($value, $allowNull);
     }
 
     public function providerTestValidateGood()

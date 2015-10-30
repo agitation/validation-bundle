@@ -15,16 +15,16 @@ class ValidationServiceIntegrationTest extends AbstractContainerAwareTest
 {
     public function testValidationServiceWorks()
     {
-//         $ValidationService = $this->getContainer()->get('agit.validation');
-//         $ValidationService->warmUp();
-//         $ValidationService->getValidator('string')->validate('foobar');
+//         $validationService = $this->getContainer()->get('agit.validation');
+//         $validationService->warmUp();
+//         $validationService->getValidator('string')->validate('foobar');
     }
 
     public function testValidationServiceException()
     {
 //         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-//         $ValidationService = $this->getContainer()->get('agit.validation');
-//         $ValidationService->warmUp();
-//         $ValidationService->getValidator('string')->validate(42);
+//         $validationService = $this->getContainer()->get('agit.validation');
+//         $validationService->warmUp();
+//         $validationService->getValidator('string')->validate(42);
     }
 }

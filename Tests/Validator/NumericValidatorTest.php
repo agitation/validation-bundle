@@ -21,8 +21,8 @@ class NumericValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $NumericValidator = new NumericValidator();
-            $NumericValidator->validate($value, $positiveInt);
+            $numericValidator = new NumericValidator();
+            $numericValidator->validate($value, $positiveInt);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class NumericValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $positiveInt = true)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $NumericValidator = new NumericValidator();
-        $NumericValidator->validate($value, $positiveInt);
+        $numericValidator = new NumericValidator();
+        $numericValidator->validate($value, $positiveInt);
     }
 
     public function providerTestValidateGood()

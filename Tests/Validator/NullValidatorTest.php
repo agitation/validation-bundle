@@ -21,8 +21,8 @@ class NullValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $NullValidator = new NullValidator();
-            $NullValidator->validate($value);
+            $nullValidator = new NullValidator();
+            $nullValidator->validate($value);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class NullValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $NullValidator = new NullValidator();
-        $NullValidator->validate($value);
+        $nullValidator = new NullValidator();
+        $nullValidator->validate($value);
     }
 
     public function providerTestValidateGood()

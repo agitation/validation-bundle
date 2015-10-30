@@ -21,8 +21,8 @@ class ArrayValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $ArrayValidator = new ArrayValidator();
-            $ArrayValidator->validate($value, $minLength, $maxLength);
+            $arrayValidator = new ArrayValidator();
+            $arrayValidator->validate($value, $minLength, $maxLength);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class ArrayValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, $minLength, $maxLength)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $ArrayValidator = new ArrayValidator();
-        $ArrayValidator->validate($value, $minLength, $maxLength);
+        $arrayValidator = new ArrayValidator();
+        $arrayValidator->validate($value, $minLength, $maxLength);
     }
 
     public function providerTestValidateGood()

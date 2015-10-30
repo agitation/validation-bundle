@@ -21,8 +21,8 @@ class SelectionValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $SelectionValidator = new SelectionValidator();
-            $SelectionValidator->validate($value, $possibleValues);
+            $selectionValidator = new SelectionValidator();
+            $selectionValidator->validate($value, $possibleValues);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class SelectionValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, array $possibleValues = [])
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $SelectionValidator = new SelectionValidator();
-        $SelectionValidator->validate($value, $possibleValues);
+        $selectionValidator = new SelectionValidator();
+        $selectionValidator->validate($value, $possibleValues);
     }
 
     public function providerTestValidateGood()

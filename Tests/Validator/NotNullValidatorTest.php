@@ -21,8 +21,8 @@ class NotNullValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $NotNullValidator = new NotNullValidator();
-            $NotNullValidator->validate($value);
+            $notNullValidator = new NotNullValidator();
+            $notNullValidator->validate($value);
         }
         catch(\Exception $e)
         {
@@ -38,8 +38,8 @@ class NotNullValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $NotNullValidator = new NotNullValidator();
-        $NotNullValidator->validate($value);
+        $notNullValidator = new NotNullValidator();
+        $notNullValidator->validate($value);
     }
 
     public function providerTestValidateGood()

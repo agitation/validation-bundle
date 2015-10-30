@@ -21,8 +21,8 @@ class ObjectValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $ObjectValidator = new ObjectValidator();
-            $ObjectValidator->validate($value, $properties, $onlyGivenProperties);
+            $objectValidator = new ObjectValidator();
+            $objectValidator->validate($value, $properties, $onlyGivenProperties);
         }
         catch(\Exception $e)
         {
@@ -39,8 +39,8 @@ class ObjectValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value, array $properties = [], $onlyGivenProperties = true)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $ObjectValidator = new ObjectValidator();
-        $ObjectValidator->validate($value, $properties, $onlyGivenProperties);
+        $objectValidator = new ObjectValidator();
+        $objectValidator->validate($value, $properties, $onlyGivenProperties);
     }
 
     public function providerTestValidateGood()

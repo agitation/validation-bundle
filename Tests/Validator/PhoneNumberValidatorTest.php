@@ -22,9 +22,9 @@ class PhoneNumberValidatorTest extends \PHPUnit_Framework_TestCase
         try
         {
             $success = true;
-            $PhoneNumberValidator = new PhoneNumberValidator();
-            $PhoneNumberValidator->setValidator('regex', new RegexValidator());
-            $PhoneNumberValidator->validate($value);
+            $phoneNumberValidator = new PhoneNumberValidator();
+            $phoneNumberValidator->setValidator('regex', new RegexValidator());
+            $phoneNumberValidator->validate($value);
         }
         catch(\Exception $e)
         {
@@ -40,9 +40,9 @@ class PhoneNumberValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateBad($value)
     {
         $this->setExpectedException('\Agit\ValidationBundle\Exception\InvalidValueException');
-        $PhoneNumberValidator = new PhoneNumberValidator();
-        $PhoneNumberValidator->setValidator('regex', new RegexValidator());
-        $PhoneNumberValidator->validate($value);
+        $phoneNumberValidator = new PhoneNumberValidator();
+        $phoneNumberValidator->setValidator('regex', new RegexValidator());
+        $phoneNumberValidator->validate($value);
     }
 
     public function providerTestValidateGood()
