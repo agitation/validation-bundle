@@ -15,16 +15,16 @@ use Agit\CronBundle\Cron\CronAwareInterface;
 
 class CronjobRegistrationEvent extends Event
 {
-    private $CronService;
+    private $cronService;
 
-    public function __construct(CronService $CronService)
+    public function __construct(CronService $cronService)
     {
-        $this->CronService = $CronService;
+        $this->cronService = $cronService;
     }
 
-    public function registerCronjob(CronAwareInterface $CronAwareService, $cronTime)
+    public function registerCronjob(CronAwareInterface $cronAwareService, $cronTime)
     {
-        $this->CronService->parseCronTime($cronTime);
-        $this->CronService->registerCronjob($CronAwareService, $cronTime);
+        $this->cronService->parseCronTime($cronTime);
+        $this->cronService->registerCronjob($cronAwareService, $cronTime);
     }
 }

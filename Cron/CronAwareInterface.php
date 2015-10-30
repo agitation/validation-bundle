@@ -13,7 +13,7 @@ use Agit\CronBundle\Event\CronjobRegistrationEvent;
 
 interface CronAwareInterface
 {
-    public function cronjobRegistration(CronjobRegistrationEvent $CronjobRegistrationEvent);
+    public function cronjobRegistration(CronjobRegistrationEvent $cronjobRegistrationEvent);
 
     public function cronjobExecute();
 }

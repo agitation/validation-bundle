@@ -15,7 +15,7 @@ use Agit\CronBundle\Event\CronjobRegistrationEvent;
 
 class CronService
 {
-    private $EventDispatcher;
+    private $eventDispatcher;
 
     private $eventRegistrationTag = 'agit.cron.register';
 
@@ -26,26 +26,26 @@ class CronService
 
     private $now;
 
-    public function __construct(EventDispatcher $EventDispatcher)
+    public function __construct(EventDispatcher $eventDispatcher)
     {
-        $this->EventDispatcher = $EventDispatcher;
+        $this->eventDispatcher = $eventDispatcher;
         $this->setDate(new \DateTime());
     }
 
-    public function setDate(\DateTime $DateTime)
+    public function setDate(\DateTime $dateTime)
     {
         $this->now = [
-            (int)$DateTime->format('i'),
-            (int)$DateTime->format('H'),
-            (int)$DateTime->format('d'),
-            (int)$DateTime->format('m'),
-            (int)$DateTime->format('w')
+            (int)$dateTime->format('i'),
+            (int)$dateTime->format('H'),
+            (int)$dateTime->format('d'),
+            (int)$dateTime->format('m'),
+            (int)$dateTime->format('w')
         ];
     }
 
     public function run()
     {
-        $this->EventDispatcher->dispatch($this->eventRegistrationTag, new CronjobRegistrationEvent($this));
+        $this->eventDispatcher->dispatch($this->eventRegistrationTag, new CronjobRegistrationEvent($this));
         $this->executeCronjobs();
     }
 

@@ -19,8 +19,8 @@ class CronServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testParseCronTime($cronTime, $expectedResult)
     {
-        $CronService = new CronService(new EventDispatcher());
-        $this->assertEquals($expectedResult, $CronService->parseCronTime($cronTime));
+        $cronService = new CronService(new EventDispatcher());
+        $this->assertEquals($expectedResult, $cronService->parseCronTime($cronTime));
     }
 
     /**
@@ -30,8 +30,8 @@ class CronServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Agit\CoreBundle\Exception\InternalErrorException');
 
-        $CronService = new CronService(new EventDispatcher());
-        $CronService->parseCronTime($cronTime);
+        $cronService = new CronService(new EventDispatcher());
+        $cronService->parseCronTime($cronTime);
     }
 
     /**
@@ -39,10 +39,10 @@ class CronServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCronAppliesTrue($cronTime)
     {
-        $CronService = new CronService(new EventDispatcher());
-        $CronService->setDate(new \DateTime("2015-09-30 12:15"));
+        $cronService = new CronService(new EventDispatcher());
+        $cronService->setDate(new \DateTime("2015-09-30 12:15"));
 
-        $this->assertTrue($CronService->cronApplies($cronTime));
+        $this->assertTrue($cronService->cronApplies($cronTime));
     }
 
     /**
@@ -50,10 +50,10 @@ class CronServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCronAppliesFalse($cronTime)
     {
-        $CronService = new CronService(new EventDispatcher());
-        $CronService->setDate(new \DateTime("2015-09-30 12:15"));
+        $cronService = new CronService(new EventDispatcher());
+        $cronService->setDate(new \DateTime("2015-09-30 12:15"));
 
-        $this->assertFalse($CronService->cronApplies($cronTime));
+        $this->assertFalse($cronService->cronApplies($cronTime));
     }
 
     public function providerValidCronTimes()

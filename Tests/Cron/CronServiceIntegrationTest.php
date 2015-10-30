@@ -16,24 +16,24 @@ class CronServiceIntegrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testEventRegistration()
     {
-        $CronAwareService = $this->getMockBuilder('\Agit\CronBundle\Cron\CronAwareInterface')
+        $cronAwareService = $this->getMockBuilder('\Agit\CronBundle\Cron\CronAwareInterface')
             ->setMethods(['cronjobRegistration', 'cronjobExecute'])
             ->getMock();
 
-        $CronAwareService->expects($this->any())
+        $cronAwareService->expects($this->any())
             ->method('cronjobExecute')
             ->will($this->throwException(new \Exception("Cronjob execution triggered.")));
 
-        $CronService = new CronService(new EventDispatcher());
-        $CronService->setDate(new \DateTime("2015-09-30 12:15"));
+        $cronService = new CronService(new EventDispatcher());
+        $cronService->setDate(new \DateTime("2015-09-30 12:15"));
 
         // usually, cronjob registration is triggered by run(),
         // but here we must call it directly to have our service registered
-        $CronService->registerCronjob($CronAwareService, '* * * * *');
+        $cronService->registerCronjob($cronAwareService, '* * * * *');
 
         try
         {
-            $CronService->run();
+            $cronService->run();
         }
         catch(\Exception $e)
         {
