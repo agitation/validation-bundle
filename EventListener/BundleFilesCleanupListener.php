@@ -15,18 +15,18 @@ use Symfony\Component\Filesystem\Filesystem;
 // reusable listener for cleaning up a temporary storage path
 class BundleFilesCleanupListener extends AbstractTemporaryFilesListener
 {
-    private $Filesystem;
+    private $filesystem;
 
-    public function __construct(Filesystem $Filesystem)
+    public function __construct(Filesystem $filesystem)
     {
-        $this->Filesystem = $Filesystem;
+        $this->filesystem = $filesystem;
     }
 
-    public function onRegistration(BundleFilesCleanupEvent $RegistrationEvent)
+    public function onRegistration(BundleFilesCleanupEvent $registrationEvent)
     {
-        $cachePath = $this->getCachePath($RegistrationEvent->getBundleAlias());
+        $cachePath = $this->getCachePath($registrationEvent->getBundleAlias());
 
-        if ($this->Filesystem->exists($cachePath))
-            $this->Filesystem->remove($cachePath);
+        if ($this->filesystem->exists($cachePath))
+            $this->filesystem->remove($cachePath);
     }
 }

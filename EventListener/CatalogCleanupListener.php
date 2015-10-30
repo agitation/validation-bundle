@@ -21,18 +21,18 @@ use Symfony\Component\Filesystem\Filesystem;
 // `$this->getCachePath()`, then of course it has to clean up after itself.
 class CatalogCleanupListener extends AbstractTemporaryFilesListener
 {
-    private $Filesystem;
+    private $filesystem;
 
-    public function __construct(Filesystem $Filesystem)
+    public function __construct(Filesystem $filesystem)
     {
-        $this->Filesystem = $Filesystem;
+        $this->filesystem = $filesystem;
     }
 
-    public function onRegistration(CatalogCleanupEvent $RegistrationEvent)
+    public function onRegistration(CatalogCleanupEvent $registrationEvent)
     {
         $cachePath = $this->getCachePath();
 
-        if ($this->Filesystem->exists($cachePath))
-            $this->Filesystem->remove($cachePath);
+        if ($this->filesystem->exists($cachePath))
+            $this->filesystem->remove($cachePath);
     }
 }

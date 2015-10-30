@@ -23,12 +23,12 @@ class BundleFilesRegistrationEvent extends Event
 {
     private $bundleAlias;
 
-    private $TranslationCatalogService;
+    private $translationCatalogService;
 
-    public function __construct(TranslationCatalogService $TranslationCatalogService, $bundleAlias)
+    public function __construct(TranslationCatalogService $translationCatalogService, $bundleAlias)
     {
         $this->bundleAlias = $bundleAlias;
-        $this->TranslationCatalogService = $TranslationCatalogService;
+        $this->translationCatalogService = $translationCatalogService;
     }
 
     public function getBundleAlias()
@@ -38,6 +38,6 @@ class BundleFilesRegistrationEvent extends Event
 
     public function registerSourceFile($progLang, $fileId, $filePath)
     {
-        return $this->TranslationCatalogService->registerSourceFile($progLang, $fileId, $filePath);
+        return $this->translationCatalogService->registerSourceFile($progLang, $fileId, $filePath);
     }
 }

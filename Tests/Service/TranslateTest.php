@@ -15,29 +15,29 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 {
     public function testT()
     {
-        $Translate = new Translate();
+        $translate = new Translate();
 
         // without a locale and a textdomain loaded,
         // the translation service should just return the original string.
-        $this->assertEquals('foobar', $Translate->t('foobar'));
+        $this->assertEquals('foobar', $translate->t('foobar'));
     }
 
     public function testX()
     {
-        $Translate = new Translate();
+        $translate = new Translate();
 
         // without a locale and a textdomain loaded,
         // the translation service should just return the original string.
-        $this->assertEquals('foobar', $Translate->x('foobar', 'foo'));
+        $this->assertEquals('foobar', $translate->x('foobar', 'foo'));
     }
 
     public function testN()
     {
-        $Translate = new Translate();
+        $translate = new Translate();
 
-        $this->assertEquals('%s cars', $Translate->n('%s car', '%s cars', 0));
-        $this->assertEquals('%s car', $Translate->n('%s car', '%s cars', 1));
-        $this->assertEquals('%s cars', $Translate->n('%s car', '%s cars', 2));
+        $this->assertEquals('%s cars', $translate->n('%s car', '%s cars', 0));
+        $this->assertEquals('%s car', $translate->n('%s car', '%s cars', 1));
+        $this->assertEquals('%s cars', $translate->n('%s car', '%s cars', 2));
     }
 
     /**
@@ -45,8 +45,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultilangStringToObject($string, $expected)
     {
-        $Translate = new Translate();
-        $this->assertEquals($expected, $Translate->multilangStringToObject($string));
+        $translate = new Translate();
+        $this->assertEquals($expected, $translate->multilangStringToObject($string));
 
     }
 
@@ -55,8 +55,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
      */
     public function testU($string, $locale, $expected)
     {
-        $Translate = new Translate();
-        $this->assertEquals($expected, $Translate->u($string, $locale));
+        $translate = new Translate();
+        $this->assertEquals($expected, $translate->u($string, $locale));
     }
 
     public function providerTestMultilangStringToObject()

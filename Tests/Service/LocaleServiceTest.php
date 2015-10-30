@@ -15,29 +15,29 @@ class LocaleServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetDefaultLocale()
     {
-        $LocaleService = $this->createLocaleService();
-        $this->assertEquals('en_GB', $LocaleService->getDefaultLocale());
+        $localeService = $this->createLocaleService();
+        $this->assertEquals('en_GB', $localeService->getDefaultLocale());
     }
 
     public function testGetAvailableLocales()
     {
-        $LocaleService = $this->createLocaleService();
-        $this->assertEquals(['en_GB', 'de_DE'], $LocaleService->getAvailableLocales());
+        $localeService = $this->createLocaleService();
+        $this->assertEquals(['en_GB', 'de_DE'], $localeService->getAvailableLocales());
     }
 
     public function testSetLocale()
     {
-        $LocaleService = $this->createLocaleService();
-        $LocaleService->setLocale('de_DE');
-        $this->assertEquals('de_DE', $LocaleService->getLocale());
+        $localeService = $this->createLocaleService();
+        $localeService->setLocale('de_DE');
+        $this->assertEquals('de_DE', $localeService->getLocale());
     }
 
 
     public function testSetLocaleThrowsException()
     {
         $this->setExpectedException('\Agit\CoreBundle\Exception\InternalErrorException');
-        $LocaleService = $this->createLocaleService();
-        $LocaleService->setLocale('nl_NL');
+        $localeService = $this->createLocaleService();
+        $localeService->setLocale('nl_NL');
     }
 
     private function createLocaleService()

@@ -22,22 +22,22 @@ use Agit\IntlBundle\Service\GettextService;
  */
 class CatalogRegistrationEvent extends Event
 {
-    private $TranslationCatalogService;
+    private $translationCatalogService;
 
-    private $GettextService;
+    private $gettextService;
 
-    public function __construct(TranslationCatalogService $TranslationCatalogService, GettextService $GettextService)
+    public function __construct(TranslationCatalogService $translationCatalogService, GettextService $gettextService)
     {
-        $this->TranslationCatalogService = $TranslationCatalogService;
-        $this->GettextService = $GettextService;
+        $this->translationCatalogService = $translationCatalogService;
+        $this->gettextService = $gettextService;
     }
 
     public function createCatalogHeader($locale)
     {
-        return $this->GettextService->createCatalogHeader($locale);
+        return $this->gettextService->createCatalogHeader($locale);
     }
     public function registerCatalogFile($locale, $filePath)
     {
-        return $this->TranslationCatalogService->registerCatalogFile($locale, $filePath);
+        return $this->translationCatalogService->registerCatalogFile($locale, $filePath);
     }
 }

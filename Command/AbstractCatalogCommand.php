@@ -13,7 +13,7 @@ use Agit\CoreBundle\Command\AbstractCommand;
 
 abstract class AbstractCatalogCommand extends AbstractCommand
 {
-    protected function summary($OutputHandler, $result)
+    protected function summary($outputHandler, $result)
     {
         foreach ($result as $file => $stats)
         {
@@ -21,7 +21,7 @@ abstract class AbstractCatalogCommand extends AbstractCommand
                 ? 'fg=green;options=bold'
                 : 'fg=yellow;options=bold';
 
-            $OutputHandler->writeln(sprintf(
+            $outputHandler->writeln(sprintf(
                 "<fg=cyan;options=bold>%s</fg=cyan;options=bold>: total: %5d, translated: <%s>%5d</%s>",
                 $file,
                 $stats['total'],

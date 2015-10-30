@@ -31,11 +31,11 @@ use Agit\IntlBundle\Event\CatalogCleanupEvent;
 
 class TranslationCatalogService
 {
-    protected $GettextService;
+    protected $gettextService;
 
-    protected $FileCollector;
+    protected $fileCollector;
 
-    protected $EventDispatcher;
+    protected $eventDispatcher;
 
     protected $locales;
 
@@ -58,16 +58,16 @@ class TranslationCatalogService
     // lists of catalog files added through event listeners
     protected $catalogFileList = [];
 
-    public function __construct(GettextService $GettextService, FileCollector $FileCollector, EventDispatcher $EventDispatcher, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
+    public function __construct(GettextService $gettextService, FileCollector $fileCollector, EventDispatcher $eventDispatcher, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
     {
-        $this->GettextService = $GettextService;
-        $this->FileCollector = $FileCollector;
-        $this->EventDispatcher = $EventDispatcher;
+        $this->gettextService = $gettextService;
+        $this->fileCollector = $fileCollector;
+        $this->eventDispatcher = $eventDispatcher;
         $this->locales = $locales;
         $this->fileTypes = $fileTypes;
         $this->globalCatalogPath = $globalCatalogPath;
         $this->bundleCatalogSubdir = $bundleCatalogSubdir;
-        $this->Filesystem = new Filesystem();
+        $this->filesystem = new Filesystem();
     }
 
     /**
@@ -75,7 +75,7 @@ class TranslationCatalogService
      */
     public function generateBundleCatalog($bundleAlias)
     {
-        $bundlePath = $this->FileCollector->resolve($bundleAlias);
+        $bundlePath = $this->fileCollector->resolve($bundleAlias);
 
         if (!$bundlePath || !is_dir($bundlePath) || !is_readable($bundlePath))
             throw new InternalErrorException("Invalid bundle alias '$bundleAlias'.");
@@ -85,18 +85,18 @@ class TranslationCatalogService
         $foundMessages = [];
         $counts = [];
 
-        $this->EventDispatcher->dispatch(
+        $this->eventDispatcher->dispatch(
             "{$this->eventRegistrationTag}.files.register",
             new BundleFilesRegistrationEvent($this, $bundleAlias));
 
         foreach ($this->fileTypes as $ext => $progLang)
         {
             $langFileList = [];
-            $Finder = (new Finder())->in($bundlePath)->notPath('/Test.*/')->notPath('/external/')->name("*\.$ext");
+            $finder = (new Finder())->in($bundlePath)->notPath('/Test.*/')->notPath('/external/')->name("*\.$ext");
 
-            foreach ($Finder as $File)
+            foreach ($finder as $file)
             {
-                $filePath = $File->getRealpath();
+                $filePath = $file->getRealpath();
                 $fileRelPath = str_replace($bundlePath, '', $filePath);
                 $langFileList[$fileRelPath] = $filePath;
             }
@@ -105,28 +105,28 @@ class TranslationCatalogService
                 $langFileList += $this->sourceFileList[$progLang];
 
             $fileList += $langFileList;
-            $foundMessages[] = $this->GettextService->xgettext($langFileList, $progLang, $this->keywords);
+            $foundMessages[] = $this->gettextService->xgettext($langFileList, $progLang, $this->keywords);
         }
 
         foreach ($this->locales as $locale)
         {
             $filename = "bundle.$locale.po";
             $filepath = "$bundleCatalogPath/$filename";
-            $localeHeader = $this->GettextService->createCatalogHeader($locale);
+            $localeHeader = $this->gettextService->createCatalogHeader($locale);
             $localeFoundMessages = $localeHeader . implode("\n\n", $foundMessages);
 
             // filter all NEW messages
-            $localeFoundMessages = $this->GettextService->msguniq($localeFoundMessages);
+            $localeFoundMessages = $this->gettextService->msguniq($localeFoundMessages);
 
-            $catalog = $this->Filesystem->exists($filepath)
+            $catalog = $this->filesystem->exists($filepath)
                 ? file_get_contents($filepath)
                 : $localeHeader;
 
-            $catalog = $this->GettextService->msgmerge($catalog, $localeFoundMessages);
+            $catalog = $this->gettextService->msgmerge($catalog, $localeFoundMessages);
 
             $counts[$locale] = [
-                'total' => $this->GettextService->countAllMessages($catalog),
-                'translated' => $this->GettextService->countTranslatedMessages($catalog)
+                'total' => $this->gettextService->countAllMessages($catalog),
+                'translated' => $this->gettextService->countTranslatedMessages($catalog)
             ];
 
             $replacements = [];
@@ -138,11 +138,11 @@ class TranslationCatalogService
             $catalog = str_replace(array_keys($replacements), array_values($replacements), $catalog);
 
             $this->checkCatalogFileAndCreateIfNeccessary($filepath, $locale);
-            $this->Filesystem->dumpFile($filepath, $catalog);
+            $this->filesystem->dumpFile($filepath, $catalog);
         }
 
         // allow extensions to clean up
-        $this->EventDispatcher->dispatch(
+        $this->eventDispatcher->dispatch(
             "{$this->eventRegistrationTag}.files.cleanup",
             new BundleFilesCleanupEvent($bundleAlias));
 
@@ -167,38 +167,38 @@ class TranslationCatalogService
 
         $this->collectBundlePoFiles($bundleAliasList);
 
-        $this->EventDispatcher->dispatch(
+        $this->eventDispatcher->dispatch(
             "{$this->eventRegistrationTag}.catalog.register",
-            new CatalogRegistrationEvent($this, $this->GettextService));
+            new CatalogRegistrationEvent($this, $this->gettextService));
 
         foreach ($this->locales as $locale)
         {
             $locCatalogDirPath = sprintf($catalogPath, $locale);
             $locMachineFilePath = "$locCatalogDirPath/{$this->catalogName}.mo";
 
-            $localeHeader = $this->GettextService->createCatalogHeader($locale);
+            $localeHeader = $this->gettextService->createCatalogHeader($locale);
             $currentCatalog = $localeHeader;
             $bundleTranslations = $localeHeader;
 
             if (isset($this->catalogFileList[$locale]))
                 foreach ($this->catalogFileList[$locale] as $poFile)
-                    $bundleTranslations .= $this->GettextService->removeHeaders(file_get_contents($poFile));
+                    $bundleTranslations .= $this->gettextService->removeHeaders(file_get_contents($poFile));
 
-            $bundleTranslations = $this->GettextService->removeHeaders($bundleTranslations);
-            $catalog = $this->GettextService->msguniq($currentCatalog, $bundleTranslations);
-            $machineFormat = $this->GettextService->msgfmt($catalog, $stats);
+            $bundleTranslations = $this->gettextService->removeHeaders($bundleTranslations);
+            $catalog = $this->gettextService->msguniq($currentCatalog, $bundleTranslations);
+            $machineFormat = $this->gettextService->msgfmt($catalog, $stats);
 
             $counts[$locale] = [
-                'total' => $this->GettextService->countAllMessages($catalog),
+                'total' => $this->gettextService->countAllMessages($catalog),
                 'translated' => $stats[0]
             ];
 
             $this->checkDirectoryAndCreateIfNeccessary($locCatalogDirPath);
-            $this->Filesystem->dumpFile($locMachineFilePath, $machineFormat);
+            $this->filesystem->dumpFile($locMachineFilePath, $machineFormat);
         }
 
         // allow extensions to clean up
-        $this->EventDispatcher->dispatch(
+        $this->eventDispatcher->dispatch(
             "{$this->eventRegistrationTag}.catalog.cleanup",
             new CatalogCleanupEvent());
 
@@ -217,8 +217,8 @@ class TranslationCatalogService
     {
         clearstatcache(true);
 
-        if (!$this->Filesystem->exists($path))
-            $this->Filesystem->mkdir($path, 0755);
+        if (!$this->filesystem->exists($path))
+            $this->filesystem->mkdir($path, 0755);
         elseif (!is_dir($path) || !is_writable($path))
             throw new InternalErrorException("The path '$path' is not a directory or not writable.");
     }
@@ -227,8 +227,8 @@ class TranslationCatalogService
     {
         clearstatcache(true);
 
-        if (!$this->Filesystem->exists($path))
-            $this->Filesystem->dumpFile($path, $this->GettextService->createCatalogHeader($locale));
+        if (!$this->filesystem->exists($path))
+            $this->filesystem->dumpFile($path, $this->gettextService->createCatalogHeader($locale));
         elseif (!is_file($path) || !is_writable($path))
             throw new InternalErrorException("The file '$path' does not exist or is not writable.");
     }
@@ -237,17 +237,17 @@ class TranslationCatalogService
     {
         foreach ($bundleAliasList as $path)
         {
-            $bundlePath = $this->FileCollector->resolve($path);
+            $bundlePath = $this->fileCollector->resolve($path);
             $bundleCatalogPath = "$bundlePath/{$this->bundleCatalogSubdir}";
 
             // we ignore bundles that don't "participate"
             if (!is_dir($bundleCatalogPath)) continue;
 
-            $Finder = (new Finder())->in($bundleCatalogPath)->name("*\.po");
+            $finder = (new Finder())->in($bundleCatalogPath)->name("*\.po");
 
-            foreach ($Finder as $File)
+            foreach ($finder as $file)
             {
-                $filePath = $File->getRealpath();
+                $filePath = $file->getRealpath();
                 $locale = preg_replace('|^.*([a-z]{2}_[A-Z]{2}).po$|', '\1', $filePath);
                 $this->registerCatalogFile($locale, $filePath);
             }

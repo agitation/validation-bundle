@@ -29,7 +29,7 @@ class GettextService
     {
         $this->headerFile = realpath(__DIR__."/../$headerFile");
         $this->pluralsFile = realpath(__DIR__."/../$pluralsFile");
-        $this->Filesystem = new Filesystem();
+        $this->filesystem = new Filesystem();
     }
 
     /**
@@ -44,8 +44,8 @@ class GettextService
         $fileListFile = $this->makeTmpFileName(__FUNCTION__);
         $messagesFile = $this->makeTmpFileName(__FUNCTION__);
 
-        $this->Filesystem->dumpFile($fileListFile, implode("\n", $fileList));
-        $this->Filesystem->dumpFile($messagesFile, '');
+        $this->filesystem->dumpFile($fileListFile, implode("\n", $fileList));
+        $this->filesystem->dumpFile($messagesFile, '');
 
         $command = sprintf(
             // we cannot use --omit-header because then the --from-code wouldn't work
@@ -66,8 +66,8 @@ class GettextService
         // remove headers, they cause trouble with other steps
         $messages = $this->removeHeaders($messages);
 
-        $this->Filesystem->remove($messagesFile);
-        $this->Filesystem->remove($fileListFile);
+        $this->filesystem->remove($messagesFile);
+        $this->filesystem->remove($fileListFile);
 
         return $messages;
     }
@@ -87,8 +87,8 @@ class GettextService
     {
         $catalogFile = $this->makeTmpFileName(__FUNCTION__);
         $newMessagesFile = $this->makeTmpFileName(__FUNCTION__);
-        $this->Filesystem->dumpFile($catalogFile, $catalog);
-        $this->Filesystem->dumpFile($newMessagesFile, $newMessages);
+        $this->filesystem->dumpFile($catalogFile, $catalog);
+        $this->filesystem->dumpFile($newMessagesFile, $newMessages);
 
         $command1 = sprintf('msgmerge -q -F -N --no-wrap -o %1$s %1$s %2$s', escapeshellarg($catalogFile), escapeshellarg($newMessagesFile));
         exec($command1, $output1, $ret1);
@@ -101,8 +101,8 @@ class GettextService
 
         $newCatalog = file_get_contents($catalogFile);
 
-        $this->Filesystem->remove($catalogFile);
-        $this->Filesystem->remove($newMessagesFile);
+        $this->filesystem->remove($catalogFile);
+        $this->filesystem->remove($newMessagesFile);
 
         if ($ret2) throw new InternalErrorException(sprintf("2: Error code $ret2 from msgattrib: %s\n", implode("\n", $output2)));
 
@@ -122,13 +122,13 @@ class GettextService
         if (trim($catalog))
         {
             $catalogFile = $this->makeTmpFileName(__FUNCTION__);
-            $this->Filesystem->dumpFile($catalogFile, $catalog);
+            $this->filesystem->dumpFile($catalogFile, $catalog);
 
             $command = sprintf('msguniq --use-first --to-code=UTF-8 --no-wrap -o %1$s %1$s', escapeshellarg($catalogFile));
             exec($command, $output, $ret);
 
             $newCatalog = file_get_contents($catalogFile);
-            $this->Filesystem->remove($catalogFile);
+            $this->filesystem->remove($catalogFile);
 
             if ($ret) throw new InternalErrorException(sprintf("Error code $ret from msguniq: %s\n", implode("\n", $output)));
         }
@@ -150,14 +150,14 @@ class GettextService
 
         $catalogFile = $this->makeTmpFileName(__FUNCTION__);
         $machineFile = $this->makeTmpFileName(__FUNCTION__);
-        $this->Filesystem->dumpFile($catalogFile, $catalog);
+        $this->filesystem->dumpFile($catalogFile, $catalog);
 
         $command = sprintf('msgfmt --statistics --check-format -vo %s %s 2>&1', escapeshellarg($machineFile), escapeshellarg($catalogFile));
         $out = exec($command, $output, $ret);
 
         $machineCatalog = file_get_contents($machineFile);
-        $this->Filesystem->remove($catalogFile);
-        $this->Filesystem->remove($machineFile);
+        $this->filesystem->remove($catalogFile);
+        $this->filesystem->remove($machineFile);
 
         if ($ret) throw new InternalErrorException(sprintf("Error code $ret from msgfmt: %s\n", implode("\n", $output)));
 

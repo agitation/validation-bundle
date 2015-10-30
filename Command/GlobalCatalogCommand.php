@@ -30,13 +30,13 @@ class GlobalCatalogCommand extends AbstractCatalogCommand
     {
         if (!$this->flock(__FILE__)) return;
 
-        $Container = $this->getContainer();
+        $container = $this->getContainer();
         $pathList = [];
 
-        foreach ($Container->getParameter('kernel.bundles') as $alias => $namespace)
+        foreach ($container->getParameter('kernel.bundles') as $alias => $namespace)
             $pathList[] = "@$alias";
 
-        $res = $Container->get('agit.intl.catalog')->generateGlobalCatalog($pathList);
+        $res = $container->get('agit.intl.catalog')->generateGlobalCatalog($pathList);
 
         if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity() && count($res))
         {

@@ -11,11 +11,11 @@ namespace Agit\IntlBundle\Twig;
 
 class TranslationExtension extends \Twig_Extension
 {
-    private $Translate;
+    private $translate;
 
-    public function __construct($Translate)
+    public function __construct($translate)
     {
-        $this->Translate = $Translate;
+        $this->translate = $translate;
     }
 
     /**
@@ -44,22 +44,22 @@ class TranslationExtension extends \Twig_Extension
 
     public function t($string)
     {
-        return $this->Translate->t($string);
+        return $this->translate->t($string);
     }
 
     public function n($string1, $string2, $num)
     {
-        return $this->Translate->n($string1, $string2, $num);
+        return $this->translate->n($string1, $string2, $num);
     }
 
     public function x($string, $ctx)
     {
-        return $this->Translate->x($string, $ctx);
+        return $this->translate->x($string, $ctx);
     }
 
     public function u($string, $locale)
     {
-        return $this->Translate->u($string, $locale);
+        return $this->translate->u($string, $locale);
     }
 
     public function ts($string)
