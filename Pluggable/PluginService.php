@@ -25,28 +25,28 @@ use Agit\CoreBundle\Pluggable\Strategy\ProcessorInterface;
  */
 class PluginService implements CacheWarmerInterface
 {
-    private $EventDispatcher;
+    private $eventDispatcher;
 
     // our OWN registration tag
     private $rootRegistrationTag = 'agit.pluggable';
 
-    private $ProcessorList = [];
+    private $processorList = [];
 
-    public function __construct(EventDispatcher $EventDispatcher)
+    public function __construct(EventDispatcher $eventDispatcher)
     {
-        $this->EventDispatcher = $EventDispatcher;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function dispatchServiceRegistration()
     {
-        $this->EventDispatcher->dispatch(
+        $this->eventDispatcher->dispatch(
             $this->rootRegistrationTag,
             new PluggableServiceRegistrationEvent($this));
     }
 
-    public function registerProcessor(ProcessorInterface $Processor)
+    public function registerProcessor(ProcessorInterface $processor)
     {
-        $this->ProcessorList[] = $Processor;
+        $this->processorList[] = $processor;
     }
 
     /**
@@ -56,17 +56,17 @@ class PluginService implements CacheWarmerInterface
     {
         $this->dispatchServiceRegistration();
 
-        usort($this->ProcessorList, function($P1, $P2){
-            return $P1->getPriority() - $P2->getPriority();
+        usort($this->processorList, function($p1, $p2){
+            return $p1->getPriority() - $p2->getPriority();
         });
 
-        foreach ($this->ProcessorList as $Processor)
+        foreach ($this->processorList as $processor)
         {
-            $this->EventDispatcher->dispatch(
-                $Processor->getRegistrationTag(),
-                $Processor->createRegistrationEvent());
+            $this->eventDispatcher->dispatch(
+                $processor->getRegistrationTag(),
+                $processor->createRegistrationEvent());
 
-            $Processor->process();
+            $processor->process();
         }
     }
 

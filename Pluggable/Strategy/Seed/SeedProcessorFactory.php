@@ -18,21 +18,21 @@ use Symfony\Component\Validator\Validator;
  */
 class SeedProcessorFactory
 {
-    private $EntityManager;
+    private $entityManager;
 
-    private $EntityValidator;
+    private $entityValidator;
 
-    public function __construct(EntityManager $EntityManager, Validator $EntityValidator)
+    public function __construct(EntityManager $entityManager, Validator $entityValidator)
     {
-        $this->EntityManager = $EntityManager;
-        $this->EntityValidator = $EntityValidator;
+        $this->entityManager = $entityManager;
+        $this->entityValidator = $entityValidator;
     }
 
     public function create($entityName, $priority, $removeObsolete = true, $updateExisting = true)
     {
         return new SeedProcessor(
-            $this->EntityManager,
-            $this->EntityValidator,
+            $this->entityManager,
+            $this->entityValidator,
             $entityName,
             $priority,
             $removeObsolete,

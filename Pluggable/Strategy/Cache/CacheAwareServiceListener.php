@@ -18,18 +18,18 @@ use Agit\CoreBundle\Pluggable\Strategy\Cache\CacheProcessorFactory;
  */
 class CacheAwareServiceListener
 {
-    private $ProcessorFactory;
+    private $processorFactory;
 
-    public function __construct(CacheProcessorFactory $ProcessorFactory, $registrationTag)
+    public function __construct(CacheProcessorFactory $processorFactory, $registrationTag)
     {
-        $this->ProcessorFactory = $ProcessorFactory;
+        $this->processorFactory = $processorFactory;
         $this->registrationTag = $registrationTag;
     }
 
-    public function onRegistration(PluggableServiceRegistrationEvent $RegistrationEvent)
+    public function onRegistration(PluggableServiceRegistrationEvent $registrationEvent)
     {
-        $RegistrationEvent->registerProcessor(
-            $this->ProcessorFactory->create(
+        $registrationEvent->registerProcessor(
+            $this->processorFactory->create(
                 $this->registrationTag
         ));
     }

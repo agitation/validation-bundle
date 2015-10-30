@@ -15,66 +15,66 @@ class UrlServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetBackendDomain()
     {
-        $UrlService = $this->getServiceInstance();
-        $this->assertEquals('backend.example.com', $UrlService->getBackendDomain());
+        $urlService = $this->getServiceInstance();
+        $this->assertEquals('backend.example.com', $urlService->getBackendDomain());
     }
 
     public function testGetFrontendDomain()
     {
-        $UrlService = $this->getServiceInstance();
-        $this->assertEquals('frontend.example.com', $UrlService->getFrontendDomain());
+        $urlService = $this->getServiceInstance();
+        $this->assertEquals('frontend.example.com', $urlService->getFrontendDomain());
     }
 
     public function testGetCdnDomain()
     {
-        $UrlService = $this->getServiceInstance();
-        $this->assertEquals('cdn.example.com', $UrlService->getCdnDomain());
+        $urlService = $this->getServiceInstance();
+        $this->assertEquals('cdn.example.com', $urlService->getCdnDomain());
     }
 
     public function testCreateBackendUrl()
     {
-        $UrlService = $this->getServiceInstance();
+        $urlService = $this->getServiceInstance();
 
         $this->assertEquals(
             'https://backend.example.com/foo/bar?a=b&c=d',
-            $UrlService->createBackendUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
+            $urlService->createBackendUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
     }
 
     public function testCreateFrontendUrl()
     {
-        $UrlService = $this->getServiceInstance();
+        $urlService = $this->getServiceInstance();
 
         $this->assertEquals(
             'https://frontend.example.com/foo/bar?a=b&c=d',
-            $UrlService->createFrontendUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
+            $urlService->createFrontendUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
     }
 
     public function testCreateCdnUrl()
     {
-        $UrlService = $this->getServiceInstance();
+        $urlService = $this->getServiceInstance();
 
         $this->assertEquals(
             'https://cdn.example.com/foo/bar?a=b&c=d',
-            $UrlService->createCdnUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
+            $urlService->createCdnUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
     }
 
     public function testCreateUrl()
     {
-        $UrlService = $this->getServiceInstance();
+        $urlService = $this->getServiceInstance();
 
         $this->assertEquals(
             'https://cdn.example.com/foo/bar?a=b&c=d',
-            $UrlService->createUrl('cdn', '/foo/bar', ['a' => 'b', 'c' => 'd']));
+            $urlService->createUrl('cdn', '/foo/bar', ['a' => 'b', 'c' => 'd']));
     }
 
     public function testAppend()
     {
-        $UrlService = $this->getServiceInstance();
+        $urlService = $this->getServiceInstance();
 
-        $this->assertEquals('/test?a=b&c=d', $UrlService->append('/test', ['a' => 'b', 'c' => 'd']));
-        $this->assertEquals('/test?a=b&amp;c=d', $UrlService->append('/test', ['a' => 'b', 'c' => 'd'], 'html'));
-        $this->assertEquals('/test?a=b%26c=d', $UrlService->append('/test', ['a' => 'b', 'c' => 'd'], 'url'));
-        $this->assertEquals('/test?a[]=a1&a[]=b1&c=d', $UrlService->append('/test', ['a' => ['a1', 'b1'], 'c' => 'd']));
+        $this->assertEquals('/test?a=b&c=d', $urlService->append('/test', ['a' => 'b', 'c' => 'd']));
+        $this->assertEquals('/test?a=b&amp;c=d', $urlService->append('/test', ['a' => 'b', 'c' => 'd'], 'html'));
+        $this->assertEquals('/test?a=b%26c=d', $urlService->append('/test', ['a' => 'b', 'c' => 'd'], 'url'));
+        $this->assertEquals('/test?a[]=a1&a[]=b1&c=d', $urlService->append('/test', ['a' => ['a1', 'b1'], 'c' => 'd']));
     }
 
     private function getServiceInstance()

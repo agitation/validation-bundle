@@ -14,11 +14,11 @@ use Symfony\Component\Finder\Finder;
 
 class FileCollector
 {
-    private $FileLocator;
+    private $fileLocator;
 
-    public function __construct(FileLocator $FileLocator)
+    public function __construct(FileLocator $fileLocator)
     {
-        $this->FileLocator = $FileLocator;
+        $this->fileLocator = $fileLocator;
     }
 
     /**
@@ -33,7 +33,7 @@ class FileCollector
             if ($location[0] !== '@')
                 $location = "@$location";
 
-            $path = $this->FileLocator->locate(str_replace(':', '/', $location));
+            $path = $this->fileLocator->locate(str_replace(':', '/', $location));
         }
         catch (\Exception $e) {}
 
@@ -52,11 +52,11 @@ class FileCollector
 
         if ($path)
         {
-            $Finder = new Finder();
-            $Finder->in($path)->name("*.$extension");
+            $finder = new Finder();
+            $finder->in($path)->name("*.$extension");
 
-            foreach ($Finder as $File)
-                $files[] = $File->getRealpath();
+            foreach ($finder as $file)
+                $files[] = $file->getRealpath();
         }
 
         return $files;

@@ -20,19 +20,19 @@ class ObjectLoader extends CacheLoader
 {
     private $plugins;
 
-    private $ObjectList;
+    private $objectList;
 
     private $objectFactoryCallback;
 
-    private $Container;
+    private $container;
 
-    public function __construct(CacheProvider $CacheProvider, $registrationTag, ContainerInterface $Container = null)
+    public function __construct(CacheProvider $cacheProvider, $registrationTag, ContainerInterface $container = null)
     {
-        parent::__construct($CacheProvider, $registrationTag);
+        parent::__construct($cacheProvider, $registrationTag);
 
         // If the ObjectLoader should do DI, the factory must provide
         // the container.
-        $this->Container = $Container;
+        $this->container = $container;
     }
 
     public function setObjectFactory($callback)
@@ -43,7 +43,7 @@ class ObjectLoader extends CacheLoader
     public function getObject($id)
     {
         $this->loadObject($id);
-        return $this->ObjectList[$id]['instance'];
+        return $this->objectList[$id]['instance'];
     }
 
     public function getAllObjects()
@@ -51,12 +51,12 @@ class ObjectLoader extends CacheLoader
         $list = [];
         $this->loadObjectList();
 
-        foreach ($this->ObjectList as $id => $data)
+        foreach ($this->objectList as $id => $data)
         {
             if (!isset($data['instance']))
                 $this->loadObject($id);
 
-            $list[] = $this->ObjectList[$id]['instance'];
+            $list[] = $this->objectList[$id]['instance'];
         }
 
         return $list;
@@ -66,30 +66,30 @@ class ObjectLoader extends CacheLoader
     {
         $this->loadObjectList();
 
-        if (!isset($this->ObjectList[$id]))
+        if (!isset($this->objectList[$id]))
             throw new InternalErrorException("An object with the identifier '$id' has not been registered.");
 
-        if (!isset($this->ObjectList[$id]['instance']))
+        if (!isset($this->objectList[$id]['instance']))
         {
             $objectFactoryCallback = $this->objectFactoryCallback ?: [$this, 'objectFactory'];
-            $instance = call_user_func($objectFactoryCallback, $id, $this->ObjectList[$id]['class']);
+            $instance = call_user_func($objectFactoryCallback, $id, $this->objectList[$id]['class']);
 
-            if ($this->Container && in_array(__NAMESPACE__ . '\ServiceAwarePlugin', class_uses($instance)))
+            if ($this->container && in_array(__NAMESPACE__ . '\ServiceAwarePlugin', class_uses($instance)))
                 foreach ($instance->getServiceDependencies() as $serviceName)
-                    $instance->setService($serviceName, $this->Container->get($serviceName));
+                    $instance->setService($serviceName, $this->container->get($serviceName));
 
-            $this->ObjectList[$id]['instance'] = $instance;
+            $this->objectList[$id]['instance'] = $instance;
         }
     }
 
     protected function loadObjectList()
     {
-        if (is_null($this->ObjectList))
+        if (is_null($this->objectList))
         {
-            $this->ObjectList = [];
+            $this->objectList = [];
 
             foreach ($this->loadPlugins() as $id => $class)
-                $this->ObjectList[$id] = ['class' => $class, 'instance' => null];
+                $this->objectList[$id] = ['class' => $class, 'instance' => null];
         }
     }
 

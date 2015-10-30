@@ -18,41 +18,41 @@ class AbstractCacheAwarePluggableServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testWarmUpValues()
     {
-//         $CacheProvider = new ArrayCache();
-//         $EventDispatcher = new EventDispatcher();
-//         $PluggableService = $this->createMockPluggableService($EventDispatcher, $CacheProvider);
+//         $cacheProvider = new ArrayCache();
+//         $eventDispatcher = new EventDispatcher();
+//         $pluggableService = $this->createMockPluggableService($eventDispatcher, $cacheProvider);
 //
 //         // as we can't interact with the EventDispatcher during the warm-up,
 //         // we simply set the extension manually and call warmUp afterwards.
-//         $PluggableService->register($this->createRegistrationData());
-//         $PluggableService->warmUp('/we/dont/care');
+//         $pluggableService->register($this->createRegistrationData());
+//         $pluggableService->warmUp('/we/dont/care');
 //
 //         $this->assertEquals(
 //             [(object)['foo' => 'bar']],
-//             $CacheProvider->fetch('agit.test.pluggable'));
+//             $cacheProvider->fetch('agit.test.pluggable'));
     }
 
-    private function createMockPluggableService($EventDispatcher, $CacheProvider)
+    private function createMockPluggableService($eventDispatcher, $cacheProvider)
     {
-//         $PluggableService = $this->getMockBuilder('\Agit\CoreBundle\Pluggable\AbstractCacheAwarePluggableService')
+//         $pluggableService = $this->getMockBuilder('\Agit\CoreBundle\Pluggable\AbstractCacheAwarePluggableService')
 //             ->setMethods(['getServiceTag'])
 //             ->getMock();
 //
-//         $PluggableService->expects($this->any())
+//         $pluggableService->expects($this->any())
 //             ->method('getServiceTag')
 //             ->will($this->returnValue('agit.test.pluggable'));
 //
-//         $PluggableService->setEventDispatcher($EventDispatcher);
-//         $PluggableService->setCacheProvider($CacheProvider);
+//         $pluggableService->setEventDispatcher($eventDispatcher);
+//         $pluggableService->setCacheProvider($cacheProvider);
 //
-//         return $PluggableService;
+//         return $pluggableService;
     }
 
     private function createRegistrationData()
     {
-//         $RegistrationData = new RegistrationData();
-//         $RegistrationData->set('foo', 'bar');
+//         $registrationData = new RegistrationData();
+//         $registrationData->set('foo', 'bar');
 //
-//         return $RegistrationData;
+//         return $registrationData;
     }
 }

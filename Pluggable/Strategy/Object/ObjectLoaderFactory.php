@@ -14,18 +14,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ObjectLoaderFactory
 {
-    private $CacheProvider;
+    private $cacheProvider;
 
-    private $Container;
+    private $container;
 
-    public function __construct(CacheProvider $CacheProvider, ContainerInterface $Container)
+    public function __construct(CacheProvider $cacheProvider, ContainerInterface $container)
     {
-        $this->CacheProvider = $CacheProvider;
-        $this->Container = $Container;
+        $this->cacheProvider = $cacheProvider;
+        $this->container = $container;
     }
 
     public function create($registrationTag, $allowServiceInjection = false)
     {
-        return new ObjectLoader($this->CacheProvider, $registrationTag, $allowServiceInjection ? $this->Container : null);
+        return new ObjectLoader($this->cacheProvider, $registrationTag, $allowServiceInjection ? $this->container : null);
     }
 }

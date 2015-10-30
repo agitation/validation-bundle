@@ -14,13 +14,13 @@ namespace Agit\CoreBundle\Pluggable\Strategy\Cache;
  */
 class CacheAwareServiceListenerFactory
 {
-    public function __construct(CacheProcessorFactory $ProcessorFactory)
+    public function __construct(CacheProcessorFactory $processorFactory)
     {
-        $this->ProcessorFactory = $ProcessorFactory;
+        $this->processorFactory = $processorFactory;
     }
 
     public function create($registrationTag)
     {
-        return new CacheAwareServiceListener($this->ProcessorFactory, $registrationTag);
+        return new CacheAwareServiceListener($this->processorFactory, $registrationTag);
     }
 }

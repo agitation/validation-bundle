@@ -14,15 +14,15 @@ namespace Agit\CoreBundle\Pluggable\Strategy\Object;
  */
 class ObjectListenerFactory
 {
-    protected $FileLocator;
+    protected $fileLocator;
 
-    public function __construct(ObjectProcessorFactory $ProcessorFactory)
+    public function __construct(ObjectProcessorFactory $processorFactory)
     {
-        $this->ProcessorFactory = $ProcessorFactory;
+        $this->processorFactory = $processorFactory;
     }
 
     public function create($registrationTag, $parentClass)
     {
-        return new ObjectListener($this->ProcessorFactory, $registrationTag, $parentClass);
+        return new ObjectListener($this->processorFactory, $registrationTag, $parentClass);
     }
 }

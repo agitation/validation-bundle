@@ -16,18 +16,18 @@ use Doctrine\Common\Cache\CacheProvider;
  */
 class CacheLoader
 {
-    private $CacheProvider;
+    private $cacheProvider;
 
     private $registrationTag;
 
-    public function __construct(CacheProvider $CacheProvider, $registrationTag)
+    public function __construct(CacheProvider $cacheProvider, $registrationTag)
     {
-        $this->CacheProvider = $CacheProvider;
+        $this->cacheProvider = $cacheProvider;
         $this->registrationTag = $registrationTag;
     }
 
     public function loadPlugins()
     {
-        return $this->CacheProvider->fetch($this->registrationTag) ?: [];
+        return $this->cacheProvider->fetch($this->registrationTag) ?: [];
     }
 }

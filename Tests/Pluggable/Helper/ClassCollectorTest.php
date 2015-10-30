@@ -21,11 +21,11 @@ class ClassCollectorTest extends WebTestCase
     {
         $dummyNamespace = 'AgitCoreBundle:Tests:Pluggable:Helper:_data';
 
-        $Kernel = static::createKernel();
-        $Kernel->boot();
+        $kernel = static::createKernel();
+        $kernel->boot();
 
-        $ClassCollector = new ClassCollector(new FileLocator($Kernel));
-        $fileList = $ClassCollector->collect($dummyNamespace);
+        $classCollector = new ClassCollector(new FileLocator($kernel));
+        $fileList = $classCollector->collect($dummyNamespace);
 
         sort($fileList);
 

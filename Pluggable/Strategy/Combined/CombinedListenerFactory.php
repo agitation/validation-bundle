@@ -17,21 +17,21 @@ use Agit\CoreBundle\Pluggable\Strategy\Seed\SeedProcessorFactory;
  */
 class CombinedListenerFactory
 {
-    private $ObjectProcessorFactory;
+    private $objectProcessorFactory;
 
-    private $SeedProcessorFactory;
+    private $seedProcessorFactory;
 
-    public function __construct(ObjectProcessorFactory $ObjectProcessorFactory, SeedProcessorFactory $SeedProcessorFactory)
+    public function __construct(ObjectProcessorFactory $objectProcessorFactory, SeedProcessorFactory $seedProcessorFactory)
     {
-        $this->ObjectProcessorFactory = $ObjectProcessorFactory;
-        $this->SeedProcessorFactory = $SeedProcessorFactory;
+        $this->objectProcessorFactory = $objectProcessorFactory;
+        $this->seedProcessorFactory = $seedProcessorFactory;
     }
 
     public function create($registrationTag, $parentClass, array $entityNameList, $seedDeleteObsolete = true, $seedUpdateExisting = true)
     {
         return new CombinedListener(
-            $this->ObjectProcessorFactory,
-            $this->SeedProcessorFactory,
+            $this->objectProcessorFactory,
+            $this->seedProcessorFactory,
             $registrationTag,
             $parentClass,
             $entityNameList,

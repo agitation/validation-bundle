@@ -18,17 +18,17 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
  */
 abstract class AbstractContainerAwareTest extends WebTestCase
 {
-    private $Container;
+    private $container;
 
     protected function setUp()
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-        $this->Container = static::$kernel->getContainer();
+        $this->container = static::$kernel->getContainer();
     }
 
     protected function getContainer()
     {
-        return $this->Container;
+        return $this->container;
     }
 }

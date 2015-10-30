@@ -22,9 +22,9 @@ class ObjectProcessor extends CacheProcessor
 {
     private $parentClass;
 
-    public function __construct(CacheProvider $CacheProvider, $registrationTag, $parentClass)
+    public function __construct(CacheProvider $cacheProvider, $registrationTag, $parentClass)
     {
-        parent::__construct($CacheProvider, $registrationTag);
+        parent::__construct($cacheProvider, $registrationTag);
         $this->parentClass = $parentClass;
     }
 
@@ -38,21 +38,21 @@ class ObjectProcessor extends CacheProcessor
         return $this->parentClass;
     }
 
-    public function register(CacheData $CacheData, $priority)
+    public function register(CacheData $cacheData, $priority)
     {
         throw new InternalErrorException("This method is not available on this processor. Use registerObject() instead.");
     }
 
-    public function registerObject(ObjectData $ObjectData, $priority)
+    public function registerObject(ObjectData $objectData, $priority)
     {
-        if (!is_string($ObjectData->getClass()) || !class_exists($ObjectData->getClass()))
+        if (!is_string($objectData->getClass()) || !class_exists($objectData->getClass()))
             throw new InternalErrorException("Invalid plugin class.");
 
-        $refl = new \ReflectionClass($ObjectData->getClass());
+        $refl = new \ReflectionClass($objectData->getClass());
 
         if (!$refl->isSubclassOf($this->parentClass))
-            throw new InternalErrorException(sprintf("%s must be a subclass of %s.", $ObjectData->getClass(), $this->parentClass));
+            throw new InternalErrorException(sprintf("%s must be a subclass of %s.", $objectData->getClass(), $this->parentClass));
 
-        $this->addPlugin($ObjectData->getId(), $ObjectData->getClass());
+        $this->addPlugin($objectData->getId(), $objectData->getClass());
     }
 }

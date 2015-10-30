@@ -17,9 +17,9 @@ use Doctrine\Common\Cache\CacheProvider;
  */
 class CacheProcessorFactory
 {
-    public function __construct(CacheProvider $CacheProvider)
+    public function __construct(CacheProvider $cacheProvider)
     {
-        $this->CacheProvider = $CacheProvider;
+        $this->cacheProvider = $cacheProvider;
     }
 
     /**
@@ -27,6 +27,6 @@ class CacheProcessorFactory
      */
     public function create($registrationTag)
     {
-        return new CacheProcessor($this->CacheProvider, $registrationTag);
+        return new CacheProcessor($this->cacheProvider, $registrationTag);
     }
 }

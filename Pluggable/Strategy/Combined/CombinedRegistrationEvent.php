@@ -13,9 +13,9 @@ use Symfony\Component\EventDispatcher\Event;
 
 class CombinedRegistrationEvent extends Event
 {
-    public function __construct(CombinedProcessor $Processor)
+    public function __construct(CombinedProcessor $processor)
     {
-        $this->Processor = $Processor;
+        $this->processor = $processor;
     }
 
     public function createContainer()
@@ -25,16 +25,16 @@ class CombinedRegistrationEvent extends Event
 
     public function getParentClass()
     {
-        return $this->Processor->getParentClass();
+        return $this->processor->getParentClass();
     }
 
     public function getEntityNames()
     {
-        return $this->Processor->getEntityNames();
+        return $this->processor->getEntityNames();
     }
 
-    public function register(CombinedData $CombinedData, $priority)
+    public function register(CombinedData $combinedData, $priority)
     {
-        return $this->Processor->register($CombinedData, $priority);
+        return $this->processor->register($combinedData, $priority);
     }
 }

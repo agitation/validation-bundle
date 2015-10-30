@@ -15,11 +15,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class AbstractContainerAwareService extends ContainerAware
 {
     // following our convention: Instances of named objects start with capital letters.
-    protected $Container;
+    protected $container;
 
-    public function __construct(ContainerInterface $Container)
+    public function __construct(ContainerInterface $container)
     {
-        $this->setContainer($Container);
-        $this->Container = $Container;
+        $this->setContainer($container);
+        $this->container = $container;
     }
 }

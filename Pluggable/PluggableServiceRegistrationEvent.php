@@ -14,15 +14,15 @@ use Agit\CoreBundle\Pluggable\Strategy\ProcessorInterface;
 
 class PluggableServiceRegistrationEvent extends Event
 {
-    private $PluginService;
+    private $pluginService;
 
-    public function __construct(PluginService $PluginService)
+    public function __construct(PluginService $pluginService)
     {
-        $this->PluginService = $PluginService;
+        $this->pluginService = $pluginService;
     }
 
-    public function registerProcessor(ProcessorInterface $Processor)
+    public function registerProcessor(ProcessorInterface $processor)
     {
-        return $this->PluginService->registerProcessor($Processor);
+        return $this->pluginService->registerProcessor($processor);
     }
 }

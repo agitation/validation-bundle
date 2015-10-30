@@ -22,9 +22,9 @@ use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectData;
  */
 class CombinedProcessor implements ProcessorInterface
 {
-    private $ObjectProcessor;
+    private $objectProcessor;
 
-    private $SeedProcessorList;
+    private $seedProcessorList;
 
     private $registrationTag;
 
@@ -33,22 +33,22 @@ class CombinedProcessor implements ProcessorInterface
     private $entityNameList;
 
     public function __construct(
-        ObjectProcessorFactory $ObjectProcessorFactory,
-        SeedProcessorFactory $SeedProcessorFactory,
+        ObjectProcessorFactory $objectProcessorFactory,
+        SeedProcessorFactory $seedProcessorFactory,
         $registrationTag,
         $parentClass,
         array $entityNameList, // NOTE: order equals priority
         $seedDeleteObsolete = true,
         $seedUpdateExisting = true)
     {
-        $this->ObjectProcessor = $ObjectProcessorFactory->create($registrationTag, $parentClass);
+        $this->objectProcessor = $objectProcessorFactory->create($registrationTag, $parentClass);
         $this->registrationTag = $registrationTag;
         $this->parentClass = $parentClass;
         $this->entityNameList = $entityNameList;
         $seedPriority = 0;
 
         foreach ($entityNameList as $entityName)
-            $this->SeedProcessorList[$entityName] = $SeedProcessorFactory->create(
+            $this->seedProcessorList[$entityName] = $seedProcessorFactory->create(
             $entityName,
             $seedPriority += 10,
             $seedDeleteObsolete,
@@ -75,30 +75,30 @@ class CombinedProcessor implements ProcessorInterface
         return $this->entityNameList;
     }
 
-    public function register(CombinedData $CombinedData, $priority)
+    public function register(CombinedData $combinedData, $priority)
     {
-        if (!class_exists($CombinedData->getClass()))
-            throw new InternalErrorException("Invalid class: " . $CombinedData->getClass());
+        if (!class_exists($combinedData->getClass()))
+            throw new InternalErrorException("Invalid class: " . $combinedData->getClass());
 
-        $ClassRefl = new \ReflectionClass($CombinedData->getClass());
+        $classRefl = new \ReflectionClass($combinedData->getClass());
 
-        if (!$ClassRefl->isSubclassOf($this->parentClass))
-            throw new InternalErrorException(sprintf("Class %s must be a subclass of %s.", $CombinedData->getClass(), $this->parentClass));
+        if (!$classRefl->isSubclassOf($this->parentClass))
+            throw new InternalErrorException(sprintf("Class %s must be a subclass of %s.", $combinedData->getClass(), $this->parentClass));
 
-        $ObjectData = new ObjectData();
-        $ObjectData->setId($CombinedData->getId());
-        $ObjectData->setClass($CombinedData->getClass());
-        $this->ObjectProcessor->registerObject($ObjectData, $priority);
+        $objectData = new ObjectData();
+        $objectData->setId($combinedData->getId());
+        $objectData->setClass($combinedData->getClass());
+        $this->objectProcessor->registerObject($objectData, $priority);
 
-        foreach ($this->SeedProcessorList as $entityName => $SeedProcessor)
+        foreach ($this->seedProcessorList as $entityName => $seedProcessor)
         {
-            $seeds = $CombinedData->getSeeds($entityName);
+            $seeds = $combinedData->getSeeds($entityName);
 
             foreach ($seeds as $entry)
             {
-                $SeedData = new SeedData();
-                $SeedData->setData($entry);
-                $SeedProcessor->register($SeedData);
+                $seedData = new SeedData();
+                $seedData->setData($entry);
+                $seedProcessor->register($seedData);
             }
         }
     }
@@ -110,9 +110,9 @@ class CombinedProcessor implements ProcessorInterface
 
     public function process()
     {
-        $this->ObjectProcessor->process();
+        $this->objectProcessor->process();
 
-        foreach ($this->SeedProcessorList as $SeedProcessor)
-            $SeedProcessor->process();
+        foreach ($this->seedProcessorList as $seedProcessor)
+            $seedProcessor->process();
     }
 }

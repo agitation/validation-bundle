@@ -17,7 +17,7 @@ use Agit\CoreBundle\Pluggable\PluggableServiceRegistrationEvent;
  */
 class SeedListener
 {
-    private $ProcessorFactory;
+    private $processorFactory;
 
     private $entityName;
 
@@ -27,19 +27,19 @@ class SeedListener
 
     private $updateExisting;
 
-    public function __construct(SeedProcessorFactory $ProcessorFactory, $entityName, $priority, $removeObsolete, $updateExisting)
+    public function __construct(SeedProcessorFactory $processorFactory, $entityName, $priority, $removeObsolete, $updateExisting)
     {
-        $this->ProcessorFactory = $ProcessorFactory;
+        $this->processorFactory = $processorFactory;
         $this->entityName = $entityName;
         $this->priority = $priority;
         $this->removeObsolete = (bool)$removeObsolete;
         $this->updateExisting = (bool)$updateExisting;
     }
 
-    public function onRegistration(PluggableServiceRegistrationEvent $RegistrationEvent)
+    public function onRegistration(PluggableServiceRegistrationEvent $registrationEvent)
     {
-        $RegistrationEvent->registerProcessor(
-            $this->ProcessorFactory->create(
+        $registrationEvent->registerProcessor(
+            $this->processorFactory->create(
                 $this->entityName,
                 $this->priority,
                 $this->removeObsolete,

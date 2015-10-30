@@ -16,15 +16,15 @@ use Agit\CoreBundle\Service\ClassCollector;
  */
 class ObjectPluginListenerFactory
 {
-    protected $ClassCollector;
+    protected $classCollector;
 
-    public function __construct(ClassCollector $ClassCollector)
+    public function __construct(ClassCollector $classCollector)
     {
-        $this->ClassCollector = $ClassCollector;
+        $this->classCollector = $classCollector;
     }
 
     public function create($searchPath, $priority = 100)
     {
-        return new ObjectPluginListener($this->ClassCollector, $searchPath, $priority);
+        return new ObjectPluginListener($this->classCollector, $searchPath, $priority);
     }
 }

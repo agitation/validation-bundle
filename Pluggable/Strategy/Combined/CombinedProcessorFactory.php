@@ -17,10 +17,10 @@
 //  */
 // class CombinedProcessorFactory
 // {
-//     public function __construct(ObjectProcessorFactory $ObjectProcessorFactory, SeedProcessorFactory $SeedProcessorFactory)
+//     public function __construct(ObjectProcessorFactory $objectProcessorFactory, SeedProcessorFactory $seedProcessorFactory)
 //     {
-//         $this->ObjectProcessorFactory = $ObjectProcessorFactory;
-//         $this->SeedProcessorFactory = $SeedProcessorFactory;
+//         $this->objectProcessorFactory = $objectProcessorFactory;
+//         $this->seedProcessorFactory = $seedProcessorFactory;
 //     }
 //
 //     /**
@@ -28,6 +28,6 @@
 //      */
 //     public function create($registrationTag, $parentClass, array $entityNameList, $seedDeleteObsolete, $seedUpdateExisting)
 //     {
-//         return new CombinedProcessor($this->CacheProvider, $registrationTag, $parentClass);
+//         return new CombinedProcessor($this->cacheProvider, $registrationTag, $parentClass);
 //     }
 // }

@@ -15,15 +15,15 @@ class AbstractEntityTest extends \PHPUnit_Framework_TestCase
 {
     public function test__ToString()
     {
-        $Entity = $this->createMockEntity();
-        $this->assertEquals('123', $Entity->__toString());
+        $entity = $this->createMockEntity();
+        $this->assertEquals('123', $entity->__toString());
     }
 
     public function testGetEntityClass()
     {
         $mockName = 'Dummy';
-        $Entity = $this->createMockEntity($mockName);
-        $this->assertEquals($mockName, $Entity->getEntityClass());
+        $entity = $this->createMockEntity($mockName);
+        $this->assertEquals($mockName, $entity->getEntityClass());
     }
 
     private function createMockEntity($mockName = null)
@@ -35,12 +35,12 @@ class AbstractEntityTest extends \PHPUnit_Framework_TestCase
         if ($mockName)
             $mockInst->setMockClassName('Dummy');
 
-        $Entity = $mockInst->getMock();
+        $entity = $mockInst->getMock();
 
-        $Entity->expects($this->any())
+        $entity->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(123));
 
-        return $Entity;
+        return $entity;
     }
 }

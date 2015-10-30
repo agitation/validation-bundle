@@ -26,8 +26,8 @@ abstract class AgitException extends \Exception
 
     public function getErrorDescription()
     {
-        $ReflObject = new \ReflectionObject($this);
-        $comment = AnnotationHelper::cleanDocComment($ReflObject->getDocComment()) ?: '';
+        $reflObject = new \ReflectionObject($this);
+        $comment = AnnotationHelper::cleanDocComment($reflObject->getDocComment()) ?: '';
 
         return $comment;
     }

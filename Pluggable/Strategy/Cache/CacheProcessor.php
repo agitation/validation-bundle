@@ -19,16 +19,16 @@ use Agit\CoreBundle\Pluggable\Strategy\ProcessorInterface;
 class CacheProcessor implements ProcessorInterface
 {
     // caching implementation
-    private $CacheProvider;
+    private $cacheProvider;
 
     // the list of available plugins to services
     private $plugins = [];
 
     protected $registrationTag;
 
-    public function __construct(CacheProvider $CacheProvider, $registrationTag)
+    public function __construct(CacheProvider $cacheProvider, $registrationTag)
     {
-        $this->CacheProvider = $CacheProvider;
+        $this->cacheProvider = $cacheProvider;
         $this->registrationTag = $registrationTag;
     }
 
@@ -42,9 +42,9 @@ class CacheProcessor implements ProcessorInterface
         return new CacheRegistrationEvent($this);
     }
 
-    public function register(CacheData $CacheData, $priority)
+    public function register(CacheData $cacheData, $priority)
     {
-        $this->addPlugin($CacheData->getId(), $CacheData->getData());
+        $this->addPlugin($cacheData->getId(), $cacheData->getData());
     }
 
     protected function addPlugin($id, $data)
@@ -64,6 +64,6 @@ class CacheProcessor implements ProcessorInterface
 
     protected function getCacheProvider()
     {
-        return $this->CacheProvider;
+        return $this->cacheProvider;
     }
 }

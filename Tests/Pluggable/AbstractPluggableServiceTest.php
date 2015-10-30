@@ -18,39 +18,39 @@ class AbstractPluggableServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterPluginWorks()
     {
-//         $PluggableService = $this->createMockPluggableService(new EventDispatcher(), new ArrayCache());
-//         $RegistrationData = $this->createRegistrationData();
+//         $pluggableService = $this->createMockPluggableService(new EventDispatcher(), new ArrayCache());
+//         $registrationData = $this->createRegistrationData();
 //
 //         // as we have just a dummy processor, the output equals the input
 //         $this->assertEquals(
-//             $RegistrationData->getRegistrationValues(),
-//             $PluggableService->register($RegistrationData));
+//             $registrationData->getRegistrationValues(),
+//             $pluggableService->register($registrationData));
     }
 
-    private function createMockPluggableService($EventDispatcher, $CacheProvider)
+    private function createMockPluggableService($eventDispatcher, $cacheProvider)
     {
-//         $PluggableService = $this->getMockBuilder('\Agit\CoreBundle\Pluggable\AbstractPluggableService')
+//         $pluggableService = $this->getMockBuilder('\Agit\CoreBundle\Pluggable\AbstractPluggableService')
 //             ->setMethods(['getServiceTag', 'register'])
 //             ->getMock();
 //
-//         $PluggableService->expects($this->any())
+//         $pluggableService->expects($this->any())
 //             ->method('getServiceTag')
 //             ->will($this->returnValue('agit.test.pluggable'));
 //
-//         $PluggableService->expects($this->any())
+//         $pluggableService->expects($this->any())
 //             ->method('register')
 //             ->will($this->returnValue((object)['foo' => 'bar']));
 //
-//         $PluggableService->setEventDispatcher($EventDispatcher);
+//         $pluggableService->setEventDispatcher($eventDispatcher);
 //
-//         return $PluggableService;
+//         return $pluggableService;
     }
 
     private function createRegistrationData()
     {
-//         $RegistrationData = new RegistrationData();
-//         $RegistrationData->set('foo', 'bar');
+//         $registrationData = new RegistrationData();
+//         $registrationData->set('foo', 'bar');
 //
-//         return $RegistrationData;
+//         return $registrationData;
     }
 }

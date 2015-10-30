@@ -19,11 +19,11 @@ use Symfony\Component\Validator\Validator;
  */
 class SeedProcessor implements ProcessorInterface
 {
-    private $EntityManager;
+    private $entityManager;
 
-    private $EntityValidator;
+    private $entityValidator;
 
-    private $Metadata;
+    private $metadata;
 
     private $entityName;
 
@@ -33,19 +33,19 @@ class SeedProcessor implements ProcessorInterface
 
     private $updateExisting;
 
-    private $SeedDataList = [];
+    private $seedDataList = [];
 
-    public function __construct(EntityManager $EntityManager, Validator $EntityValidator, $entityName, $priority, $removeObsolete = true, $updateExisting = true)
+    public function __construct(EntityManager $entityManager, Validator $entityValidator, $entityName, $priority, $removeObsolete = true, $updateExisting = true)
     {
-        $this->EntityManager = $EntityManager;
-        $this->EntityValidator = $EntityValidator;
+        $this->entityManager = $entityManager;
+        $this->entityValidator = $entityValidator;
 
         $this->entityName = $entityName;
         $this->priority = (int)$priority;
         $this->removeObsolete = (bool)$removeObsolete;
         $this->updateExisting = (bool)$updateExisting;
 
-        $this->Metadata = $this->EntityManager->getClassMetadata($this->entityName);
+        $this->metadata = $this->entityManager->getClassMetadata($this->entityName);
     }
 
     public function createRegistrationEvent()
@@ -58,47 +58,47 @@ class SeedProcessor implements ProcessorInterface
         return $this->entityName;
     }
 
-    public function register(SeedData $SeedData)
+    public function register(SeedData $seedData)
     {
-        $this->SeedDataList[] = $SeedData;
+        $this->seedDataList[] = $seedData;
     }
 
     public function process()
     {
         $idField = $this->getIdField();
-        $entityClass = $this->Metadata->getName();
-        $EntityList = $this->getExistingObjects($idField);
+        $entityClass = $this->metadata->getName();
+        $entityList = $this->getExistingObjects($idField);
 
-        foreach ($this->SeedDataList as $SeedData)
+        foreach ($this->seedDataList as $seedData)
         {
-            $entry = $SeedData->getData();
+            $entry = $seedData->getData();
 
             if (!isset($entry[$idField]))
                 throw new InternalErrorException("The seed data for $entityClass is missing the mandatory '$idField' field.");
 
-            if (isset($EntityList[$entry[$idField]]))
+            if (isset($entityList[$entry[$idField]]))
             {
-                $Entity = $EntityList[$entry[$idField]];
-                unset($EntityList[$entry[$idField]]);
+                $entity = $entityList[$entry[$idField]];
+                unset($entityList[$entry[$idField]]);
 
                 if (!$this->updateExisting) continue;
             }
             else
             {
-                $Entity = new $entityClass();
+                $entity = new $entityClass();
             }
 
             foreach ($entry as $key => $value)
-                $this->setObjectValue($Entity, $key, $value);
+                $this->setObjectValue($entity, $key, $value);
 
-            $this->EntityValidator->validate($Entity);
-            $this->EntityManager->persist($Entity);
+            $this->entityValidator->validate($entity);
+            $this->entityManager->persist($entity);
         }
 
         if ($this->removeObsolete)
-            $this->removeObsoleteObjects($EntityList);
+            $this->removeObsoleteObjects($entityList);
 
-        $this->EntityManager->flush();
+        $this->entityManager->flush();
     }
 
     public function getPriority()
@@ -108,17 +108,17 @@ class SeedProcessor implements ProcessorInterface
 
     private function getExistingObjects($idField)
     {
-        $EntityList = [];
+        $entityList = [];
 
-        foreach ($this->EntityManager->getRepository($this->entityName)->findAll() as $Entity)
-            $EntityList[$this->Metadata->getFieldValue($Entity, $idField)] = $Entity;
+        foreach ($this->entityManager->getRepository($this->entityName)->findAll() as $entity)
+            $entityList[$this->metadata->getFieldValue($entity, $idField)] = $entity;
 
-        return $EntityList;
+        return $entityList;
     }
 
     private function getIdField()
     {
-        $idFieldList = $this->Metadata->getIdentifier();
+        $idFieldList = $this->metadata->getIdentifier();
 
         if (!is_array($idFieldList) || count($idFieldList) !== 1)
             throw new InternalErrorException("Seed entities must have exactly one ID field.");
@@ -126,18 +126,18 @@ class SeedProcessor implements ProcessorInterface
         return reset($idFieldList);
     }
 
-    private function setObjectValue($Entity, $key, $value)
+    private function setObjectValue($entity, $key, $value)
     {
-        if (isset($this->Metadata->associationMappings[$key]))
-            $value = $this->EntityManager
-                ->getReference($this->Metadata->associationMappings[$key]['targetEntity'], $value);
+        if (isset($this->metadata->associationMappings[$key]))
+            $value = $this->entityManager
+                ->getReference($this->metadata->associationMappings[$key]['targetEntity'], $value);
 
-        $this->Metadata->setFieldValue($Entity, $key, $value);
+        $this->metadata->setFieldValue($entity, $key, $value);
     }
 
-    private function removeObsoleteObjects($EntityList)
+    private function removeObsoleteObjects($entityList)
     {
-        foreach ($EntityList as $Entity)
-            $this->EntityManager->remove($Entity);
+        foreach ($entityList as $entity)
+            $this->entityManager->remove($entity);
     }
 }

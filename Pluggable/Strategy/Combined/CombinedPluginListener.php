@@ -15,15 +15,15 @@ use Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedPluginInterface;
 
 class CombinedPluginListener
 {
-    private $ClassCollector;
+    private $classCollector;
 
     protected $searchPath;
 
     private $priority;
 
-    public function __construct($ClassCollector, $searchPath, $priority)
+    public function __construct($classCollector, $searchPath, $priority)
     {
-        $this->ClassCollector = $ClassCollector;
+        $this->classCollector = $classCollector;
         $this->searchPath = $searchPath;
         $this->priority = $priority;
     }
@@ -31,32 +31,32 @@ class CombinedPluginListener
     /**
      * the event listener to be used in the service configuration
      */
-    public function onRegistration(CombinedRegistrationEvent $RegistrationEvent)
+    public function onRegistration(CombinedRegistrationEvent $registrationEvent)
     {
-        foreach ($this->ClassCollector->collect($this->searchPath) as $class)
+        foreach ($this->classCollector->collect($this->searchPath) as $class)
         {
-            $ClassRefl = new \ReflectionClass($class);
+            $classRefl = new \ReflectionClass($class);
 
-            if ($ClassRefl->isAbstract())
+            if ($classRefl->isAbstract())
                 continue;
 
-            $parentClass = $RegistrationEvent->getParentClass();
-            $entityNameList = $RegistrationEvent->getEntityNames();
+            $parentClass = $registrationEvent->getParentClass();
+            $entityNameList = $registrationEvent->getEntityNames();
 
-            if (!$ClassRefl->isSubclassOf('Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedPluginInterface'))
+            if (!$classRefl->isSubclassOf('Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedPluginInterface'))
                 continue;
 
-            if (!$ClassRefl->isSubclassOf($parentClass))
+            if (!$classRefl->isSubclassOf($parentClass))
                 continue;
 
-            $CombinedData = $RegistrationEvent->createContainer();
-            $CombinedData->setClass($class);
-            $CombinedData->setId($class::getPluginId());
+            $combinedData = $registrationEvent->createContainer();
+            $combinedData->setClass($class);
+            $combinedData->setId($class::getPluginId());
 
             foreach ($entityNameList as $entityName)
-                $CombinedData->setSeeds($entityName, $class::getSeeds($entityName));
+                $combinedData->setSeeds($entityName, $class::getSeeds($entityName));
 
-            $RegistrationEvent->register($CombinedData, $this->priority);
+            $registrationEvent->register($combinedData, $this->priority);
         }
     }
 }

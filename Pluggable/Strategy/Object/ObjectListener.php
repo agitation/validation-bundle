@@ -17,21 +17,21 @@ use Agit\CoreBundle\Pluggable\PluggableServiceRegistrationEvent;
  */
 class ObjectListener
 {
-    private $ProcessorFactory;
+    private $processorFactory;
 
     private $parentClass;
 
-    public function __construct(ObjectProcessorFactory $ProcessorFactory, $registrationTag, $parentClass)
+    public function __construct(ObjectProcessorFactory $processorFactory, $registrationTag, $parentClass)
     {
-        $this->ProcessorFactory = $ProcessorFactory;
+        $this->processorFactory = $processorFactory;
         $this->registrationTag = $registrationTag;
         $this->parentClass = $parentClass;
     }
 
-    public function onRegistration(PluggableServiceRegistrationEvent $RegistrationEvent)
+    public function onRegistration(PluggableServiceRegistrationEvent $registrationEvent)
     {
-        $RegistrationEvent->registerProcessor(
-            $this->ProcessorFactory->create(
+        $registrationEvent->registerProcessor(
+            $this->processorFactory->create(
                 $this->registrationTag,
                 $this->parentClass
         ));

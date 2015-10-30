@@ -25,7 +25,7 @@ class LoadPluginsCommand extends AbstractCommand
     {
         if (!$this->flock(__FILE__)) return;
 
-        $PluginService = $this->getContainer()->get('agit.plugin.manager');
-        $PluginService->warmUp();
+        $pluginService = $this->getContainer()->get('agit.plugin.manager');
+        $pluginService->warmUp();
     }
 }

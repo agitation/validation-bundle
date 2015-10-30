@@ -13,15 +13,15 @@ use Doctrine\Common\Cache\CacheProvider;
 
 class CacheLoaderFactory
 {
-    private $CacheProvider;
+    private $cacheProvider;
 
-    public function __construct(CacheProvider $CacheProvider)
+    public function __construct(CacheProvider $cacheProvider)
     {
-        $this->CacheProvider = $CacheProvider;
+        $this->cacheProvider = $cacheProvider;
     }
 
     public function create($registrationTag)
     {
-        return new CacheLoader($this->CacheProvider, $registrationTag);
+        return new CacheLoader($this->cacheProvider, $registrationTag);
     }
 }

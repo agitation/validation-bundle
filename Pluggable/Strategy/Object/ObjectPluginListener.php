@@ -19,15 +19,15 @@ use Agit\CoreBundle\Exception\InternalErrorException;
  */
 class ObjectPluginListener
 {
-    private $ClassCollector;
+    private $classCollector;
 
     protected $searchPath;
 
     private $priority;
 
-    public function __construct($ClassCollector, $searchPath, $priority)
+    public function __construct($classCollector, $searchPath, $priority)
     {
-        $this->ClassCollector = $ClassCollector;
+        $this->classCollector = $classCollector;
         $this->searchPath = $searchPath;
         $this->priority = $priority;
     }
@@ -35,21 +35,21 @@ class ObjectPluginListener
     /**
      * the event listener to be used in the service configuration
      */
-    public function onRegistration(ObjectRegistrationEvent $RegistrationEvent)
+    public function onRegistration(ObjectRegistrationEvent $registrationEvent)
     {
-        foreach ($this->ClassCollector->collect($this->searchPath) as $class)
+        foreach ($this->classCollector->collect($this->searchPath) as $class)
         {
-            $ClassRefl = new \ReflectionClass($class);
-            $parentClass = $RegistrationEvent->getParentClass();
+            $classRefl = new \ReflectionClass($class);
+            $parentClass = $registrationEvent->getParentClass();
             $object = new $class();
 
-            if ($ClassRefl->isAbstract() || !($object instanceof PluginObjectInterface) || !$ClassRefl->isSubclassOf($parentClass))
+            if ($classRefl->isAbstract() || !($object instanceof PluginObjectInterface) || !$classRefl->isSubclassOf($parentClass))
                 continue;
 
-            $ObjectData = $RegistrationEvent->createContainer();
-            $ObjectData->setId($object->getId());
-            $ObjectData->setClass($class);
-            $RegistrationEvent->register($ObjectData, $this->priority);
+            $objectData = $registrationEvent->createContainer();
+            $objectData->setId($object->getId());
+            $objectData->setClass($class);
+            $registrationEvent->register($objectData, $this->priority);
         }
     }
 }

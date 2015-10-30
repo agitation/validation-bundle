@@ -17,9 +17,9 @@ use Agit\CoreBundle\Pluggable\Strategy\ProcessorInterface;
  */
 class CacheRegistrationEvent extends Event
 {
-    public function __construct(ProcessorInterface $Processor)
+    public function __construct(ProcessorInterface $processor)
     {
-        $this->Processor = $Processor;
+        $this->processor = $processor;
     }
 
     public function createContainer()
@@ -27,8 +27,8 @@ class CacheRegistrationEvent extends Event
         return new CacheData();
     }
 
-    public function register(CacheData $CacheData, $priority)
+    public function register(CacheData $cacheData, $priority)
     {
-        return $this->Processor->register($CacheData, $priority);
+        return $this->processor->register($cacheData, $priority);
     }
 }

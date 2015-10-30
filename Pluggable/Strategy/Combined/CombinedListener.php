@@ -19,9 +19,9 @@ use Agit\CoreBundle\Pluggable\Strategy\Seed\SeedProcessorFactory;
  */
 class CombinedListener
 {
-    private $ObjectProcessorFactory;
+    private $objectProcessorFactory;
 
-    private $SeedProcessorFactory;
+    private $seedProcessorFactory;
 
     private $registrationTag;
 
@@ -34,16 +34,16 @@ class CombinedListener
     private $seedUpdateExisting;
 
     public function __construct(
-        ObjectProcessorFactory $ObjectProcessorFactory,
-        SeedProcessorFactory $SeedProcessorFactory,
+        ObjectProcessorFactory $objectProcessorFactory,
+        SeedProcessorFactory $seedProcessorFactory,
         $registrationTag,
         $parentClass,
         array $entityNameList,
         $seedDeleteObsolete,
         $seedUpdateExisting)
     {
-        $this->ObjectProcessorFactory = $ObjectProcessorFactory;
-        $this->SeedProcessorFactory = $SeedProcessorFactory;
+        $this->objectProcessorFactory = $objectProcessorFactory;
+        $this->seedProcessorFactory = $seedProcessorFactory;
         $this->registrationTag = $registrationTag;
         $this->parentClass = $parentClass;
         $this->entityNameList = $entityNameList;
@@ -51,11 +51,11 @@ class CombinedListener
         $this->seedUpdateExisting = $seedUpdateExisting;
     }
 
-    public function onRegistration(PluggableServiceRegistrationEvent $RegistrationEvent)
+    public function onRegistration(PluggableServiceRegistrationEvent $registrationEvent)
     {
-        $RegistrationEvent->registerProcessor(new CombinedProcessor(
-            $this->ObjectProcessorFactory,
-            $this->SeedProcessorFactory,
+        $registrationEvent->registerProcessor(new CombinedProcessor(
+            $this->objectProcessorFactory,
+            $this->seedProcessorFactory,
             $this->registrationTag,
             $this->parentClass,
             $this->entityNameList,

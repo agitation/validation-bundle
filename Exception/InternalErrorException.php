@@ -17,9 +17,9 @@ namespace Agit\CoreBundle\Exception;
  */
 class InternalErrorException extends AgitException
 {
-    public static $Container;
+    public static $container;
 
-    protected $LoggerService;
+    protected $loggerService;
 
     private $eNum = 0;
 
@@ -33,14 +33,14 @@ class InternalErrorException extends AgitException
 
         $this->actualMessage = "InternalErrorException: $msg";
 
-        if (static::$Container)
-            $this->debug = static::$Container->getParameter('kernel.debug');
+        if (static::$container)
+            $this->debug = static::$container->getParameter('kernel.debug');
 
 //         if (!$this->debug)
-//             $this->message = $this->Translate->t("Sorry, there has been an internal error. The administrators have been notified and will fix this as soon as possible.");
+//             $this->message = $this->translate->t("Sorry, there has been an internal error. The administrators have been notified and will fix this as soon as possible.");
 
-        if (static::$Container)
-            $this->LoggerService = static::$Container->get('logger');
+        if (static::$container)
+            $this->loggerService = static::$container->get('logger');
 
         $currentE = $this;
         $prevE = null;
@@ -60,8 +60,8 @@ class InternalErrorException extends AgitException
             $e === $this ? $this->actualMessage : $e->getMessage(),
             $e->getTraceAsString());
 
-        if (!$this->debug && $this->LoggerService)
-            $this->LoggerService->err($msg);
+        if (!$this->debug && $this->loggerService)
+            $this->loggerService->err($msg);
         elseif ($this->debug)
             echo $msg;
     }

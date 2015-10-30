@@ -16,9 +16,9 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class SeedRegistrationEvent extends Event
 {
-    public function __construct(SeedProcessor $Processor)
+    public function __construct(SeedProcessor $processor)
     {
-        $this->Processor = $Processor;
+        $this->processor = $processor;
     }
 
     public function createContainer()
@@ -26,8 +26,8 @@ class SeedRegistrationEvent extends Event
         return new SeedData();
     }
 
-    public function register(SeedData $SeedData)
+    public function register(SeedData $seedData)
     {
-        return $this->Processor->register($SeedData);
+        return $this->processor->register($seedData);
     }
 }

@@ -13,9 +13,9 @@ use Symfony\Component\EventDispatcher\Event;
 
 class ObjectRegistrationEvent extends Event
 {
-    public function __construct(ObjectProcessor $Processor)
+    public function __construct(ObjectProcessor $processor)
     {
-        $this->Processor = $Processor;
+        $this->processor = $processor;
     }
 
     public function createContainer()
@@ -25,16 +25,16 @@ class ObjectRegistrationEvent extends Event
 
     public function getParentClass()
     {
-        return $this->Processor->getParentClass();
+        return $this->processor->getParentClass();
     }
 
     public function getEntityNames()
     {
-        return $this->Processor->getEntityNames();
+        return $this->processor->getEntityNames();
     }
 
-    public function register(ObjectData $ObjectData, $priority)
+    public function register(ObjectData $objectData, $priority)
     {
-        return $this->Processor->registerObject($ObjectData, $priority);
+        return $this->processor->registerObject($objectData, $priority);
     }
 }

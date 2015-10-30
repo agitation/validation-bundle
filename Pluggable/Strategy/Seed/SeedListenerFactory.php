@@ -14,15 +14,15 @@ namespace Agit\CoreBundle\Pluggable\Strategy\Seed;
  */
 class SeedListenerFactory
 {
-    protected $FileLocator;
+    protected $fileLocator;
 
-    public function __construct(SeedProcessorFactory $ProcessorFactory)
+    public function __construct(SeedProcessorFactory $processorFactory)
     {
-        $this->ProcessorFactory = $ProcessorFactory;
+        $this->processorFactory = $processorFactory;
     }
 
     public function create($entityName, $priority, $removeObsolete = false, $updateExisting = true)
     {
-        return new SeedListener($this->ProcessorFactory, $entityName, $priority, $removeObsolete, $updateExisting);
+        return new SeedListener($this->processorFactory, $entityName, $priority, $removeObsolete, $updateExisting);
     }
 }
