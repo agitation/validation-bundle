@@ -7,21 +7,25 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\ValidationBundle\Validator;
+namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
+use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
 
-class FloatValidator extends AbstractValidator
+/**
+ * @ObjectPlugin(tag="agit.validation", id="integer")
+ */
+class IntegerValidator extends AbstractValidator
 {
-    public function validate($value, $min = null, $max = null)
+    public function validate($value, $min=null, $max=null)
     {
-        if (!is_float($value) && !is_int($value))
-            throw new InvalidValueException($this->translate->t("The value must be a number."));
+        if (!is_int($value))
+            throw new InvalidValueException($this->translate->t("The value must be an integer."));
 
-        if ((is_float($min) || is_int($min)) && $value < $min)
+        if (is_int($min) && $value < $min)
             throw new InvalidValueException(sprintf($this->translate->t("The value is too low, it must be higher than %s."), $min));
 
-        if ((is_float($max) || is_int($max)) && $value > $max)
+        if (is_int($max) && $value > $max)
             throw new InvalidValueException(sprintf($this->translate->t("The value is too high, it must be lower than %s."), $max));
     }
 }

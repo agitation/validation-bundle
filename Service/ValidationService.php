@@ -11,25 +11,21 @@ namespace Agit\ValidationBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Agit\CoreBundle\Exception\InternalErrorException;
-use Agit\CoreBundle\Pluggable\Strategy\Object\ObjectLoader;
+use Agit\PluggableBundle\Strategy\Object\ObjectLoaderFactory;
 use Agit\IntlBundle\Service\Translate;
 use Agit\ValidationBundle\Exception\InvalidValueException;
 
 class ValidationService
 {
-    private $container;
-
     private $objectLoader;
 
     private $translate;
 
     private $validatorList = [];
 
-    public function __construct(ObjectLoader $objectLoader, Translate $translate, ContainerInterface $container)
+    public function __construct(ObjectLoaderFactory $objectLoaderFactory, Translate $translate)
     {
-        $this->objectLoader = $objectLoader;
-        $this->container = $container;
-        $this->objectLoader->setObjectFactory([$this, 'objectFactory']);
+        $this->objectLoader = $objectLoaderFactory->create("agit.validation");
         $this->translate = $translate;
     }
 
@@ -70,19 +66,12 @@ class ValidationService
 
     public function getValidator($id)
     {
-        return $this->objectLoader->getObject($id);
-    }
+        if (!isset($validatorList[$id]))
+        {
+            $validatorList[$id] = $this->objectLoader->getObject($id);
+            $validatorList[$id]->setValidationService($this);
+        }
 
-    public function objectFactory($id, $className)
-    {
-        $validator = new $className();
-
-        foreach ($validator->getServiceDependencies() as $depName)
-            $validator->setService($depName, $this->container->get($depName));
-
-        foreach ($validator->getValidatorDependencies() as $depName)
-            $validator->setValidator($depName, $this->getValidator($depName));
-
-        return $validator;
+        return $validatorList[$id];
     }
 }

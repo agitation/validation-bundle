@@ -7,15 +7,19 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\ValidationBundle\Validator;
+namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
+use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
 
-class LongitudeValidator extends AbstractValidator
+/**
+ * @ObjectPlugin(tag="agit.validation", id="scalar")
+ */
+class ScalarValidator extends AbstractValidator
 {
     public function validate($value)
     {
-        if ((!is_float($value) && !is_int($value)) || $value < -180 || $value > 180)
-            throw new InvalidValueException($this->translate->t("The longitude is invalid."));
+        if (!is_scalar($value))
+            throw new InvalidValueException($this->translate->t("The value must be scalar."));
     }
 }

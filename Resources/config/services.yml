@@ -2,30 +2,5 @@ services:
 
     agit.validation:
         class: Agit\ValidationBundle\Service\ValidationService
-        arguments: [@agit.validation.loader, @agit.intl.translate, @service_container]
-
-    # listening for validators to be registered
-    agit.validator.register:
-        private: true
-        class: ObjectListener
-        factory_service:  agit.pluggable.object.listener.factory
-        factory_method:   create
-        arguments: [ agit.validation, \Agit\ValidationBundle\Validator\AbstractValidator ]
-        tags: [{ name: kernel.event_listener, event: agit.pluggable, method: onRegistration }]
-
-    # retrieving the registered objects
-    agit.validation.loader:
-        private: true
-        class: ObjectLoader
-        factory_service:  agit.plugin.object.loader.factory
-        factory_method:   create
-        arguments: [ agit.validation ]
-
-    # registering our own validators
-    agit.validation.extensions:
-        private: true
-        class: ObjectPluginListener
-        factory_service:  agit.plugin.object.listener.factory
-        factory_method:   create
-        arguments: [ AgitValidationBundle:Validator ]
-        tags: [{ name: kernel.event_listener, event: agit.validation, method: onRegistration }]
+        arguments: [@agit.pluggable.object.loader_factory, @agit.intl.translate, @service_container]
+        tags: [{ name: agit.pluggable, type: object, tag: agit.validation, baseClass: Agit\ValidationBundle\Plugin\AbstractValidator }]

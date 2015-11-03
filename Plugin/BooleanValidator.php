@@ -7,10 +7,14 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\ValidationBundle\Validator;
+namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
+use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
 
+/**
+ * @ObjectPlugin(tag="agit.validation", id="boolean")
+ */
 class BooleanValidator extends AbstractValidator
 {
     public function validate($value, $acceptNull = false)
