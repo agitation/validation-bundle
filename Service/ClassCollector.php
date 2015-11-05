@@ -15,7 +15,6 @@ class ClassCollector extends FileCollector
 {
     private $resolved = [];
 
-
     /**
      * @param string $location something like `FoobarBundle:Directory:Subdir`
      */

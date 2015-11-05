@@ -9,20 +9,22 @@
 
 namespace Agit\CoreBundle\Service;
 
-use Symfony\Component\Config\FileLocator;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Finder\Finder;
 
 class FileCollector
 {
-    private $fileLocator;
+    private $kernel;
 
-    public function __construct(FileLocator $fileLocator)
+    private $namespaces;
+
+    public function __construct(Kernel $kernel)
     {
-        $this->fileLocator = $fileLocator;
+        $this->kernel = $kernel;
     }
 
     /**
-     * @param string $location, something like `FoobarBundle:Directory:Subdir`
+     * @param string $location, namespace or something like `FoobarBundle:Directory:Subdir`
      */
     public function resolve($location)
     {
@@ -30,12 +32,30 @@ class FileCollector
 
         try
         {
-            if ($location[0] !== '@')
-                $location = "@$location";
+            if (strpos($location, '\\') !== false)
+            {
+                $location = trim($location, '\\');
 
-            $path = $this->fileLocator->locate(str_replace(':', '/', $location));
+                foreach ($this->getNamespaces() as $name => $namespace)
+                {
+                    if (strpos($location, $namespace) === 0)
+                    {
+                        $location = str_replace($namespace, $name, $location);
+                        $location = str_replace('\\', '/', "@$location");
+                        $path = $this->kernel->locateResource($location);
+                        break;
+                    }
+                }
+            }
+            elseif (strpos($location, ':') !== false)
+            {
+                if ($location[0] !== '@')
+                    $location = "@$location";
+
+                $path = $this->kernel->locateResource(str_replace(':', '/', $location));
+            }
         }
-        catch (\Exception $e) {}
+        catch (\Exception $e) { }
 
         return $path;
     }
@@ -60,5 +80,18 @@ class FileCollector
         }
 
         return $files;
+    }
+
+    private function getNamespaces()
+    {
+        if (is_null($this->namespaces))
+        {
+            $this->namespaces = [];
+
+            foreach ($this->kernel->getBundles() as $name => $bundle)
+                $this->namespaces[$name] = $bundle->getNamespace();
+        }
+
+        return $this->namespaces;
     }
 }
