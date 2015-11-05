@@ -13,7 +13,7 @@ use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
 
 /**
- * @ObjectPlugin(tag="agit.validation", id="phonenumber")
+ * @ObjectPlugin(tag="agit.validation", id="phoneNumber")
  */
 class PhoneNumberValidator extends AbstractValidator
 {

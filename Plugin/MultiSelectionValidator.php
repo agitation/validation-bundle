@@ -13,7 +13,7 @@ use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
 
 /**
- * @ObjectPlugin(tag="agit.validation", id="multiselection")
+ * @ObjectPlugin(tag="agit.validation", id="multiSelection")
  */
 class MultiSelectionValidator extends AbstractValidator
 {

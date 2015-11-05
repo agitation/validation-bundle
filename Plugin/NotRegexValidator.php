@@ -13,7 +13,7 @@ use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
 
 /**
- * @ObjectPlugin(tag="agit.validation", id="notregex")
+ * @ObjectPlugin(tag="agit.validation", id="notRegex")
  */
 class NotRegexValidator extends AbstractValidator
 {
