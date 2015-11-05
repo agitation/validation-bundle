@@ -1,0 +1,31 @@
+{
+    "name": "agitation/pluggable",
+    "type": "symfony-bundle",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.9",
+        "symfony/symfony": "2.3.*",
+        "agitation/core": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Agit\\PluggableBundle\\": ""
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AGITsol GmbH",
+            "homepage": "http://www.agitsol.com/"
+        }
+    ],
+    "description": "Allows services to accept plugin registrations at build time so they are available at run time.",
+    "keywords": [
+        "agit",
+        "agitation",
+        "extendible",
+        "pluggable",
+        "plugin",
+        "tixys"
+    ]
+}
