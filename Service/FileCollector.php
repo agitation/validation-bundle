@@ -47,7 +47,7 @@ class FileCollector
                     }
                 }
             }
-            elseif (strpos($location, ':') !== false)
+            else // assuming a namespace alias in colon notation, or just a bundle name
             {
                 if ($location[0] !== '@')
                     $location = "@$location";
