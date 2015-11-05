@@ -11,88 +11,14 @@ services:
     agit.core.cache.volatile:
         class: Doctrine\Common\Cache\ApcCache
 
+    agit.core.classcollector:
+        arguments: [@kernel]
+        class: Agit\CoreBundle\Service\ClassCollector
+
+    agit.core.filecollector:
+        arguments: [@kernel]
+        class: Agit\CoreBundle\Service\FileCollector
+
     agit.core.url:
         class: Agit\CoreBundle\Service\UrlService
         arguments: [%agit.core.domain.backend%, %agit.core.domain.frontend%, %agit.core.domain.cdn%, %agit.core.url.force.https%]
-
-    agit.plugin.manager:
-        arguments: [@event_dispatcher]
-        class: Agit\CoreBundle\Pluggable\PluginService
-
-    agit.core.filecollector:
-        arguments: [@file_locator]
-        class: Agit\CoreBundle\Service\FileCollector
-
-    agit.core.classcollector:
-        arguments: [@file_locator]
-        class: Agit\CoreBundle\Service\ClassCollector
-
-    # factory services for the "cache" strategy
-
-    # cache processors
-    agit.pluggable.cache.processor.factory:
-        arguments: [@agit.core.cache.persistent]
-        class: Agit\CoreBundle\Pluggable\Strategy\Cache\CacheProcessorFactory
-
-    # event listeners for pluggable services
-    agit.pluggable.cache.listener.factory:
-        arguments: [@agit.pluggable.cache.processor.factory]
-        class: Agit\CoreBundle\Pluggable\Strategy\Cache\CacheAwareServiceListenerFactory
-
-    # cache loaders
-    agit.plugin.cache.loader.factory:
-        arguments: [@agit.core.cache.persistent]
-        class: Agit\CoreBundle\Pluggable\Strategy\Cache\CacheLoaderFactory
-
-
-    # factory services for the "seed" strategy
-
-    # seed processors
-    agit.pluggable.seed.processor.factory:
-        arguments: [@doctrine.orm.entity_manager, @validator]
-        class: Agit\CoreBundle\Pluggable\Strategy\Seed\SeedProcessorFactory
-
-    # event listeners for a pluggable service
-    agit.pluggable.seed.listener.factory:
-        arguments: [@agit.pluggable.seed.processor.factory]
-        class: Agit\CoreBundle\Pluggable\Strategy\Seed\SeedListenerFactory
-
-
-    # factory services for the "object" strategy
-
-    # event listeners for a pluggable service
-    agit.pluggable.object.listener.factory:
-        arguments: [@agit.pluggable.object.processor.factory]
-        class: Agit\CoreBundle\Pluggable\Strategy\Object\ObjectListenerFactory
-
-    # object processors
-    agit.pluggable.object.processor.factory:
-        arguments: [@agit.core.cache.persistent]
-        class: Agit\CoreBundle\Pluggable\Strategy\Object\ObjectProcessorFactory
-
-    # event listeners for plugins to a pluggable service
-    agit.plugin.object.listener.factory:
-        arguments: [@agit.core.classcollector]
-        class: Agit\CoreBundle\Pluggable\Strategy\Object\ObjectPluginListenerFactory
-
-    # object loaders
-    agit.plugin.object.loader.factory:
-        arguments: [@agit.core.cache.persistent, @service_container]
-        class: Agit\CoreBundle\Pluggable\Strategy\Object\ObjectLoaderFactory
-
-    # factory services for the "combined" strategy
-
-    # event listeners for a pluggable service
-    agit.pluggable.combined.listener.factory:
-        arguments: [@agit.pluggable.object.processor.factory, @agit.pluggable.seed.processor.factory]
-        class: Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedListenerFactory
-
-#     # combined processors
-    agit.pluggable.combined.processor.factory:
-        arguments: [@agit.core.cache.persistent]
-        class: Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedProcessorFactory
-#
-#     # event listeners for plugins to a pluggable service
-    agit.plugin.combined.listener.factory:
-        arguments: [@agit.core.classcollector]
-        class: Agit\CoreBundle\Pluggable\Strategy\Combined\CombinedPluginListenerFactory
