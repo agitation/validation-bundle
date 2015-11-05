@@ -80,7 +80,7 @@ services:
     foo.bar.foobar_service:
         class: Foo\BarBundle\FoobarService
         tags:
-            - { name: agit.pluggable, type: cache, tag: foo.bar.foobar, validator: Foo\BarBundle\FoobarPluginValidator }]
+            - { name: agit.pluggable, type: cache, tag: foo.bar.foobar, baseClass: Foo\BarBundle\Plugin\AbstractFoobarPlugin }]
             # see CachePluggableService for all available keys beside 'name', 'type' and 'tag'
 ```
 
@@ -114,31 +114,6 @@ class FoobarService
 }
 ```
 
-We can also define a validator which will process plugin entries before they are stored:
-
-```Foo/BarBundle/FoobarPluginValidator.php
-<?php
-
-namespace Foo\BarBundle;
-
-use Agit\PluggableBundle\Strategy\Cache\CacheEntry;
-use Agit\PluggableBundle\Strategy\Cache\CachePluginValidatorInterface;
-use Agit\CoreBundle\Exception\InternalErrorException;
-
-class FoobarPluginValidator implements CachePluginValidatorInterface
-{
-    private $expectedKeys = ["a", "b", "c"];
-
-    public function validateEntry(CacheEntry $cacheEntry)
-    {
-        $keys = array_keys($cacheEntry->getData());
-
-        foreach ($keys as $key)
-            if (!in_array($key, $this->expectedKeys))
-                throw new InternalErrorException("The array is missing the mandatory $key field.");
-    }
-}
-```
 
 ### Plugin
 
@@ -156,7 +131,7 @@ use Agit\PluggableBundle\Strategy\Cache\CachePluginInterface;
 /**
  * @CachePlugin(tag="foo.bar.foobar")
  */
-class FoobarPlugin implements CachePluginInterface
+class FoobarPlugin extends AbstractFoobarPlugin implements CachePluginInterface
 {
     private $entryList;
 
