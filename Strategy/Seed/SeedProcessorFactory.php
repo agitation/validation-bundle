@@ -10,7 +10,6 @@
 namespace Agit\PluggableBundle\Strategy\Seed;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Validator\Validator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Agit\PluggableBundle\Strategy\ProcessorFactoryInterface;
 use Agit\PluggableBundle\Strategy\PluggableServiceInterface;
@@ -19,14 +18,11 @@ class SeedProcessorFactory implements ProcessorFactoryInterface
 {
     private $entityManager;
 
-    private $entityValidator;
-
     private $container;
 
-    public function __construct(EntityManager $entityManager, Validator $entityValidator, ContainerInterface $container = null)
+    public function __construct(EntityManager $entityManager, ContainerInterface $container = null)
     {
         $this->entityManager = $entityManager;
-        $this->entityValidator = $entityValidator;
         $this->container = $container;
     }
 
@@ -37,6 +33,6 @@ class SeedProcessorFactory implements ProcessorFactoryInterface
 
     public function createProcessor(PluggableServiceInterface $pluggableService)
     {
-        return new SeedProcessor($this->entityManager, $this->entityValidator, $this->container, $pluggableService);
+        return new SeedProcessor($this->entityManager, $this->container, $pluggableService);
     }
 }

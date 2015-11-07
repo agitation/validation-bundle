@@ -10,7 +10,6 @@
 namespace Agit\PluggableBundle\Strategy\Seed;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Validator\Validator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ProcessorInterface;
@@ -25,8 +24,6 @@ class SeedProcessor implements ProcessorInterface
 
     private $entityManager;
 
-    private $entityValidator;
-
     private $container;
 
     private $registrationTag;
@@ -35,7 +32,6 @@ class SeedProcessor implements ProcessorInterface
 
     public function __construct(
         EntityManager $entityManager,
-        Validator $entityValidator,
         ContainerInterface $container = null,
         PluggableServiceInterface $pluggableService
     )
@@ -44,7 +40,6 @@ class SeedProcessor implements ProcessorInterface
             throw new InternalErrorException("Pluggable service must be an instance of SeedPluggableService.");
 
         $this->entityManager = $entityManager;
-        $this->entityValidator = $entityValidator;
         $this->container = $container;
     }
 
@@ -113,7 +108,6 @@ class SeedProcessor implements ProcessorInterface
                 foreach ($data as $key => $value)
                     $this->setObjectValue($entity, $key, $value, $metadata);
 
-                $this->entityValidator->validate($entity);
                 $this->entityManager->persist($entity);
             }
 

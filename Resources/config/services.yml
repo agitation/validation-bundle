@@ -45,7 +45,7 @@ services:
     agit.pluggable.seed.processor_factory:
         private: true
         class: Agit\PluggableBundle\Strategy\Seed\SeedProcessorFactory
-        arguments: [ @doctrine.orm.entity_manager, @validator, @?service_container ]
+        arguments: [ @doctrine.orm.entity_manager, @?service_container ]
         tags: [{ name: agit.pluggable.processor_factory, type: seed }]
 
     # dummy pluggable service, only there for seeds to be registered
