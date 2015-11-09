@@ -1,19 +1,19 @@
 <?php
 /**
- * @package    agitation/core
- * @link       http://github.com/agitation/AgitCoreBundle
+ * @package    agitation/common
+ * @link       http://github.com/agitation/AgitCommonBundle
  * @author     Alex Günsche <http://www.agitsol.com/>
  * @copyright  2012-2015 AGITsol GmbH
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CoreBundle\Command;
+namespace Agit\CommonBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\NullOutput;
-use Agit\CoreBundle\Exception\AgitException;
+use Agit\CommonBundle\Exception\AgitException;
 
 abstract class AbstractCommand extends ContainerAwareCommand
 {

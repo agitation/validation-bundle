@@ -1,5 +1,5 @@
 {
-    "name": "agitation/core",
+    "name": "agitation/common",
     "type": "symfony-bundle",
     "minimum-stability": "dev",
     "require": {
@@ -8,7 +8,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Agit\\CoreBundle\\": ""
+            "Agit\\CommonBundle\\": ""
         }
     },
     "license": "MIT",
@@ -18,7 +18,7 @@
             "homepage": "http://www.agitsol.com/"
         }
     ],
-    "description": "The core bundle of the Agitation framework, an extendible toolset on top of Symfony2 for e-commerce applications and backends.",
+    "description": "The common bundle of the Agitation framework, an extendible toolset on top of Symfony2 for e-commerce applications and backends.",
     "keywords": [
         "agit",
         "agitation",

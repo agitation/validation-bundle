@@ -1,24 +1,24 @@
 parameters:
-    agit.core.cachedir: %kernel.cache_dir%/agit
-    agit.core.php.version: ">=5.4.9"
-    agit.core.symfony.version: "2.3.*"
+    agit.common.cachedir: %kernel.cache_dir%/agit
+    agit.common.php.version: ">=5.4.9"
+    agit.common.symfony.version: "2.3.*"
 
 services:
-    agit.core.cache.persistent:
+    agit.common.cache.persistent:
         class: Doctrine\Common\Cache\FilesystemCache
-        arguments: [%agit.core.cachedir%]
+        arguments: [%agit.common.cachedir%]
 
-    agit.core.cache.volatile:
+    agit.common.cache.volatile:
         class: Doctrine\Common\Cache\ApcCache
 
-    agit.core.classcollector:
+    agit.common.classcollector:
         arguments: [@kernel]
-        class: Agit\CoreBundle\Service\ClassCollector
+        class: Agit\CommonBundle\Service\ClassCollector
 
-    agit.core.filecollector:
+    agit.common.filecollector:
         arguments: [@kernel]
-        class: Agit\CoreBundle\Service\FileCollector
+        class: Agit\CommonBundle\Service\FileCollector
 
-    agit.core.url:
-        class: Agit\CoreBundle\Service\UrlService
-        arguments: [%agit.core.domain.backend%, %agit.core.domain.frontend%, %agit.core.domain.cdn%, %agit.core.url.force.https%]
+    agit.common.url:
+        class: Agit\CommonBundle\Service\UrlService
+        arguments: [%agit.common.domain.backend%, %agit.common.domain.frontend%, %agit.common.domain.cdn%, %agit.common.url.force.https%]

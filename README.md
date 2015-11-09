@@ -1,40 +1,5 @@
-**Agitation** is an e-commerce framework, based on Symfony2, focussed on
-extendability through plugged-in APIs, UIs, payment modules and other
-components.
+# AgitCommonBundle
 
-## AgitCoreBundle
-
-The AgitCoreBundle is the basic bundle for all Agitation components. It defines
-some abstract classes and conventions for all Agitation-based components.
-
-### Pluggability
-
-But, more importantly, it provides the pluggability infrastructure. It works as
-follows:
-
-- Bundles can define pluggable components.
-- If a service is pluggable, it can be extended by other bundles.
-- Unlike the Symfony event mechanisms, this doesn't happen at run-time, but during cache-warming.
-- Plugins can be loaded at runtime from the cache.
-
-Take, for example, the [AgitValidationBundle](https://www.github.com/agitation/AgitValidationBundle):
-
-The bundle defines the `agit.validation` service. At the same time, it accepts
-the registration of additional validators. It uses the *object “strategy”*, which
-means that it declares a certain parent object (`AbstractValidator`), and awaits
-the registration of validator child objects.
-
-The logic for the registration is provided by this AgitCoreBundle; pluggable
-services as well as the plugins to the services can simply select a registration
-processing strategy and set it up through service configuration. Or they can
-extend the basic strategies for more advanced extendibility scenarios.
-
-### Seeds
-
-The pluggability features also allow managing “seeds”, i.e. entity values
-which are to be inserted into the database at the time of bundle installation or
-update.
-
-A good example is the [AgitLocaleDataBundle](https://www.github.com/agitation/AgitLocaleDataBundle):
-It provides (among others) an entity classes for countries, and when the plugin loader is run,
-it will populate the database with all known countries from the CLDR repository.
+The AgitCommonBundle is a Symfony2 bundle for the Agitation components. It
+contains some common classes and traits to be used by other Agitation and
+Tixys bundles.

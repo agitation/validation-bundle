@@ -1,18 +1,18 @@
 <?php
 /**
- * @package    agitation/core
- * @link       http://github.com/agitation/AgitCoreBundle
+ * @package    agitation/common
+ * @link       http://github.com/agitation/AgitCommonBundle
  * @author     Alex Günsche <http://www.agitsol.com/>
  * @copyright  2012-2015 AGITsol GmbH
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CoreBundle\Tests\Pluggable;
+namespace Agit\CommonBundle\Tests\Pluggable;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Doctrine\Common\Cache\ArrayCache;
-use Agit\CoreBundle\Pluggable\AbstractPluggableService;
-use Agit\CoreBundle\Pluggable\RegistrationData;
+use Agit\CommonBundle\Pluggable\AbstractPluggableService;
+use Agit\CommonBundle\Pluggable\RegistrationData;
 
 class AbstractCacheAwarePluggableServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +34,7 @@ class AbstractCacheAwarePluggableServiceTest extends \PHPUnit_Framework_TestCase
 
     private function createMockPluggableService($eventDispatcher, $cacheProvider)
     {
-//         $pluggableService = $this->getMockBuilder('\Agit\CoreBundle\Pluggable\AbstractCacheAwarePluggableService')
+//         $pluggableService = $this->getMockBuilder('\Agit\CommonBundle\Pluggable\AbstractCacheAwarePluggableService')
 //             ->setMethods(['getServiceTag'])
 //             ->getMock();
 //
