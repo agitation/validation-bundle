@@ -9,7 +9,7 @@
 
 namespace Agit\IntlBundle\Service;
 
-use Agit\CoreBundle\Exception\InternalErrorException;
+use Agit\CommonBundle\Exception\InternalErrorException;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Filesystem\Filesystem;
 

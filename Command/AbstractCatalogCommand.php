@@ -9,7 +9,7 @@
 
 namespace Agit\IntlBundle\Command;
 
-use Agit\CoreBundle\Command\AbstractCommand;
+use Agit\CommonBundle\Command\AbstractCommand;
 
 abstract class AbstractCatalogCommand extends AbstractCommand
 {

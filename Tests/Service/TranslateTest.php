@@ -7,7 +7,7 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CoreBundle\Tests\Intl;
+namespace Agit\CommonBundle\Tests\Intl;
 
 use Agit\IntlBundle\Translate;
 
