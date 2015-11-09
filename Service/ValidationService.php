@@ -10,7 +10,7 @@
 namespace Agit\ValidationBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Agit\CoreBundle\Exception\InternalErrorException;
+use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\Object\ObjectLoaderFactory;
 use Agit\IntlBundle\Translate;
 use Agit\ValidationBundle\Exception\InvalidValueException;

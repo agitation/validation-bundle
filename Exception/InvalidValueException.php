@@ -9,7 +9,7 @@
 
 namespace Agit\ValidationBundle\Exception;
 
-use Agit\CoreBundle\Exception\AgitException;
+use Agit\CommonBundle\Exception\AgitException;
 
 /**
  * @ExceptionCode("agit.validation.invalidvalue")

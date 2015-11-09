@@ -9,7 +9,7 @@
 
 namespace Agit\ValidationBundle\Tests;
 
-use Agit\CoreBundle\Tests\AbstractContainerAwareTest;
+use Agit\CommonBundle\Tests\AbstractContainerAwareTest;
 
 class ValidationServiceIntegrationTest extends AbstractContainerAwareTest
 {
