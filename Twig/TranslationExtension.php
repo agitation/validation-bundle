@@ -9,6 +9,8 @@
 
 namespace Agit\IntlBundle\Twig;
 
+use Agit\IntlBundle\Translate;
+
 class TranslationExtension extends \Twig_Extension
 {
     /**
