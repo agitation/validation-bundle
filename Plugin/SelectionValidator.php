@@ -11,6 +11,7 @@ namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
+use Agit\IntlBundle\Translate;
 
 /**
  * @ObjectPlugin(tag="agit.validation", id="selection")
@@ -21,9 +22,9 @@ class SelectionValidator extends AbstractValidator
     {
         if (!in_array($value, $possibleValues))
             throw new InvalidValueException(sprintf(
-                $this->translate->t("The value must be one of the following: “%s”."),
+                Translate::t("The value must be one of the following: “%s”."),
                 implode(
-                    $this->translate->x('”, “', 'quotation inside collection'),
+                    Translate::x('”, “', 'quotation inside collection'),
                     $possibleValues)
             ));
     }

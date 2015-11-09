@@ -11,6 +11,7 @@ namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
+use Agit\IntlBundle\Translate;
 
 /**
  * @ObjectPlugin(tag="agit.validation", id="string")
@@ -20,13 +21,13 @@ class StringValidator extends AbstractValidator
     public function validate($value, $minLength = null, $maxLength = null, $allowLinebreaks = false)
     {
         if (!is_string($value))
-            throw new InvalidValueException($this->translate->t("The value must be a string."));
+            throw new InvalidValueException(Translate::t("The value must be a string."));
 
         if (is_int($minLength) && strlen($value) < $minLength)
-            throw new InvalidValueException(sprintf($this->translate->t("The value is too short, it must have at least %s characters."), $minLength));
+            throw new InvalidValueException(sprintf(Translate::t("The value is too short, it must have at least %s characters."), $minLength));
 
         if (is_int($maxLength) && strlen($value) > $maxLength)
-            throw new InvalidValueException(sprintf($this->translate->t("The value is too long, it must have at most %s characters."), $maxLength));
+            throw new InvalidValueException(sprintf(Translate::t("The value is too long, it must have at most %s characters."), $maxLength));
 
         // filtering for control characters, but maybe allow \n, \r and \t
         $allowedCntrlChars = $allowLinebreaks ? [9, 10, 13] : [];
@@ -37,7 +38,7 @@ class StringValidator extends AbstractValidator
             {
                 if (!in_array(ord($match), $allowedCntrlChars))
                 {
-                    throw new InvalidValueException($this->translate->t("The value contains invalid characters."));
+                    throw new InvalidValueException(Translate::t("The value contains invalid characters."));
                 }
             }
         }

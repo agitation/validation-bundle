@@ -10,19 +10,11 @@
 namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
-use Agit\IntlBundle\Service\Translate;
 use Agit\ValidationBundle\Service\ValidationService;
 
 abstract class AbstractValidator
 {
-    protected $translate;
-
     private $validationService;
-
-    public function __construct()
-    {
-        $this->translate = new Translate();
-    }
 
     public function setValidationService(ValidationService $validationService)
     {

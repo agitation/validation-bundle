@@ -11,6 +11,7 @@ namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
+use Agit\IntlBundle\Translate;
 
 /**
  * @ObjectPlugin(tag="agit.validation", id="multiSelection")
@@ -20,13 +21,13 @@ class MultiSelectionValidator extends AbstractValidator
     public function validate($value, $possibleValues = [])
     {
         if (!is_array($value))
-            throw new InvalidValueException($this->translate->t("The value must be an array."));
+            throw new InvalidValueException(Translate::t("The value must be an array."));
 
         foreach($value as $val)
             if (!in_array($val, $possibleValues))
                 throw new InvalidValueException(sprintf(
-                    $this->translate->t("The value must be one of the following: “%s”."),
-                    implode($this->translate->x('”, “', 'quotation inside collection'),
+                    Translate::t("The value must be one of the following: “%s”."),
+                    implode(Translate::x('”, “', 'quotation inside collection'),
                     $possibleValues)
                 ));
     }

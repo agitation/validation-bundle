@@ -11,6 +11,7 @@ namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
+use Agit\IntlBundle\Translate;
 
 /**
  * @ObjectPlugin(tag="agit.validation", id="array")
@@ -20,12 +21,12 @@ class ArrayValidator extends AbstractValidator
     public function validate($value, $minLength = null, $maxLength = null)
     {
         if (!is_array($value))
-            throw new InvalidValueException($this->translate->t("The value must be an array."));
+            throw new InvalidValueException(Translate::t("The value must be an array."));
 
         if (is_int($minLength) && count($value) < $minLength)
-            throw new InvalidValueException(sprintf($this->translate->t("The list is too short, it must have at least %s elements."), $minLength));
+            throw new InvalidValueException(sprintf(Translate::t("The list is too short, it must have at least %s elements."), $minLength));
 
         if (is_int($maxLength) && count($value) > $maxLength)
-            throw new InvalidValueException(sprintf($this->translate->t("The list is too long, it must have at most %s elements."), $maxLength));
+            throw new InvalidValueException(sprintf(Translate::t("The list is too long, it must have at most %s elements."), $maxLength));
     }
 }

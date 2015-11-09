@@ -11,6 +11,7 @@ namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
+use Agit\IntlBundle\Translate;
 
 /**
  * @ObjectPlugin(tag="agit.validation", id="notNull")
@@ -20,6 +21,6 @@ class NotNullValidator extends AbstractValidator
     public function validate($value)
     {
         if (is_null($value))
-            throw new InvalidValueException($this->translate->t("The value must not be NULL."));
+            throw new InvalidValueException(Translate::t("The value must not be NULL."));
     }
 }

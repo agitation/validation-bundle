@@ -11,6 +11,7 @@ namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
+use Agit\IntlBundle\Translate;
 
 /**
  * @ObjectPlugin(tag="agit.validation", id="geolocation")
@@ -30,11 +31,11 @@ class GeolocationValidator extends AbstractValidator
             $this->getValidator('longitude')->validate($lon);
 
             if ($lat > -2 && $lat < 2 && $lon > -2 && $lon < 2)
-                throw new InvalidValueException($this->translate->t("The location is off-shore."));
+                throw new InvalidValueException(Translate::t("The location is off-shore."));
         }
         catch (InvalidValueException $e)
         {
-            throw new InvalidValueException(sprintf($this->translate->t("The geographical location is invalid: %s"), $e->getMessage()));
+            throw new InvalidValueException(sprintf(Translate::t("The geographical location is invalid: %s"), $e->getMessage()));
         }
     }
 }

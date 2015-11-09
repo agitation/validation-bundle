@@ -11,6 +11,7 @@ namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
+use Agit\IntlBundle\Translate;
 
 /**
  * @ObjectPlugin(tag="agit.validation", id="numeric")
@@ -20,9 +21,9 @@ class NumericValidator extends AbstractValidator
     public function validate($value, $positiveInt=true)
     {
         if (!is_numeric($value))
-            throw new InvalidValueException($this->translate->t("The value must be numeric."));
+            throw new InvalidValueException(Translate::t("The value must be numeric."));
 
         if ($positiveInt === true && preg_match('|[^\d]|', $value))
-            throw new InvalidValueException($this->translate->t("The value must be a positive integer number."));
+            throw new InvalidValueException(Translate::t("The value must be a positive integer number."));
     }
 }

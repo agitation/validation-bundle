@@ -11,6 +11,7 @@ namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
+use Agit\IntlBundle\Translate;
 
 /**
  * @ObjectPlugin(tag="agit.validation", id="latitude")
@@ -20,7 +21,7 @@ class LatitudeValidator extends AbstractValidator
     public function validate($value)
     {
         if ((!is_float($value) && !is_int($value)) || $value <  -90 || $value > 90)
-            throw new InvalidValueException($this->translate->t("The latitude is invalid."));
+            throw new InvalidValueException(Translate::t("The latitude is invalid."));
     }
 
 }

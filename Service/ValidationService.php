@@ -12,21 +12,18 @@ namespace Agit\ValidationBundle\Service;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Agit\CoreBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\Object\ObjectLoaderFactory;
-use Agit\IntlBundle\Service\Translate;
+use Agit\IntlBundle\Translate;
 use Agit\ValidationBundle\Exception\InvalidValueException;
 
 class ValidationService
 {
     private $objectLoader;
 
-    private $translate;
-
     private $validatorList = [];
 
-    public function __construct(ObjectLoaderFactory $objectLoaderFactory, Translate $translate)
+    public function __construct(ObjectLoaderFactory $objectLoaderFactory)
     {
         $this->objectLoader = $objectLoaderFactory->create("agit.validation");
-        $this->translate = $translate;
     }
 
     // shortcut
@@ -45,7 +42,7 @@ class ValidationService
                 [$this->getValidator($id), 'validate'],
                 array_slice(func_get_args(), 2));
         } catch(\Exception $e) {
-            throw new InvalidValueException(sprintf($this->translate->t("Invalid value for %s: %s"), $fieldName, $e->getMessage()));
+            throw new InvalidValueException(sprintf(Translate::t("Invalid value for %s: %s"), $fieldName, $e->getMessage()));
         }
     }
 
