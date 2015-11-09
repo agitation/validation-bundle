@@ -13,9 +13,6 @@ services:
         class: Agit\IntlBundle\Service\GettextService
         arguments: [Resources/data/header.po, Resources/data/plurals.json]
 
-    agit.intl.translate:
-        class: Agit\IntlBundle\Service\Translate
-
     agit.intl.locale:
         class: Agit\IntlBundle\Service\LocaleService
         arguments: [@?agit.intl.localeconfig, %agit.intl.locales%, %agit.intl.global.catalog.dir%, "agit"]
@@ -37,4 +34,3 @@ services:
     agit.intl.twig.translation:
         class: Agit\IntlBundle\Twig\TranslationExtension
         tags: [{ name: twig.extension }]
-        arguments: [@agit.intl.translate]
