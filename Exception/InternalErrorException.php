@@ -36,9 +36,6 @@ class InternalErrorException extends AgitException
         if (static::$container)
             $this->debug = static::$container->getParameter('kernel.debug');
 
-//         if (!$this->debug)
-//             $this->message = $this->translate->t("Sorry, there has been an internal error. The administrators have been notified and will fix this as soon as possible.");
-
         if (static::$container)
             $this->loggerService = static::$container->get('logger');
 
