@@ -28,7 +28,7 @@ class CronServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testParseCronTimeException($cronTime)
     {
-        $this->setExpectedException('Agit\CoreBundle\Exception\InternalErrorException');
+        $this->setExpectedException('Agit\CommonBundle\Exception\InternalErrorException');
 
         $cronService = new CronService(new EventDispatcher());
         $cronService->parseCronTime($cronTime);

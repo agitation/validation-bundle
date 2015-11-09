@@ -10,7 +10,7 @@
 namespace Agit\CronBundle\Cron;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Agit\CoreBundle\Exception\InternalErrorException;
+use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\CronBundle\Event\CronjobRegistrationEvent;
 
 class CronService
