@@ -10,7 +10,7 @@
 namespace Agit\PluggableBundle\Strategy\Entity;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Agit\CoreBundle\Exception\InternalErrorException;
+use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ProcessorInterface;
 use Agit\PluggableBundle\Strategy\PluginInterface;
 use Agit\PluggableBundle\Strategy\PluggableServiceInterface;

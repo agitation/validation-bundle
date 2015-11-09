@@ -10,7 +10,7 @@
 namespace Agit\PluggableBundle\Strategy\Object;
 
 use Doctrine\Common\Cache\CacheProvider;
-use Agit\CoreBundle\Exception\InternalErrorException;
+use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ProcessorFactoryInterface;
 use Agit\PluggableBundle\Strategy\PluggableServiceInterface;
 

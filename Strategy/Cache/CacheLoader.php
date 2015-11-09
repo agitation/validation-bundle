@@ -10,7 +10,7 @@
 namespace Agit\PluggableBundle\Strategy\Cache;
 
 use Doctrine\Common\Cache\CacheProvider;
-use Agit\CoreBundle\Exception\InternalErrorException;
+use Agit\CommonBundle\Exception\InternalErrorException;
 
 class CacheLoader
 {

@@ -3,7 +3,7 @@ services:
     # main plugin processor service
     agit.pluggable.processor:
         class: Agit\PluggableBundle\Service\ProcessorService
-        arguments: [  @kernel, @annotation_reader, @agit.core.classcollector ]
+        arguments: [  @kernel, @annotation_reader, @agit.common.classcollector ]
 
 
     #
@@ -13,12 +13,12 @@ services:
     agit.pluggable.cache.processor_factory:
         private: true
         class: Agit\PluggableBundle\Strategy\Cache\CacheProcessorFactory
-        arguments: [ @agit.core.cache.persistent, @?service_container ]
+        arguments: [ @agit.common.cache.persistent, @?service_container ]
         tags: [{ name: agit.pluggable.processor_factory, type: cache }]
 
     agit.pluggable.cache.loader_factory:
         class: Agit\PluggableBundle\Strategy\Cache\CacheLoaderFactory
-        arguments: [ @agit.core.cache.persistent ]
+        arguments: [ @agit.common.cache.persistent ]
 
 
 
@@ -29,12 +29,12 @@ services:
     agit.pluggable.object.processor_factory:
         private: true
         class: Agit\PluggableBundle\Strategy\Object\ObjectProcessorFactory
-        arguments: [ @agit.core.cache.persistent ]
+        arguments: [ @agit.common.cache.persistent ]
         tags: [{ name: agit.pluggable.processor_factory, type: object }]
 
     agit.pluggable.object.loader_factory:
         class: Agit\PluggableBundle\Strategy\Object\ObjectLoaderFactory
-        arguments: [ @agit.core.cache.persistent, @?service_container ]
+        arguments: [ @agit.common.cache.persistent, @?service_container ]
 
 
 
@@ -67,4 +67,4 @@ services:
 
     agit.pluggable.entity.loader_factory:
         class: Agit\PluggableBundle\Strategy\Entity\EntityLoaderFactory
-        arguments: [ @agit.core.cache.persistent, @doctrine.orm.entity_manager, @?service_container ]
+        arguments: [ @agit.common.cache.persistent, @doctrine.orm.entity_manager, @?service_container ]

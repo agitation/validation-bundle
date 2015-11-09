@@ -9,7 +9,7 @@
 
 namespace Agit\PluggableBundle\Strategy\Cache;
 
-use Agit\CoreBundle\Annotation\AnnotationTrait;
+use Agit\CommonBundle\Annotation\AnnotationTrait;
 use Agit\PluggableBundle\Strategy\PluginInterface;
 
 /**
