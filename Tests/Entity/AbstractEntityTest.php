@@ -9,7 +9,7 @@
 
 namespace Agit\CommonBundle\Tests\Entity;
 
-use Agit\CommonBundle\Entity\AbstractEntity;
+use Agit\CommonBundle\Entity\IdentityAwareTrait;
 
 class AbstractEntityTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class AbstractEntityTest extends \PHPUnit_Framework_TestCase
     private function createMockEntity($mockName = null)
     {
         $mockInst = $this
-            ->getMockBuilder('\Agit\CommonBundle\Entity\AbstractEntity')
+            ->getMockBuilder('\Agit\CommonBundle\Entity\IdentityAwareTrait')
             ->setMethods(['getId']);
 
         if ($mockName)
