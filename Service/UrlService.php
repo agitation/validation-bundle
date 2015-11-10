@@ -17,11 +17,10 @@ class UrlService
 
     private $protocol;
 
-    public function __construct($backendDomain, $frontendDomain, $cdnDomain, $forceHttps)
+    public function __construct($appDomain, $cdnDomain, $forceHttps)
     {
         $this->domains = [
-            'backend' => $backendDomain,
-            'frontend' => $frontendDomain,
+            'app' => $appDomain,
             'cdn' => $cdnDomain];
 
         $this->protocol = ($forceHttps || (isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] && strtolower($_SERVER['HTTPS']) !== 'off'))
@@ -29,14 +28,9 @@ class UrlService
             : 'http';
     }
 
-    public function getBackendDomain()
+    public function getAppDomain()
     {
-        return $this->domains['backend'];
-    }
-
-    public function getFrontendDomain()
-    {
-        return $this->domains['frontend'];
+        return $this->domains['app'];
     }
 
     public function getCdnDomain()
@@ -44,14 +38,9 @@ class UrlService
         return $this->domains['cdn'];
     }
 
-    public function createBackendUrl($path = '', array $params = [])
+    public function createAppUrl($path = '', array $params = [])
     {
-        return $this->createUrl('backend', $path, $params);
-    }
-
-    public function createFrontendUrl($path = '', array $params = [])
-    {
-        return $this->createUrl('frontend', $path, $params);
+        return $this->createUrl('app', $path, $params);
     }
 
     public function createCdnUrl($path = '', array $params = [])
@@ -89,7 +78,7 @@ class UrlService
             if (is_array($value))
             {
                 $key     .= "[]";
-                $urlpart  = array();
+                $urlpart  = [];
 
                 foreach ($value as $val)
                     $urlpart[] = "$key=$val";
@@ -101,7 +90,7 @@ class UrlService
                 $urlpart = "$key=$value";
             }
 
-            $url .= (strpos($url, '?') ? $amp : '?').$urlpart;
+            $url .= (strpos($url, '?') ? $amp : '?') . $urlpart;
         }
 
         return $url;

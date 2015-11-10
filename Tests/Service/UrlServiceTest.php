@@ -13,16 +13,10 @@ use Agit\CommonBundle\Service\UrlService;
 
 class UrlServiceTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetBackendDomain()
+    public function testGetAppDomain()
     {
         $urlService = $this->getServiceInstance();
-        $this->assertEquals('backend.example.com', $urlService->getBackendDomain());
-    }
-
-    public function testGetFrontendDomain()
-    {
-        $urlService = $this->getServiceInstance();
-        $this->assertEquals('frontend.example.com', $urlService->getFrontendDomain());
+        $this->assertEquals('app.example.com', $urlService->getAppDomain());
     }
 
     public function testGetCdnDomain()
@@ -31,22 +25,13 @@ class UrlServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('cdn.example.com', $urlService->getCdnDomain());
     }
 
-    public function testCreateBackendUrl()
+    public function testCreateAppUrl()
     {
         $urlService = $this->getServiceInstance();
 
         $this->assertEquals(
-            'https://backend.example.com/foo/bar?a=b&c=d',
-            $urlService->createBackendUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
-    }
-
-    public function testCreateFrontendUrl()
-    {
-        $urlService = $this->getServiceInstance();
-
-        $this->assertEquals(
-            'https://frontend.example.com/foo/bar?a=b&c=d',
-            $urlService->createFrontendUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
+            'https://app.example.com/foo/bar?a=b&c=d',
+            $urlService->createAppUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
     }
 
     public function testCreateCdnUrl()
@@ -79,6 +64,6 @@ class UrlServiceTest extends \PHPUnit_Framework_TestCase
 
     private function getServiceInstance()
     {
-        return new UrlService('backend.example.com', 'frontend.example.com', 'cdn.example.com');
+        return new UrlService('app.example.com', 'cdn.example.com', true);
     }
 }

@@ -6,19 +6,19 @@ parameters:
 services:
     agit.common.cache.persistent:
         class: Doctrine\Common\Cache\FilesystemCache
-        arguments: [%agit.common.cachedir%]
+        arguments: [ %agit.common.cachedir% ]
 
     agit.common.cache.volatile:
         class: Doctrine\Common\Cache\ApcCache
 
     agit.common.classcollector:
-        arguments: [@kernel]
+        arguments: [ @kernel ]
         class: Agit\CommonBundle\Service\ClassCollector
 
     agit.common.filecollector:
-        arguments: [@kernel]
+        arguments: [ @kernel ]
         class: Agit\CommonBundle\Service\FileCollector
 
     agit.common.url:
         class: Agit\CommonBundle\Service\UrlService
-        arguments: [%agit.common.domain.backend%, %agit.common.domain.frontend%, %agit.common.domain.cdn%, %agit.common.url.force.https%]
+        arguments: [ %agit.common.domain.app%, %agit.common.domain.cdn%, %agit.common.force.https% ]
