@@ -10,6 +10,7 @@
 namespace Agit\PluggableBundle\Strategy\Seed;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ProcessorInterface;
@@ -77,6 +78,10 @@ class SeedProcessor implements ProcessorInterface
         foreach ($this->entityList as $entityName => $seedEntryList)
         {
             $metadata = $this->entityManager->getClassMetadata($entityName);
+
+            // we need to know now if the entity usually has a generator as we will overwrite the generator below
+            $usesIdGenerator = $metadata->usesIdGenerator();
+
             $idField = $this->getIdField($metadata);
             $entityClass = $metadata->getName();
 
@@ -109,10 +114,13 @@ class SeedProcessor implements ProcessorInterface
                     $this->setObjectValue($entity, $key, $value, $metadata);
 
                 $this->entityManager->persist($entity);
+
+                // we overwrite the ID generator here, because we ALWAYS need fixed IDs
+                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
             }
 
             // remove old entries, but only for entities with natural keys
-            if (!$metadata->usesIdGenerator())
+            if (!$usesIdGenerator)
                 $this->removeObsoleteObjects($entityList);
         }
 
