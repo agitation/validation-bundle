@@ -21,6 +21,11 @@ class CachePluggableService implements PluggableServiceInterface
         return "cache";
     }
 
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
     // tag to which plugins shall register
     public $tag;
 

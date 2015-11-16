@@ -21,6 +21,11 @@ class EntityPluggableService implements PluggableServiceInterface
         return "entity";
     }
 
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
     // tag to which plugins shall register
     public $tag;
 

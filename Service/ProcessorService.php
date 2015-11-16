@@ -46,17 +46,20 @@ class ProcessorService
 
     public function addPluggableService($attributes)
     {
-        if (!is_array($attributes) || !isset($attributes['type']) || !isset($attributes['tag']))
+        if (!is_array($attributes) || !isset($attributes['type']))
             throw new InternalErrorException("The tag attributes are invalid.");
 
-        $tag = $attributes['tag'];
         $type = $attributes['type'];
         unset($attributes['type']);
+
+        $pluggableService = $this->getProcessorFactory($type)->createPluggableService($attributes);
+
+        $tag = $pluggableService->getTag();
 
         if (!isset($this->serviceTags[$tag]))
             $this->serviceTags[$tag] = [];
 
-        $this->serviceTags[$tag][] = $this->getProcessorFactory($type)->createPluggableService($attributes);
+        $this->serviceTags[$tag][] = $pluggableService;
     }
 
     public function processPlugins()
@@ -71,7 +74,7 @@ class ProcessorService
             {
                 $processor = $this->getProcessorFactory($pluggableService->getType())->createProcessor($pluggableService);
 
-                foreach ($pluginTags[$pluggableService->get('tag')] as $pluginClass => $pluginAnnotation)
+                foreach ($pluginTags[$pluggableService->getTag()] as $pluginClass => $pluginAnnotation)
                     $processor->addPlugin($pluginClass, $pluginAnnotation);
 
                 $processor->process();
@@ -108,7 +111,10 @@ class ProcessorService
 
                 if ($plugin)
                 {
-                    $tag = $plugin->get('tag');
+                    $tag = $plugin->has('tag')
+                        ? $plugin->get('tag')
+                        : get_class($plugin);
+
 
                     // parents may have their own dependencies. we support that!
                     if ($depends)

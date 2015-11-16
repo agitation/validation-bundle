@@ -51,7 +51,7 @@ services:
     # dummy pluggable service, only there for seeds to be registered
     agit.pluggable.seed:
         class: Agit\PluggableBundle\Strategy\Seed\SeedService
-        tags: [{ name: agit.pluggable, type: seed, tag: agit.pluggable.seed }]
+        tags: [{ name: agit.pluggable, type: seed }]
 
 
 

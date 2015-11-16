@@ -21,6 +21,8 @@ class SeedPluggableService implements PluggableServiceInterface
         return "seed";
     }
 
-    // do not override this unless you know what you're doing
-    public $tag = "agit.pluggable.seed";
+    public function getTag()
+    {
+        return __NAMESPACE__ . '\SeedPlugin';
+    }
 }

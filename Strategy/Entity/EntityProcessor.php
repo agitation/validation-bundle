@@ -128,7 +128,7 @@ class EntityProcessor implements ProcessorInterface
     private function createObjectPluggableService($pluggableService)
     {
         $objectPluggableService = new ObjectPluggableService();
-        $objectPluggableService->set('tag', $pluggableService->get('tag'));
+        $objectPluggableService->set('tag', $pluggableService->getTag());
         $objectPluggableService->set('baseClass', $pluggableService->get('baseClass'));
         return $objectPluggableService;
     }

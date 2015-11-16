@@ -21,6 +21,11 @@ class ObjectPluggableService implements PluggableServiceInterface
         return "object";
     }
 
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
     // tag to which plugins shall register
     public $tag;
 

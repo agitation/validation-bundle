@@ -19,9 +19,6 @@ class SeedPlugin implements PluginInterface
 {
     use AnnotationTrait;
 
-    // this tag makes sure that the SeedService will catch this plugin, do not override
-    public $tag = "agit.pluggable.seed";
-
     // the entity name for the database entries provided by this seed plugin
     public $entity;
 
