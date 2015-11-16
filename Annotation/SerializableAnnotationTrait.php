@@ -11,7 +11,7 @@ namespace Agit\CommonBundle\Annotation;
 
 use Agit\CommonBundle\Exception\InternalErrorException;
 
-trait SerializableAnnotationTrait implements \Serializable
+trait SerializableAnnotationTrait
 {
     use AnnotationTrait;
 
