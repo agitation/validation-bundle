@@ -36,6 +36,11 @@ trait AnnotationTrait
         return $options;
     }
 
+    public function has($key)
+    {
+        return (is_string($key) && strpos($key, '_') !== 0 && property_exists($this, $key));
+    }
+
     public function set($key, $value)
     {
         if (!property_exists($this, $key))

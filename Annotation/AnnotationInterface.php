@@ -17,6 +17,8 @@ interface AnnotationInterface
 
     public function getOptions();
 
+    public function has($key);
+
     public function set($key, $value);
 
     public function get($key);
