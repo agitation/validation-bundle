@@ -12,10 +12,12 @@ namespace Agit\PluggableBundle\Strategy\Object;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Cache\CacheProvider;
 use Agit\CommonBundle\Exception\InternalErrorException;
-use Agit\PluggableBundle\Strategy\ServiceAwarePluginInterface;
+use Agit\PluggableBundle\Strategy\ServiceInjectorTrait;
 
 class ObjectLoader
 {
+    use ServiceInjectorTrait;
+
     protected $objectList;
 
     private $cacheProvider;
@@ -66,18 +68,7 @@ class ObjectLoader
             $instance = new $class();
             $dependencies = $this->objectList[$id]['meta']->get('depends');
 
-            if (is_array($dependencies) && count($dependencies))
-            {
-                if (!$this->container)
-                    throw new InternalErrorException("The $class plugin needs the services container.");
-
-                if (!($instance instanceof ServiceAwarePluginInterface))
-                    throw new InternalErrorException("The $class plugin has defined dependencies and thus must implement the ServiceAwarePluginInterface.");
-
-                foreach ($dependencies as $serviceName)
-                    $instance->setService($serviceName, $this->container->get($serviceName));
-            }
-
+            $this->injectServices($instance, $dependencies);
             $this->objectList[$id]['instance'] = $instance;
         }
     }
@@ -93,5 +84,10 @@ class ObjectLoader
             foreach ($plugins as $id => $data)
                 $this->objectList[$id] = ['meta' => $data['meta'], 'class' => $data['class'], 'instance' => null];
         }
+    }
+
+    protected function getContainer()
+    {
+        return $this->container;
     }
 }
