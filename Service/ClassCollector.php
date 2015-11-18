@@ -17,21 +17,35 @@ class ClassCollector extends FileCollector
 
     /**
      * @param string $location something like `FoobarBundle:Directory:Subdir`
+     * @param bool $ignoreBrokenClasses ignore classes that are broken e.g. due to a missing parent class
      */
-    public function collect($location, $extension = 'php')
+    public function collect($location, $ignoreBrokenClasses = false)
     {
-        $files = parent::collect($location, $extension);
+        $files = parent::collect($location, 'php');
         $classes = [];
 
         foreach ($files as $file)
         {
-            $className = $this->getFullClass($file);
-            if (!$className) continue;
+            try
+            {
+                $className = $this->getFullClass($file);
+                if (!$className) continue;
 
-            $refl = new \ReflectionClass($className);
-            if ($refl->isAbstract()) continue;
+                // if broken classes should be ignored, we must suppress errors here,
+                // because spl_autoload_register() throws errors instead of exceptions.
 
-            $classes[] = $className;
+                $refl = $ignoreBrokenClasses
+                    ? @ new \ReflectionClass($className)
+                    : new \ReflectionClass($className);
+
+                if ($refl->isAbstract()) continue;
+
+                $classes[] = $className;
+            }
+            catch (\Exception $e)
+            {
+                if (!$ignoreBrokenClasses) throw $e;
+            }
         }
 
         return $classes;
