@@ -21,6 +21,12 @@ class ClassCollector extends FileCollector
      */
     public function collect($location, $ignoreBrokenClasses = false)
     {
+        // to catch broken files, we must register our own autoloader
+        // otherwise, a fatal error would be thrown.
+
+        $fallbackAutoloader = [$this, 'fallbackAutoloader'];
+        spl_autoload_register($fallbackAutoloader);
+
         $files = parent::collect($location, 'php');
         $classes = [];
 
@@ -31,16 +37,15 @@ class ClassCollector extends FileCollector
                 $className = $this->getFullClass($file);
                 if (!$className) continue;
 
-                // if broken classes should be ignored, we must suppress errors here,
-                // because spl_autoload_register() throws errors instead of exceptions.
+                $classExists = class_exists($className);
 
-                $refl = $ignoreBrokenClasses
-                    ? @ new \ReflectionClass($className)
-                    : new \ReflectionClass($className);
+                if ($classExists)
+                {
+                    $refl = new \ReflectionClass($className);
+                    if ($refl->isAbstract()) continue;
 
-                if ($refl->isAbstract()) continue;
-
-                $classes[] = $className;
+                    $classes[] = $className;
+                }
             }
             catch (\Exception $e)
             {
@@ -48,7 +53,14 @@ class ClassCollector extends FileCollector
             }
         }
 
+        spl_autoload_unregister($fallbackAutoloader);
+
         return $classes;
+    }
+
+    public function fallbackAutoloader($className)
+    {
+        throw new \Exception("Class $className could not be loaded!");
     }
 
     private function getFullClass($file)
