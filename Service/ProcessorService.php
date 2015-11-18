@@ -92,11 +92,19 @@ class ProcessorService
 
             if (!$pluginPath) continue;
 
-            $classList = $this->classCollector->collect($pluginPath);
+            // NOTE: It is possible that a plugin class extends a non-existent
+            // other class. This is not unusual, because a bundle may
+            // ship optional plugins, which are ignored if a matching
+            // pluggable component is not present.
+            //
+            // This is why we simply ignore "broken" classes when collecting.
+
+            $classList = $this->classCollector->collect($pluginPath, true);
 
             foreach ($classList as $class)
             {
                 $annotations = $this->getAllAnnotations($class);
+
                 $plugin = null;
                 $depends = null;
 
