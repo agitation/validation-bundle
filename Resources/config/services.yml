@@ -29,8 +29,19 @@ services:
         arguments: [ @filesystem ]
         tags: [{ name: kernel.event_listener, event: agit.intl.catalog.cleanup, method: onRegistration }]
 
-    # Twig extension for template text block translations
-    # (optional, no dependency on Twig, as long it's not instantiated)
+    # (Optional) Twig extension for template text block translations
     agit.intl.twig.translation:
         class: Agit\IntlBundle\Twig\TranslationExtension
         tags: [{ name: twig.extension }]
+
+    # checks if a bundle has Twig templates, and prepares them for extraction
+    agit.intl.bundle.twig.collect:
+        class: Agit\IntlBundle\EventListener\BundleTwigFilesListener
+        arguments: [ @agit.common.filecollector, @twig ]
+        tags: [{ name: kernel.event_listener, event: agit.intl.files.register, method: onRegistration }]
+
+    # cleans up temporary files
+    agit.intl.bundle.twig.cleanup:
+        parent: agit.intl.listener.files.cleanup
+        tags: [{ name: kernel.event_listener, event: agit.intl.files.cleanup, method: onRegistration }]
+
