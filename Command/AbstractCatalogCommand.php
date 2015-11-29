@@ -9,9 +9,10 @@
 
 namespace Agit\IntlBundle\Command;
 
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Agit\CommonBundle\Command\SingletonCommandTrait;
 
-abstract class AbstractCatalogCommand
+abstract class AbstractCatalogCommand extends ContainerAwareCommand
 {
     protected function summary($outputHandler, $result)
     {
