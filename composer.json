@@ -5,7 +5,7 @@
     "require": {
         "php": ">=5.4.9",
         "symfony/symfony": "2.3.*",
-        "agitation/common": "dev-master"
+        "agitation/common-bundle": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -18,14 +18,5 @@
             "name": "AGITsol GmbH",
             "homepage": "http://www.agitsol.com/"
         }
-    ],
-    "description": "Allows services to accept plugin registrations at build time so they are available at run time.",
-    "keywords": [
-        "agit",
-        "agitation",
-        "extendible",
-        "pluggable",
-        "plugin",
-        "tixys"
     ]
 }
