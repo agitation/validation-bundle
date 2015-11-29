@@ -9,11 +9,12 @@
 
 namespace Agit\CronBundle\Command;
 
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Agit\CommonBundle\Command\SingletonCommandTrait;
 
-class CronExecuteCommand
+class CronExecuteCommand extends ContainerAwareCommand
 {
     use SingletonCommandTrait;
 
