@@ -11,11 +11,12 @@ namespace Agit\CronBundle\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Agit\CommonBundle\Command\AbstractCommand;
+use Agit\CommonBundle\Command\SingletonCommandTrait;
 
-class CronExecuteCommand extends AbstractCommand
+class CronExecuteCommand
 {
+    use SingletonCommandTrait;
+
     protected function configure()
     {
         $this
