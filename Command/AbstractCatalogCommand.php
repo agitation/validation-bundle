@@ -9,9 +9,9 @@
 
 namespace Agit\IntlBundle\Command;
 
-use Agit\CommonBundle\Command\AbstractCommand;
+use Agit\CommonBundle\Command\SingletonCommandTrait;
 
-abstract class AbstractCatalogCommand extends AbstractCommand
+abstract class AbstractCatalogCommand
 {
     protected function summary($outputHandler, $result)
     {

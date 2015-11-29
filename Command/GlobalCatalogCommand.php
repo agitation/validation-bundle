@@ -12,9 +12,12 @@ namespace Agit\IntlBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Agit\CommonBundle\Command\SingletonCommandTrait;
 
 class GlobalCatalogCommand extends AbstractCatalogCommand
 {
+    use SingletonCommandTrait;
+
     private $globalLocSubdir = "Resources/translations";
 
     private $bundleCatalogSubdir = "Resources/translations";
