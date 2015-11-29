@@ -1,5 +1,5 @@
 {
-    "name": "agitation/common",
+    "name": "agitation/common-bundle",
     "type": "symfony-bundle",
     "minimum-stability": "dev",
     "require": {
