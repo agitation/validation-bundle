@@ -1,5 +1,5 @@
 {
-    "name": "agitation/pluggable",
+    "name": "agitation/pluggable-bundle",
     "type": "symfony-bundle",
     "minimum-stability": "dev",
     "require": {
