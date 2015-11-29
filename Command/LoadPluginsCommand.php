@@ -11,10 +11,12 @@ namespace Agit\PluggableBundle\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Agit\CommonBundle\Command\AbstractCommand;
+use Agit\CommonBundle\Command\SingletonCommandTrait;
 
-class LoadPluginsCommand extends AbstractCommand
+class LoadPluginsCommand
 {
+    use SingletonCommandTrait;
+
     protected function configure()
     {
         $this
