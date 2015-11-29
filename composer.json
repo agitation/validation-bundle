@@ -1,5 +1,5 @@
 {
-    "name": "agitation/intl",
+    "name": "agitation/intl-bundle",
     "type": "symfony-bundle",
     "minimum-stability": "dev",
     "require": {
