@@ -17,13 +17,5 @@
             "name": "AGITsol GmbH",
             "homepage": "http://www.agitsol.com/"
         }
-    ],
-    "description": "The common bundle of the Agitation framework, an extendible toolset on top of Symfony2 for e-commerce applications and backends.",
-    "keywords": [
-        "agit",
-        "agitation",
-        "pluggable",
-        "extendible",
-        "tixys"
     ]
 }
