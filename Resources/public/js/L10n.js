@@ -80,6 +80,10 @@ Agit.L10n =
             {
                 outString = obj.en;
             }
+            else if (Object.keys(obj).length)
+            {
+                outString = obj[Object.keys(obj)[0]];
+            }
             else
             {
                 outString = '';
