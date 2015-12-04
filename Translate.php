@@ -29,8 +29,10 @@ class Translate
         return ($translation === $contextString) ? $string : $translation;
     }
 
-    static public function u($string, $locale)
+    static public function u($string, $locale = null)
     {
+        if (!$locale) $locale = setlocale(LC_MESSAGES, 0);
+
         $lang = substr($locale, 0, 2);
         $obj = self::multilangStringToObject($string);
 
