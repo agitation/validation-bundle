@@ -21,7 +21,7 @@ trait ServiceInjectorTrait
         if (is_array($dependencies) && count($dependencies))
         {
             if (!($instance instanceof ServiceAwarePluginInterface))
-                throw new InternalErrorException("The $class plugin has defined dependencies and thus must implement the ServiceAwarePluginInterface.");
+                throw new InternalErrorException(sprintf("The %s plugin has defined dependencies and thus must implement the ServiceAwarePluginInterface.", get_class($instance)));
 
             foreach ($dependencies as $serviceName)
                 $instance->setService($serviceName, $this->getContainer()->get($serviceName));
