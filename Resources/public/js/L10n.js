@@ -11,7 +11,7 @@ Agit.L10n =
     {
         var
             string = Agit.L10n.t(origString),
-            lastpipe = string.lastIndexOf('|');
+            lastpipe = string.lastIndexOf("|");
 
         return (lastpipe === -1)
             ? string
@@ -23,7 +23,7 @@ Agit.L10n =
     {
         var
             tString = Agit.L10n.t(string),
-            parts = tString.indexOf('|') > 0 ? tString.split('|') : [tString, tString];
+            parts = tString.indexOf("|") > 0 ? tString.split("|") : [tString, tString];
 
         return (num === 1) ? parts[0] : parts[1];
     },
@@ -33,13 +33,24 @@ Agit.L10n =
         return Agit.L10n.mlStringTranslate(string, Agit.locale);
     },
 
+    mlObjToString : function(obj)
+    {
+        var string = "";
+
+        Object.keys(obj).forEach(function(key){
+            key.length === 2 && (string += "[:" + key + "]" + obj[key]);
+        });
+
+        return string;
+    },
+
     mlStringToObj : function(string)
     {
         var
-            regex = new RegExp('\\[:(?=[a-z]{2}\\])', 'g'),
+            regex = new RegExp("\\[:(?=[a-z]{2}\\])", "g"),
             obj = {};
 
-        if (typeof(string) === 'string')
+        if (typeof(string) === "string")
         {
             string.split(regex).forEach(function(part){
                 var
@@ -64,19 +75,19 @@ Agit.L10n =
             obj,
             outString = string;
 
-        if (typeof(string) === 'string' && string.match(/\[:[a-z]{2}\]/))
+        if (typeof(string) === "string" && string.match(/\[:[a-z]{2}\]/))
         {
             obj = Agit.L10n.mlStringToObj(string);
 
-            if (typeof(obj[lang]) === 'string')
+            if (typeof(obj[lang]) === "string")
             {
                 outString = obj[lang];
             }
-            else if (typeof(obj[fallbackLang]) === 'string')
+            else if (typeof(obj[fallbackLang]) === "string")
             {
                 outString = obj[fallbackLang];
             }
-            else if (typeof(obj.en) === 'string')
+            else if (typeof(obj.en) === "string")
             {
                 outString = obj.en;
             }
@@ -86,7 +97,7 @@ Agit.L10n =
             }
             else
             {
-                outString = '';
+                outString = "";
             }
         }
 
@@ -94,18 +105,18 @@ Agit.L10n =
     }
 };
 
-// console.log(Agit.L10n.mlStringTranslate('[:de]foo[:en]bar', 'de_AT')); // 'foo'
-// console.log(Agit.L10n.mlStringTranslate('[:de]foo[:en]bar', 'it_IT')); // 'foo'
-// console.log(Agit.L10n.mlStringTranslate('[:de][:en]bar', 'de_DE')); // ''
-// console.log(Agit.L10n.mlStringTranslate('[de]foo[:en]bar', 'de_DE')); // 'bar'
-// console.log(Agit.L10n.mlStringTranslate('[defoo[:en]bar', 'de_DE')); // 'bar'
-// console.log(Agit.L10n.mlStringTranslate('[:defoo[:en]bar', 'de_DE')); // 'bar'
-// console.log(Agit.L10n.mlStringTranslate('foobar', 'de_DE')); // 'foobar'
+// console.log(Agit.L10n.mlStringTranslate("[:de]foo[:en]bar", "de_AT")); // "foo"
+// console.log(Agit.L10n.mlStringTranslate("[:de]foo[:en]bar", "it_IT")); // "foo"
+// console.log(Agit.L10n.mlStringTranslate("[:de][:en]bar", "de_DE")); // ""
+// console.log(Agit.L10n.mlStringTranslate("[de]foo[:en]bar", "de_DE")); // "bar"
+// console.log(Agit.L10n.mlStringTranslate("[defoo[:en]bar", "de_DE")); // "bar"
+// console.log(Agit.L10n.mlStringTranslate("[:defoo[:en]bar", "de_DE")); // "bar"
+// console.log(Agit.L10n.mlStringTranslate("foobar", "de_DE")); // "foobar"
 //
-// console.log(Agit.L10n.mlStringToObj('[:de]foo[:en]bar')); // { de : "foo", en : "bar" }
-// console.log(Agit.L10n.mlStringToObj('[:de]foo[:en]bar')); // { de : "foo", en : "bar" }
-// console.log(Agit.L10n.mlStringToObj('[:de][:en]bar')); // { de : "", en : "bar" }
-// console.log(Agit.L10n.mlStringToObj('[de]foo[:en]bar')); // { en : "bar" }
-// console.log(Agit.L10n.mlStringToObj('[defoo[:en]bar')); // { en : "bar" }
-// console.log(Agit.L10n.mlStringToObj('[:defoo[:en]bar')); // { en : "bar" }
-// console.log(Agit.L10n.mlStringToObj('foobar')); // { }
+// console.log(Agit.L10n.mlStringToObj("[:de]foo[:en]bar")); // { de : "foo", en : "bar" }
+// console.log(Agit.L10n.mlStringToObj("[:de]foo[:en]bar")); // { de : "foo", en : "bar" }
+// console.log(Agit.L10n.mlStringToObj("[:de][:en]bar")); // { de : "", en : "bar" }
+// console.log(Agit.L10n.mlStringToObj("[de]foo[:en]bar")); // { en : "bar" }
+// console.log(Agit.L10n.mlStringToObj("[defoo[:en]bar")); // { en : "bar" }
+// console.log(Agit.L10n.mlStringToObj("[:defoo[:en]bar")); // { en : "bar" }
+// console.log(Agit.L10n.mlStringToObj("foobar")); // { }
