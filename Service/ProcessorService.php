@@ -74,7 +74,7 @@ class ProcessorService
             {
                 $processor = $this->getProcessorFactory($pluggableService->getType())->createProcessor($pluggableService);
 
-                foreach ($pluginTags[$pluggableService->getTag()] as $pluginClass => $pluginAnnotation)
+                foreach ($pluginTags[$tag] as $pluginClass => $pluginAnnotation)
                     $processor->addPlugin($pluginClass, $pluginAnnotation);
 
                 $processor->process();
@@ -119,12 +119,33 @@ class ProcessorService
 
                 if ($plugin)
                 {
-                    $tag = $plugin->has('tag')
-                        ? $plugin->get('tag')
-                        : get_class($plugin);
+                    $tag = null;
 
+                    if ($plugin->has('tag'))
+                    {
+                        $tag = $plugin->get('tag');
+                    }
+                    else
+                    {
+                        // if the strategy is tag-less (i.e. class based), we will try to find a
+                        // matching (parent) class from the registered services
+                        $pluginClass = get_class($plugin);
 
-                    // parents may have their own dependencies. we support that!
+                        while (!$tag && class_exists($pluginClass))
+                        {
+                            if (isset($this->serviceTags[$pluginClass]))
+                            {
+                                $tag = $pluginClass;
+                                break;
+                            }
+
+                            $pluginClass = get_parent_class($pluginClass);
+                        }
+                    }
+
+                    if (!$tag) continue;
+
+                    // add inherited dependecies
                     if ($depends)
                         $plugin->set('depends', array_merge($plugin->get('depends'), $depends->get('value')));
 
