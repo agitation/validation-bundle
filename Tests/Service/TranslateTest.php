@@ -39,7 +39,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultilangStringToObject($string, $expected)
     {
-        $this->assertEquals($expected, Translate::multilangStringToObject($string));
+        $this->assertEquals($expected, Translate::multilangStringToArray($string));
 
     }
 
@@ -54,12 +54,12 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function providerTestMultilangStringToObject()
     {
         return [
-            ['[:de]irgendwas[:en]something', (object)['de' => 'irgendwas', 'en'=>'something']],
-            ['[:de][:en]something', (object)['de' => '', 'en'=>'something']],
-            ['[de]irgendwas[:en]something', (object)[]],
-            ['[deirgendwas[:en]something', (object)[]],
-            ['[:deirgendwas[:en]something', (object)[]],
-            ['something', (object)[]]
+            ['[:de]irgendwas[:en]something', ['de' => 'irgendwas', 'en'=>'something']],
+            ['[:de][:en]something', ['de' => '', 'en'=>'something']],
+            ['[de]irgendwas[:en]something', []],
+            ['[deirgendwas[:en]something', []],
+            ['[:deirgendwas[:en]something', []],
+            ['something', []]
         ];
     }
 
@@ -67,6 +67,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['[:de]irgendwas[:en]something', 'de_DE', 'irgendwas'],
+            ['[:de]irgendwas', 'de_DE', 'irgendwas'],
             ['[:de][:en]something', 'de_DE', ''],
             ['[de]irgendwas[:en]something', 'de_DE', '[de]irgendwas[:en]something'],
             ['[:de]irgendwas[:en]something', 'fr_FR', 'something'],

@@ -34,12 +34,14 @@ class Translate
         if (!$locale) $locale = setlocale(LC_MESSAGES, 0);
 
         $lang = substr($locale, 0, 2);
-        $obj = self::multilangStringToObject($string);
+        $array = self::multilangStringToArray($string);
 
-        if (isset($obj->$lang))
-            $newString = $obj->$lang;
-        elseif (isset($obj->en))
-            $newString = $obj->en;
+        if (isset($array[$lang]))
+            $newString = $array[$lang];
+        elseif (isset($array["en"]))
+            $newString = $array["en"];
+        elseif (count($array))
+            $newString = reset($array);
         else
             $newString = $string;
 
@@ -71,13 +73,13 @@ class Translate
         return $string;
     }
 
-    static public function multilangStringToObject($string)
+    static public function multilangStringToArray($string)
     {
-        $obj = new \stdClass;
+        $array = [];
 
-        if (strpos($string, '[:') !== false && preg_match('|^\[:[a-z]{2}\]|', $string))
+        if (strpos($string, "[:") !== false && preg_match("|^\[:[a-z]{2}\]|", $string))
         {
-            $stringarray = preg_split('|\[:([a-z]{2})\]|', $string, -1, PREG_SPLIT_DELIM_CAPTURE);
+            $stringarray = preg_split("|\[:([a-z]{2})\]|", $string, -1, PREG_SPLIT_DELIM_CAPTURE);
 
             // throw away (empty) first element and renumber.
             // NOTE: we can't use PREG_SPLIT_NO_EMPTY above, because it would break empty translations.
@@ -86,20 +88,18 @@ class Translate
 
             if (is_array($stringarray) && count($stringarray) >= 2)
                 foreach ($stringarray as $k=>$v)
-                    if (!($k%2) && $v && isset($stringarray[$k+1]))
-                        $obj->$v = $stringarray[$k+1];
-
-
+                    if (!($k % 2) && $v && isset($stringarray[$k + 1]))
+                        $array[$v] = $stringarray[$k + 1];
         }
 
-        return $obj;
+        return $array;
     }
 
-    static public function multilangObjectToString(\stdClass $object)
+    static public function multilangArrayToString(array $array)
     {
-        $string = '';
+        $string = "";
 
-        foreach((array)$object as $lang=>$text)
+        foreach($array as $lang => $text)
             $string .= "[:$lang]$text";
 
         return $string;
