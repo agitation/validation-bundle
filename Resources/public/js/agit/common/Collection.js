@@ -1,6 +1,5 @@
 agit.ns("agit.common");
 
-
 agit.common.Collection = function(list, options)
 {
     var
@@ -70,10 +69,12 @@ agit.common.Collection = function(list, options)
 
     self.sort = function(field, callback)
     {
+        var formatService = agit.srv("format");
+
         field = field || "name";
 
         return self.getList().sort(callback || function(elem1, elem2){
-            return Agit.out(elem1[field]).localeCompare(Agit.out(elem2[field]));
+            return formatService.out(elem1[field]).localeCompare(formatService.out(elem2[field]));
         });
     };
 
