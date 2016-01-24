@@ -1,18 +1,14 @@
-agit.ns("agit.api");
+agit.ns("agit.common");
 
-agit.api.MessageHandler = function()
-{
-    /**
-     * If the handler shows multiple messages at once, this
-     * method clears/removes the currently shown messages.
-     *
-     * If the category parameter is passed, only messages of that
-     * category are cleared.
-     */
-    this.clear = function(category) { },
+(function(){
+    var msgH = function() { };
 
-    this.showMessage = function(message)
+    msgH.prototype.clear = function(category) { };
+
+    msgH.prototype.showMessage = function(message)
     {
         alert(message.getText());
-    }
-};
+    };
+
+    agit.common.MessageHandler = msgH;
+})();
