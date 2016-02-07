@@ -10,5 +10,11 @@ agit.ns("agit.common");
         alert(message.getText());
     };
 
+    msgH.prototype.alert = function(text, type, category)
+    {
+        this.clear(category);
+        this.showMessage(new agit.common.Message(text, type || "error", category));
+    };
+
     agit.common.MessageHandler = msgH;
 })();
