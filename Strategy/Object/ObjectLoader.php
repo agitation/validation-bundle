@@ -85,9 +85,4 @@ class ObjectLoader
                 $this->objectList[$id] = ['meta' => $data['meta'], 'class' => $data['class'], 'instance' => null];
         }
     }
-
-    protected function getContainer()
-    {
-        return $this->container;
-    }
 }

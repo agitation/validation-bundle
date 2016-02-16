@@ -11,10 +11,19 @@ namespace Agit\PluggableBundle\Strategy;
 
 use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ServiceAwarePluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait ServiceInjectorTrait
 {
-    abstract protected function getContainer();
+    // expects $this->container to be set. Override this method if you're
+    // getting the container from somewhere else.
+    protected function getContainer()
+    {
+        if (!isset($this->container) || !($this->container instanceof ContainerInterface))
+            throw new InternalErrorException(sprintf("The %s class must either have a `container` property or override the `getContainer` method.", __CLASS__));
+
+        return $this->container;
+    }
 
     protected function injectServices($instance, $dependencies)
     {
