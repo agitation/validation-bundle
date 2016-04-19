@@ -13,18 +13,18 @@ use Agit\CommonBundle\Exception\InternalErrorException;
 
 trait ServiceAwarePluginTrait
 {
-    private $serviceList = [];
+    private $services = [];
 
     public function setService($name, $instance)
     {
-        $this->serviceList[$name] = $instance;
+        $this->services[$name] = $instance;
     }
 
     protected function getService($name)
     {
-        if (!isset($this->serviceList[$name]) || !is_object($this->serviceList[$name]))
+        if (!isset($this->services[$name]) || !is_object($this->services[$name]))
             throw new InternalErrorException("Service `$name` was not injected.");
 
-        return $this->serviceList[$name];
+        return $this->services[$name];
     }
 }

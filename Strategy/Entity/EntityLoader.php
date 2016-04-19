@@ -44,6 +44,6 @@ class EntityLoader extends ObjectLoader
         parent::loadObject($id);
 
         $entity = $this->entityManager->find($this->entityName, $id);
-        $this->objectList[$id]['instance']->setEntity($entity);
+        $this->objects[$id]['instance']->setEntity($entity);
     }
 }

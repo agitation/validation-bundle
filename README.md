@@ -133,7 +133,7 @@ use Agit\PluggableBundle\Strategy\Cache\CachePluginInterface;
  */
 class FoobarPlugin extends AbstractFoobarPlugin implements CachePluginInterface
 {
-    private $entryList;
+    private $entries;
 
     public function load()
     {
@@ -142,13 +142,13 @@ class FoobarPlugin extends AbstractFoobarPlugin implements CachePluginInterface
             $cacheEntry = new CacheEntry();
             $cacheEntry->setId($key);
             $cacheEntry->setData($item);
-            $this->entryList[] = $cacheEntry;
+            $this->entries[] = $cacheEntry;
         }
     }
 
     public function nextCacheEntry()
     {
-        return array_shift($this->entryList);
+        return array_shift($this->entries);
     }
 
     private function getList()

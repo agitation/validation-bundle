@@ -99,9 +99,9 @@ class ProcessorService
             //
             // This is why we simply ignore "broken" classes when collecting.
 
-            $classList = $this->classCollector->collect($pluginPath, true);
+            $classes = $this->classCollector->collect($pluginPath, true);
 
-            foreach ($classList as $class)
+            foreach ($classes as $class)
             {
                 $annotations = $this->getAllAnnotations($class);
 
@@ -168,7 +168,7 @@ class ProcessorService
         return $this->processorFactories[$type];
     }
 
-    // gets all annotations from a class, its traits, its parents and their traits (in this order)
+    // getList all annotations from a class, its traits, its parents and their traits (in this order)
     private function getAllAnnotations($class)
     {
         $classRefl = new \ReflectionClass($class);

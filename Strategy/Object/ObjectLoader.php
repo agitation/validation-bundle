@@ -18,7 +18,7 @@ class ObjectLoader
 {
     use ServiceInjectorTrait;
 
-    protected $objectList;
+    protected $objects;
 
     private $cacheProvider;
 
@@ -36,20 +36,20 @@ class ObjectLoader
     public function getObject($id)
     {
         $this->loadObject($id);
-        return $this->objectList[$id]['instance'];
+        return $this->objects[$id]['instance'];
     }
 
     public function getAllObjects()
     {
         $list = [];
-        $this->loadObjectList();
+        $this->loadObjects();
 
-        foreach ($this->objectList as $id => $data)
+        foreach ($this->objects as $id => $data)
         {
             if (!isset($data['instance']))
                 $this->loadObject($id);
 
-            $list[] = $this->objectList[$id]['instance'];
+            $list[] = $this->objects[$id]['instance'];
         }
 
         return $list;
@@ -57,32 +57,32 @@ class ObjectLoader
 
     protected function loadObject($id)
     {
-        $this->loadObjectList();
+        $this->loadObjects();
 
-        if (!isset($this->objectList[$id]))
+        if (!isset($this->objects[$id]))
             throw new InternalErrorException("An object with the identifier '$id' has not been registered.");
 
-        if (!isset($this->objectList[$id]['instance']))
+        if (!isset($this->objects[$id]['instance']))
         {
-            $class = $this->objectList[$id]['class'];
+            $class = $this->objects[$id]['class'];
             $instance = new $class();
-            $dependencies = $this->objectList[$id]['meta']->get('depends');
+            $dependencies = $this->objects[$id]['meta']->get('depends');
 
             $this->injectServices($instance, $dependencies);
-            $this->objectList[$id]['instance'] = $instance;
+            $this->objects[$id]['instance'] = $instance;
         }
     }
 
-    protected function loadObjectList()
+    protected function loadObjects()
     {
-        if (is_null($this->objectList))
+        if (is_null($this->objects))
         {
-            $this->objectList = [];
+            $this->objects = [];
 
             $plugins = $this->cacheProvider->fetch($this->registrationTag) ?: [];
 
             foreach ($plugins as $id => $data)
-                $this->objectList[$id] = ['meta' => $data['meta'], 'class' => $data['class'], 'instance' => null];
+                $this->objects[$id] = ['meta' => $data['meta'], 'class' => $data['class'], 'instance' => null];
         }
     }
 }

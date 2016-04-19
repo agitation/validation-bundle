@@ -30,7 +30,7 @@ class CacheProcessor implements ProcessorInterface
 
     private $registrationTag;
 
-    private $entryList = [];
+    private $entries = [];
 
     public function __construct(CacheProvider $cacheProvider, ContainerInterface $container = null, PluggableServiceInterface $pluggableService)
     {
@@ -49,12 +49,12 @@ class CacheProcessor implements ProcessorInterface
         $instance->load();
 
         while ($cacheEntry = $instance->nextCacheEntry())
-            $this->entryList[$cacheEntry->getId()] = $cacheEntry->getData();
+            $this->entries[$cacheEntry->getId()] = $cacheEntry->getData();
     }
 
     public function process()
     {
-        $this->cacheProvider->save($this->registrationTag, $this->entryList);
+        $this->cacheProvider->save($this->registrationTag, $this->entries);
     }
 
     protected function getContainer()

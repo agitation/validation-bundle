@@ -97,17 +97,17 @@ class EntityProcessor implements ProcessorInterface
 
         foreach ($this->entities as $entityName)
         {
-            $entryList = [];
+            $entries = [];
 
             while ($entry = $instance->nextSeedEntry($entityName))
-                $entryList[] = $entry;
+                $entries[] = $entry;
 
-            if (count($entryList))
+            if (count($entries))
             {
                 // this may seem a bit confusing: EntitySeedPlugin is our implementation of
                 // SeedPluginInterface while SeedPlugin is an annotation class of the Seed strategy.
 
-                $seedPluginImpl = new EntitySeedPlugin($entryList, $pluginMeta);
+                $seedPluginImpl = new EntitySeedPlugin($entries, $pluginMeta);
                 $seedPluginMeta = new SeedPlugin(["entity" => $entityName]);
                 $this->seedProcessor->addPlugin($seedPluginImpl, $seedPluginMeta);
             }

@@ -29,7 +29,7 @@ class SeedProcessor implements ProcessorInterface
 
     private $registrationTag;
 
-    private $entityList = [];
+    private $entities = [];
 
     public function __construct(
         EntityManager $entityManager,
@@ -52,10 +52,10 @@ class SeedProcessor implements ProcessorInterface
 
         while ($seedEntry = $instance->nextSeedEntry())
         {
-            if (!isset($this->entityList[$entityName]))
-                $this->entityList[$entityName] = [];
+            if (!isset($this->entities[$entityName]))
+                $this->entities[$entityName] = [];
 
-            $this->entityList[$entityName][] = $seedEntry;
+            $this->entities[$entityName][] = $seedEntry;
         }
     }
 
@@ -75,7 +75,7 @@ class SeedProcessor implements ProcessorInterface
         $entityClasses = $this->entityManager->getConfiguration()
             ->getMetadataDriverImpl()->getAllClassNames();
 
-        foreach ($this->entityList as $entityName => $seedEntryList)
+        foreach ($this->entities as $entityName => $seedEntries)
         {
             $metadata = $this->entityManager->getClassMetadata($entityName);
 
@@ -89,19 +89,19 @@ class SeedProcessor implements ProcessorInterface
             if (!in_array($entityClass, $entityClasses))
                 continue;
 
-            $entityList = $this->getExistingObjects($entityName, $idField, $metadata);
+            $entities = $this->getExistingObjects($entityName, $idField, $metadata);
 
-            foreach ($seedEntryList as $seedEntry)
+            foreach ($seedEntries as $seedEntry)
             {
                 $data = $seedEntry->getData();
 
                 if (!isset($data[$idField]))
                     throw new InternalErrorException("The seed data for $entityClass is missing the mandatory '$idField' field.");
 
-                if (isset($entityList[$data[$idField]]))
+                if (isset($entities[$data[$idField]]))
                 {
-                    $entity = $entityList[$data[$idField]];
-                    unset($entityList[$data[$idField]]);
+                    $entity = $entities[$data[$idField]];
+                    unset($entities[$data[$idField]]);
 
                     if (!$seedEntry->doUpdate()) continue;
                 }
@@ -121,7 +121,7 @@ class SeedProcessor implements ProcessorInterface
 
             // remove old entries, but only for entities with natural keys
             if (!$usesIdGenerator)
-                $this->removeObsoleteObjects($entityList);
+                $this->removeObsoleteObjects($entities);
         }
 
         $this->entityManager->flush();
@@ -129,22 +129,22 @@ class SeedProcessor implements ProcessorInterface
 
     private function getExistingObjects($entityName, $idField, $metadata)
     {
-        $entityList = [];
+        $entities = [];
 
         foreach ($this->entityManager->getRepository($entityName)->findAll() as $entity)
-            $entityList[$metadata->getFieldValue($entity, $idField)] = $entity;
+            $entities[$metadata->getFieldValue($entity, $idField)] = $entity;
 
-        return $entityList;
+        return $entities;
     }
 
     private function getIdField($metadata)
     {
-        $idFieldList = $metadata->getIdentifier();
+        $idFields = $metadata->getIdentifier();
 
-        if (!is_array($idFieldList) || count($idFieldList) !== 1)
+        if (!is_array($idFields) || count($idFields) !== 1)
             throw new InternalErrorException("Seed entities must have exactly one ID field.");
 
-        return reset($idFieldList);
+        return reset($idFields);
     }
 
     private function setObjectValue($entity, $key, $value, $metadata)
@@ -156,9 +156,9 @@ class SeedProcessor implements ProcessorInterface
         $metadata->setFieldValue($entity, $key, $value);
     }
 
-    private function removeObsoleteObjects($entityList)
+    private function removeObsoleteObjects($entities)
     {
-        foreach ($entityList as $entity)
+        foreach ($entities as $entity)
             $this->entityManager->remove($entity);
     }
 }
