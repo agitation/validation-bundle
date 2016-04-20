@@ -12,8 +12,6 @@ namespace Agit\ValidationBundle\Exception;
 use Agit\CommonBundle\Exception\AgitException;
 
 /**
- * @ExceptionCode("agit.validation.invalidvalue")
- *
  * The validation of a value has failed, see the message field for details.
  */
 class InvalidValueException extends AgitException { }
