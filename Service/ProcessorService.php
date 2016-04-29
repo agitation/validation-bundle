@@ -188,6 +188,21 @@ class ProcessorService
                 $annotations = array_merge($annotations, $this->annotationReader->getClassAnnotations($traitRefl));
         }
 
+        // merge dependecies
+        $dependencies = [];
+
+        foreach ($annotations as $k => $annotation)
+        {
+            if ($annotation instanceof Depends)
+            {
+                $dependencies = array_merge($dependencies, $annotation->get("value"));
+                unset($annotations[$k]);
+            }
+        }
+
+        if ($dependencies)
+            $annotations[] = new Depends(["value" => $dependencies]);
+
         return $annotations;
     }
 }
