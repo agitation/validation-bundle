@@ -30,4 +30,9 @@ class StringHelper
 
         return $string;
     }
+
+    static public function generateCompositeCode($id, $code, $padding = 7, $prefix = "")
+    {
+        return $prefix . sprintf("%0{$padding}d-%s", $id, $code);
+    }
 }
