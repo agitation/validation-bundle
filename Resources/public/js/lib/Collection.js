@@ -1,4 +1,4 @@
-ag.ns("agit.common");
+ag.ns("ag.common");
 
 ag.common.Collection = function(list, options)
 {
