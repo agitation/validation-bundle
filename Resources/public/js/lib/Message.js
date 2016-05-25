@@ -1,7 +1,7 @@
-agit.ns("agit.common");
+ag.ns("agit.common");
 
 
-agit.common.Message = function(text, type, category)
+ag.common.Message = function(text, type, category)
 {
     type = type || 'info';
     category = category || '';

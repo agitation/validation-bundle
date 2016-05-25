@@ -1,4 +1,4 @@
-agit.ns("agit.common");
+ag.ns("agit.common");
 
 (function(){
     var msgH = function() { };
@@ -13,8 +13,8 @@ agit.ns("agit.common");
     msgH.prototype.alert = function(text, type, category)
     {
         this.clear(category);
-        this.showMessage(new agit.common.Message(text, type || "error", category));
+        this.showMessage(new ag.common.Message(text, type || "error", category));
     };
 
-    agit.common.MessageHandler = msgH;
+    ag.common.MessageHandler = msgH;
 })();
