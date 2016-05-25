@@ -1,6 +1,6 @@
 ag.ns("ag");
 
-agit.intl =
+ag.intl =
 {
     t : function(_string)
     {
@@ -12,7 +12,7 @@ agit.intl =
     tc : function(origString)
     {
         var
-            string = agit.intl.t(origString),
+            string = ag.intl.t(origString),
             lastpipe = string.lastIndexOf("|");
 
         return (lastpipe === -1)
@@ -24,7 +24,7 @@ agit.intl =
     tn : function(string, num)
     {
         var
-            tString = agit.intl.t(string),
+            tString = ag.intl.t(string),
             parts = tString.indexOf("|") > 0 ? tString.split("|") : [tString, tString];
 
         return (num === 1) ? parts[0] : parts[1];
@@ -32,7 +32,7 @@ agit.intl =
 
     u : function(string) // just a shortcut
     {
-        return agit.intl.mlStringTranslate(string, agit.cfg.locale);
+        return ag.intl.mlStringTranslate(string, ag.cfg.locale);
     },
 
     mlObjToString : function(obj)
@@ -73,13 +73,13 @@ agit.intl =
     {
         var
             lang = locale.substr(0, 2),
-            fallbackLang = agit.cfg.locale.substr(0, 2),
+            fallbackLang = ag.cfg.locale.substr(0, 2),
             obj,
             outString = string;
 
         if (typeof(string) === "string" && string.match(/\[:[a-z]{2}\]/))
         {
-            obj = agit.intl.mlStringToObj(string);
+            obj = ag.intl.mlStringToObj(string);
 
             if (typeof(obj[lang]) === "string")
             {
@@ -107,18 +107,18 @@ agit.intl =
     }
 };
 
-// console.log(agit.intl.mlStringTranslate("[:de]foo[:en]bar", "de_AT")); // "foo"
-// console.log(agit.intl.mlStringTranslate("[:de]foo[:en]bar", "it_IT")); // "foo"
-// console.log(agit.intl.mlStringTranslate("[:de][:en]bar", "de_DE")); // ""
-// console.log(agit.intl.mlStringTranslate("[de]foo[:en]bar", "de_DE")); // "bar"
-// console.log(agit.intl.mlStringTranslate("[defoo[:en]bar", "de_DE")); // "bar"
-// console.log(agit.intl.mlStringTranslate("[:defoo[:en]bar", "de_DE")); // "bar"
-// console.log(agit.intl.mlStringTranslate("foobar", "de_DE")); // "foobar"
+// console.log(ag.intl.mlStringTranslate("[:de]foo[:en]bar", "de_AT")); // "foo"
+// console.log(ag.intl.mlStringTranslate("[:de]foo[:en]bar", "it_IT")); // "foo"
+// console.log(ag.intl.mlStringTranslate("[:de][:en]bar", "de_DE")); // ""
+// console.log(ag.intl.mlStringTranslate("[de]foo[:en]bar", "de_DE")); // "bar"
+// console.log(ag.intl.mlStringTranslate("[defoo[:en]bar", "de_DE")); // "bar"
+// console.log(ag.intl.mlStringTranslate("[:defoo[:en]bar", "de_DE")); // "bar"
+// console.log(ag.intl.mlStringTranslate("foobar", "de_DE")); // "foobar"
 //
-// console.log(agit.intl.mlStringToObj("[:de]foo[:en]bar")); // { de : "foo", en : "bar" }
-// console.log(agit.intl.mlStringToObj("[:de]foo[:en]bar")); // { de : "foo", en : "bar" }
-// console.log(agit.intl.mlStringToObj("[:de][:en]bar")); // { de : "", en : "bar" }
-// console.log(agit.intl.mlStringToObj("[de]foo[:en]bar")); // { en : "bar" }
-// console.log(agit.intl.mlStringToObj("[defoo[:en]bar")); // { en : "bar" }
-// console.log(agit.intl.mlStringToObj("[:defoo[:en]bar")); // { en : "bar" }
-// console.log(agit.intl.mlStringToObj("foobar")); // { }
+// console.log(ag.intl.mlStringToObj("[:de]foo[:en]bar")); // { de : "foo", en : "bar" }
+// console.log(ag.intl.mlStringToObj("[:de]foo[:en]bar")); // { de : "foo", en : "bar" }
+// console.log(ag.intl.mlStringToObj("[:de][:en]bar")); // { de : "", en : "bar" }
+// console.log(ag.intl.mlStringToObj("[de]foo[:en]bar")); // { en : "bar" }
+// console.log(ag.intl.mlStringToObj("[defoo[:en]bar")); // { en : "bar" }
+// console.log(ag.intl.mlStringToObj("[:defoo[:en]bar")); // { en : "bar" }
+// console.log(ag.intl.mlStringToObj("foobar")); // { }
