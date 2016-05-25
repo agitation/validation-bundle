@@ -1,7 +1,7 @@
 (function(){
     var services = {};
 
-    window.agit =
+    window.ag =
     {
         // this method will be used at the top of each namespaced file to create the namespace on the fly
         ns : function(namespace)
@@ -29,4 +29,3 @@
         }
     };
 })();
-
