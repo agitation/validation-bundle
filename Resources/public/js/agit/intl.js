@@ -1,4 +1,4 @@
-agit.ns("agit");
+ag.ns("ag");
 
 agit.intl =
 {
