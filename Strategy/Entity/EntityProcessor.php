@@ -9,6 +9,7 @@
 
 namespace Agit\PluggableBundle\Strategy\Entity;
 
+use Agit\PluggableBundle\Strategy\Seed\SimpleSeedPlugin;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ProcessorInterface;
@@ -53,10 +54,10 @@ class EntityProcessor implements ProcessorInterface
         if (!($pluggableService instanceof EntityPluggableService))
             throw new InternalErrorException("Pluggable $class must be an instance of EntityPluggableService.");
 
-        $this->registrationTag = $pluggableService->get('tag');
+        $this->registrationTag = $pluggableService->get("tag");
         $this->container = $container;
-        $this->baseClass = $pluggableService->get('baseClass');
-        $this->entities = $pluggableService->get('entity');
+        $this->baseClass = $pluggableService->get("baseClass");
+        $this->entities = $pluggableService->get("entity");
 
         if (!is_array($this->entities)) $this->entities = [$this->entities];
 
@@ -104,12 +105,9 @@ class EntityProcessor implements ProcessorInterface
 
             if (count($entries))
             {
-                // this may seem a bit confusing: EntitySeedPlugin is our implementation of
-                // SeedPluginInterface while SeedPlugin is an annotation class of the Seed strategy.
-
-                $seedPluginImpl = new EntitySeedPlugin($entries, $pluginMeta);
+                $seedPlugin = new SimpleSeedPlugin($entries, $pluginMeta->get("update"));
                 $seedPluginMeta = new SeedPlugin(["entity" => $entityName]);
-                $this->seedProcessor->addPlugin($seedPluginImpl, $seedPluginMeta);
+                $this->seedProcessor->addPlugin($seedPlugin, $seedPluginMeta);
             }
         }
     }
@@ -117,9 +115,9 @@ class EntityProcessor implements ProcessorInterface
     private function addObjectPlugin($instance, $pluginMeta)
     {
         $objectPluginMeta = new ObjectPlugin([
-            'tag' => $pluginMeta->get('tag'),
-            'id' => $instance->getId(),
-            'depends' => $pluginMeta->get('depends')
+            "tag" => $pluginMeta->get("tag"),
+            "id" => $instance->getId(),
+            "depends" => $pluginMeta->get("depends")
         ]);
 
         $this->objectProcessor->addPlugin(get_class($instance), $objectPluginMeta);
@@ -128,8 +126,8 @@ class EntityProcessor implements ProcessorInterface
     private function createObjectPluggableService($pluggableService)
     {
         $objectPluggableService = new ObjectPluggableService();
-        $objectPluggableService->set('tag', $pluggableService->getTag());
-        $objectPluggableService->set('baseClass', $pluggableService->get('baseClass'));
+        $objectPluggableService->set("tag", $pluggableService->getTag());
+        $objectPluggableService->set("baseClass", $pluggableService->get("baseClass"));
         return $objectPluggableService;
     }
 
