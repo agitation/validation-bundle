@@ -19,13 +19,25 @@ class StringHelper
         return substr(strrchr($class, "\\"), 1);
     }
 
-    static public function createRandomString($length = 10)
+    static public function createRandomString($length = 10, $sets = "uln")
     {
-        $string = '';
-        $letters = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        $max = 61;
+        $availableSets =
+        [
+            "u" => "ABCDEFGHIJKLMNPQRSTUVWXYZ",
+            "l" => "abcdefghijklmnopqrstuvwxyz",
+            "n" => "123456789",
+            "c" => "§$%/()[]-@<>|"
+        ];
 
-        for ($i=0; $i<$length; $i++)
+        $string = "";
+        $letters = "";
+
+        foreach (str_split($sets) as $set)
+            $letters .= $availableSets[$set];
+
+        $max = strlen($letters) - 1;
+
+        for ($i = 0; $i < $length; $i++)
             $string .= $letters[rand(0, $max)];
 
         return $string;
