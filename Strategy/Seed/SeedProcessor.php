@@ -48,7 +48,7 @@ class SeedProcessor implements ProcessorInterface
     {
         $instance = $this->createInstance($class, $plugin);
         $instance->load();
-        $entityName = $plugin->get('entity');
+        $entityName = $plugin->get("entity");
 
         while ($seedEntry = $instance->nextSeedEntry())
         {
@@ -96,7 +96,7 @@ class SeedProcessor implements ProcessorInterface
                 $data = $seedEntry->getData();
 
                 if (!isset($data[$idField]))
-                    throw new InternalErrorException("The seed data for $entityClass is missing the mandatory '$idField' field.");
+                    throw new InternalErrorException("The seed data for $entityClass is missing the mandatory `$idField` field.");
 
                 if (isset($entities[$data[$idField]]))
                 {
@@ -149,9 +149,9 @@ class SeedProcessor implements ProcessorInterface
 
     private function setObjectValue($entity, $key, $value, $metadata)
     {
-        if (isset($metadata->associationMappings[$key]))
+        if ($value && isset($metadata->associationMappings[$key]))
             $value = $this->entityManager
-                ->getReference($metadata->associationMappings[$key]['targetEntity'], $value);
+                ->getReference($metadata->associationMappings[$key]["targetEntity"], $value);
 
         $metadata->setFieldValue($entity, $key, $value);
     }
