@@ -14,4 +14,7 @@ use Agit\CommonBundle\Exception\AgitException;
 /**
  * The validation of a value has failed, see the message field for details.
  */
-class InvalidValueException extends AgitException { }
+class InvalidValueException extends AgitException
+{
+    protected $httpStatus = 400;
+}
