@@ -13,4 +13,7 @@ namespace Agit\CommonBundle\Exception;
  * We've messed something up internally, and now a certain process cannot
  * continue.
  */
-class InternalErrorException extends AgitException { }
+class InternalErrorException extends AgitException
+{
+    protected $httpStatus = 500;
+}
