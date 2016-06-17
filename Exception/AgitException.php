@@ -9,26 +9,22 @@
 
 namespace Agit\CommonBundle\Exception;
 
-use Agit\CommonBundle\Helper\AnnotationHelper;
-
 /**
- * The mother of all Agit exceptions.
+ * The mother of all Agitation exceptions.
+ *
+ * NOTE: When extending this class, remember to set an appropriate status code.
  */
 abstract class AgitException extends \Exception
 {
-    public function getErrorCode()
+    protected $httpStatus = 500;
+
+    /**
+     * Returns an HTTP status which indicates the type of error.
+     *
+     * @return integer the numeric HTTP status code.
+     */
+    public function getHttpStatus()
     {
-        $code = str_replace(['Bundle', 'Exception', '\\'], ' ', get_class($this));
-        $code = preg_replace('|\s+|', ':', trim($code));
-
-        return $code;
-    }
-
-    public function getErrorDescription()
-    {
-        $reflObject = new \ReflectionObject($this);
-        $comment = AnnotationHelper::cleanDocComment($reflObject->getDocComment()) ?: '';
-
-        return $comment;
+        return $this->httpStatus;
     }
 }
