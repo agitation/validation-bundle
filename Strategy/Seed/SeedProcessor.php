@@ -11,6 +11,7 @@ namespace Agit\PluggableBundle\Strategy\Seed;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ProcessorInterface;
@@ -150,8 +151,24 @@ class SeedProcessor implements ProcessorInterface
     private function setObjectValue($entity, $key, $value, $metadata)
     {
         if ($value && isset($metadata->associationMappings[$key]))
-            $value = $this->entityManager
-                ->getReference($metadata->associationMappings[$key]["targetEntity"], $value);
+        {
+            $mapping = $metadata->getAssociationMapping($key);
+            $targetEntity = $metadata->associationMappings[$key]["targetEntity"];
+
+            if ($mapping["type"] & ClassMetadataInfo::TO_MANY)
+            {
+                $collection = $metadata->getFieldValue($entity, $key);
+
+                foreach ($value as $childId)
+                    $collection->add($this->entityManager->getReference($targetEntity, $childId));
+
+                $value = $collection;
+            }
+            else
+            {
+                $value = $this->entityManager->getReference($targetEntity, $value);
+            }
+        }
 
         $metadata->setFieldValue($entity, $key, $value);
     }
