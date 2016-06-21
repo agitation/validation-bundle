@@ -160,7 +160,12 @@ class SeedProcessor implements ProcessorInterface
                 $collection = $metadata->getFieldValue($entity, $key);
 
                 foreach ($value as $childId)
-                    $collection->add($this->entityManager->getReference($targetEntity, $childId));
+                {
+                    $ref = $this->entityManager->getReference($targetEntity, $childId);
+
+                    if (!$collection->contains($ref))
+                        $collection->add($ref);
+                }
 
                 $value = $collection;
             }
