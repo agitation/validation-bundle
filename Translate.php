@@ -11,6 +11,8 @@ namespace Agit\IntlBundle;
 
 class Translate
 {
+    static private $appLocale = "en_GB";
+
     static public function t($string)
     {
         return gettext($string);
@@ -27,6 +29,36 @@ class Translate
         $contextString = "{$context}\004{$string}";
         $translation = self::t($contextString);
         return ($translation === $contextString) ? $string : $translation;
+    }
+
+    // like t(), only in the appLocale. Useful for logging etc.
+    static public function tl($string)
+    {
+        $locale = self::getLocale();
+        self::_setLocale(self::$appLocale);
+        $translation = self::t($string);
+        self::_setLocale($locale);
+        return $translation;
+    }
+
+    // like n(), only in the appLocale. Useful for logging etc.
+    static public function nl($string1, $string2, $num)
+    {
+        $locale = self::getLocale();
+        self::_setLocale(self::$appLocale);
+        $translation = self::n($string1, $string2, $num);
+        self::_setLocale($locale);
+        return $translation;
+    }
+
+    // like x(), only in the appLocale. Useful for logging etc.
+    static public function xl($string, $context)
+    {
+        $locale = self::getLocale();
+        self::_setLocale(self::$appLocale);
+        $translation = self::x($string, $context);
+        self::_setLocale($locale);
+        return $translation;
     }
 
     static public function u($string, $locale = null)
@@ -103,5 +135,30 @@ class Translate
             $string .= "[:$lang]$text";
 
         return $string;
+    }
+
+    /**
+     * DO NOT CALL THIS METHOD; use LocaleService->setLocale instead.
+     * This method is only public because both Translate and LocaleService
+     * need its functionality and we want to avoid duplicate code.
+     */
+    static public function _setLocale($locale)
+    {
+        putenv("LANGUAGE=$locale.UTF-8"); // for CLI
+        setlocale(LC_ALL, "$locale.utf8");
+        setlocale(LC_NUMERIC, "en_GB.utf8"); // avoid strange results with floats in sprintf
+    }
+
+    /**
+     * DO NOT CALL THIS METHOD; it is only public for LocaleService.
+     */
+    static public function _setAppLocale($locale)
+    {
+        self::$appLocale = $locale;
+    }
+
+    static private function getLocale()
+    {
+        return setlocale(LC_ALL, 0);
     }
 }
