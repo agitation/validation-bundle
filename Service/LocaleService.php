@@ -10,37 +10,51 @@
 namespace Agit\IntlBundle\Service;
 
 use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\IntlBundle\Translate;
 
 class LocaleService
 {
-    private $defaultLocale = 'en_GB';
+    private $defaultLocale = "en_GB";
 
     private $currentLocale;
 
-    private $translationsPath;
+    private $primaryLocale;
 
     private $availableLocales;
 
-    private $localeConfigService;
+    private $activeLocales;
+
+    private $translationsPath;
 
     public function __construct(LocaleConfigInterface $localeConfigService = null, $availableLocales, $translationsPath, $textdomain)
     {
         $this->availableLocales = $availableLocales;
 
+        if (!$localeConfigService)
+        {
+            $this->primaryLocale = $this->defaultLocale;
+            $this->activeLocales = $this->availableLocales;
+        }
+        else
+        {
+            $this->primaryLocale = $localeConfigService->getPrimaryLocale();
+            $this->activeLocales = $localeConfigService->getActiveLocales();
+        }
+
         bindtextdomain($textdomain, $translationsPath);
         textdomain($textdomain);
 
-        $this->setLocale($this->defaultLocale);
-        $this->localeConfigService = $localeConfigService;
+        Translate::_setLocale($this->primaryLocale);
+        Translate::_setAppLocale($this->primaryLocale);
     }
 
-    // default locale for this distribution
+    // default locale for this application
     public function getDefaultLocale()
     {
         return $this->defaultLocale;
     }
 
-    // available locales for this distribution
+    // available locales for this application
     public function getAvailableLocales()
     {
         return $this->availableLocales;
@@ -49,27 +63,21 @@ class LocaleService
     // default locale for this installation
     public function getPrimaryLocale()
     {
-        return $this->localeConfigService
-            ? $this->localeConfigService->getPrimaryLocale()
-            : $this->defaultLocale;
+        return $this->primaryLocale;
     }
 
     // available locales for this installation
     public function getActiveLocales()
     {
-        return $this->localeConfigService
-            ? $this->localeConfigService->getActiveLocales()
-            : $this->availableLocales;
+        return $this->activeLocales;
     }
 
     public function setLocale($locale)
     {
         if (!in_array($locale, $this->availableLocales))
-            throw new InternalErrorException("The locale '$locale' is not available.");
+            throw new InternalErrorException("The locale `$locale` is not available.");
 
-        putenv("LANGUAGE=$locale.UTF-8"); // for CLI
-        setlocale(LC_ALL, "$locale.utf8");
-        setlocale(LC_NUMERIC, "en_GB.utf8"); // avoid strange results with floats in sprintf
+        Translate::_setLocale($locale);
 
         $this->currentLocale = $locale;
     }
@@ -81,11 +89,11 @@ class LocaleService
 
     public function getUserLocale()
     {
-        $browserLocale = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']) : '';
+        $browserLocale = isset($_SERVER["HTTP_ACCEPT_LANGUAGE"]) ? \Locale::acceptFromHttp($_SERVER["HTTP_ACCEPT_LANGUAGE"]) : "";
 
         $userLocale = (in_array($browserLocale, $this->availableLocales))
             ? $browserLocale
-            : '';
+            : "";
 
         // try locales with same language but different country
         if (!$userLocale)
