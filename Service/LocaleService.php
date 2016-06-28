@@ -44,7 +44,7 @@ class LocaleService
         bindtextdomain($textdomain, $translationsPath);
         textdomain($textdomain);
 
-        Translate::_setLocale($this->primaryLocale);
+        $this->setLocale($this->primaryLocale);
         Translate::_setAppLocale($this->primaryLocale);
     }
 
