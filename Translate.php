@@ -11,6 +11,9 @@ namespace Agit\IntlBundle;
 
 class Translate
 {
+    // used internally to store the currently set locale
+    static private $locale = "en_GB";
+
     static private $appLocale = "en_GB";
 
     static public function t($string)
@@ -34,7 +37,7 @@ class Translate
     // like t(), only in the appLocale. Useful for logging etc.
     static public function tl($string)
     {
-        $locale = self::getLocale();
+        $locale = self::$locale;
         self::_setLocale(self::$appLocale);
         $translation = self::t($string);
         self::_setLocale($locale);
@@ -44,7 +47,7 @@ class Translate
     // like n(), only in the appLocale. Useful for logging etc.
     static public function nl($string1, $string2, $num)
     {
-        $locale = self::getLocale();
+        $locale = self::$locale;
         self::_setLocale(self::$appLocale);
         $translation = self::n($string1, $string2, $num);
         self::_setLocale($locale);
@@ -54,7 +57,7 @@ class Translate
     // like x(), only in the appLocale. Useful for logging etc.
     static public function xl($string, $context)
     {
-        $locale = self::getLocale();
+        $locale = self::$locale;
         self::_setLocale(self::$appLocale);
         $translation = self::x($string, $context);
         self::_setLocale($locale);
@@ -147,6 +150,7 @@ class Translate
         putenv("LANGUAGE=$locale.UTF-8"); // for CLI
         setlocale(LC_ALL, "$locale.utf8");
         setlocale(LC_NUMERIC, "en_GB.utf8"); // avoid strange results with floats in sprintf
+        self::$locale = $locale;
     }
 
     /**
@@ -155,10 +159,5 @@ class Translate
     static public function _setAppLocale($locale)
     {
         self::$appLocale = $locale;
-    }
-
-    static private function getLocale()
-    {
-        return setlocale(LC_ALL, 0);
     }
 }
