@@ -52,7 +52,7 @@ class TranslationExtension extends \Twig_Extension
         return Translate::x($string, $ctx);
     }
 
-    public function u($string, $locale)
+    public function u($string, $locale = null)
     {
         return Translate::u($string, $locale);
     }
