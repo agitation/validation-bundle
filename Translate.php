@@ -66,7 +66,8 @@ class Translate
 
     static public function u($string, $locale = null)
     {
-        if (!$locale) $locale = setlocale(LC_MESSAGES, 0);
+        if (!$locale)
+            $locale = self::$locale;
 
         $lang = substr($locale, 0, 2);
         $array = self::multilangStringToArray($string);
