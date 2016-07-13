@@ -25,15 +25,30 @@ trait ServiceInjectorTrait
         return $this->container;
     }
 
-    protected function injectServices($instance, $dependencies)
+    final protected function injectServices($instance, $dependencies)
     {
         if (is_array($dependencies) && count($dependencies))
         {
             if (!($instance instanceof ServiceAwarePluginInterface))
                 throw new InternalErrorException(sprintf("The %s plugin has defined dependencies and thus must implement the ServiceAwarePluginInterface.", get_class($instance)));
 
-            foreach ($dependencies as $serviceName)
-                $instance->setService($serviceName, $this->getContainer()->get($serviceName));
+            foreach ($dependencies as $dep)
+            {
+                if ($dep[0] === "@")
+                {
+                    $dep = substr($dep, 1);
+                    $instance->setService($dep, $this->getContainer()->get($dep));
+                }
+                elseif ($dep[0] === "%")
+                {
+                    $dep = substr($dep, 1, -1);
+                    $instance->setParameter($dep, $this->getContainer()->getParameter($dep));
+                }
+                else
+                {
+                    throw new InternalErrorException("Invalid dependency: $dep.");
+                }
+            }
         }
     }
 }

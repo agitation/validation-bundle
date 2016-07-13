@@ -9,10 +9,13 @@
 
 namespace Agit\PluggableBundle\Strategy;
 
+use ReflectionClass;
 use Agit\CommonBundle\Exception\InternalErrorException;
 
 trait PluginInstanceFactoryTrait
 {
+    use ServiceInjectorTrait;
+
     protected function createInstance($class, $plugin)
     {
         if (is_object($class))
@@ -24,21 +27,9 @@ trait PluginInstanceFactoryTrait
             if (!class_exists($class))
                 throw new InternalErrorException("Invalid plugin class.");
 
-            $classRefl = new \ReflectionClass($class);
+            $classRefl = new ReflectionClass($class);
             $instance = $classRefl->newInstanceWithoutConstructor();
-            $dependencies = $plugin->get('depends');
-
-            if (is_array($dependencies) && count($dependencies))
-            {
-                if (!$this->getContainer())
-                    throw new InternalErrorException("The $class plugin needs the services container.");
-
-                if (!($instance instanceof ServiceAwarePluginInterface))
-                    throw new InternalErrorException("The $class plugin has defined dependencies and thus must implement the ServiceAwarePluginInterface.");
-
-                foreach ($dependencies as $serviceName)
-                    $instance->setService($serviceName, $this->getContainer()->get($serviceName));
-            }
+            $this->injectServices($instance, $plugin->get("depends"));
         }
 
         $this->checkInterface($instance);
@@ -46,8 +37,5 @@ trait PluginInstanceFactoryTrait
         return $instance;
     }
 
-    abstract protected function getContainer();
-
     abstract protected function checkInterface($instance);
-
 }
