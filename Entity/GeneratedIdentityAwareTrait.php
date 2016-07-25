@@ -9,6 +9,8 @@
 
 namespace Agit\CommonBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait GeneratedIdentityAwareTrait
 {
     use IdentityAwareTrait;
