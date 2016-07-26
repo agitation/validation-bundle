@@ -7,7 +7,7 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CommonBundle\Tests\Intl;
+namespace Agit\IntlBundle\Tests\Service;
 
 use Agit\IntlBundle\Translate;
 
@@ -32,47 +32,5 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('%s cars', Translate::n('%s car', '%s cars', 0));
         $this->assertEquals('%s car', Translate::n('%s car', '%s cars', 1));
         $this->assertEquals('%s cars', Translate::n('%s car', '%s cars', 2));
-    }
-
-    /**
-     * @dataProvider providerTestMultilangStringToObject
-     */
-    public function testMultilangStringToObject($string, $expected)
-    {
-        $this->assertEquals($expected, Translate::multilangStringToArray($string));
-
-    }
-
-    /**
-     * @dataProvider providerTestU
-     */
-    public function testU($string, $locale, $expected)
-    {
-        $this->assertEquals($expected, Translate::u($string, $locale));
-    }
-
-    public function providerTestMultilangStringToObject()
-    {
-        return [
-            ['[:de]irgendwas[:en]something', ['de' => 'irgendwas', 'en'=>'something']],
-            ['[:de][:en]something', ['de' => '', 'en'=>'something']],
-            ['[de]irgendwas[:en]something', []],
-            ['[deirgendwas[:en]something', []],
-            ['[:deirgendwas[:en]something', []],
-            ['something', []]
-        ];
-    }
-
-    public function providerTestU()
-    {
-        return [
-            ['[:de]irgendwas[:en]something', 'de_DE', 'irgendwas'],
-            ['[:de]irgendwas', 'de_DE', 'irgendwas'],
-            ['[:de][:en]something', 'de_DE', ''],
-            ['[de]irgendwas[:en]something', 'de_DE', '[de]irgendwas[:en]something'],
-            ['[:de]irgendwas[:en]something', 'fr_FR', 'something'],
-            ['[:deirgendwas[:en]something', 'en_GB', '[:deirgendwas[:en]something'],
-            ['something', 'de_DE', 'something'],
-        ];
     }
 }

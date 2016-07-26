@@ -9,9 +9,11 @@
 
 namespace Agit\IntlBundle\Twig;
 
+use Twig_Extension;
+use Twig_Function_Method;
 use Agit\IntlBundle\Translate;
 
-class TranslationExtension extends \Twig_Extension
+class TranslationExtension extends Twig_Extension
 {
     /**
      * {@inheritdoc}
@@ -19,11 +21,10 @@ class TranslationExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            't'  => new \Twig_Function_Method($this, 't',  ['is_safe' => ['all']]),
-            'n'  => new \Twig_Function_Method($this, 'n',  ['is_safe' => ['all']]),
-            'x'  => new \Twig_Function_Method($this, 'x',  ['is_safe' => ['all']]),
-            'u'  => new \Twig_Function_Method($this, 'u',  ['is_safe' => ['all']]),
-            'ts' => new \Twig_Function_Method($this, 'ts', ['is_safe' => ['all']])
+            "t"  => new Twig_Function_Method($this, "t",  ["is_safe" => ["all"]]),
+            "n"  => new Twig_Function_Method($this, "n",  ["is_safe" => ["all"]]),
+            "x"  => new Twig_Function_Method($this, "x",  ["is_safe" => ["all"]]),
+            "ts" => new Twig_Function_Method($this, "ts", ["is_safe" => ["all"]])
         ];
     }
 
@@ -34,7 +35,7 @@ class TranslationExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'translation';
+        return "translation";
     }
 
     public function t($string)
@@ -50,11 +51,6 @@ class TranslationExtension extends \Twig_Extension
     public function x($string, $ctx)
     {
         return Translate::x($string, $ctx);
-    }
-
-    public function u($string, $locale = null)
-    {
-        return Translate::u($string, $locale);
     }
 
     public function ts($string)

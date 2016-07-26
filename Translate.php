@@ -16,6 +16,16 @@ class Translate
 
     static private $appLocale = "en_GB";
 
+    static public function getLocale()
+    {
+        return self::$locale;
+    }
+
+    static public function getAppLocale()
+    {
+        return self::$appLocale;
+    }
+
     static public function t($string)
     {
         return gettext($string);
@@ -64,26 +74,6 @@ class Translate
         return $translation;
     }
 
-    static public function u($string, $locale = null)
-    {
-        if (!$locale)
-            $locale = self::$locale;
-
-        $lang = substr($locale, 0, 2);
-        $array = self::multilangStringToArray($string);
-
-        if (isset($array[$lang]))
-            $newString = $array[$lang];
-        elseif (isset($array["en"]))
-            $newString = $array["en"];
-        elseif (count($array))
-            $newString = reset($array);
-        else
-            $newString = $string;
-
-        return $newString;
-    }
-
     /**
      * This method is just a helper to ensure that strings are caught by xgettext.
      * The string itself will usually be translated in a different context.
@@ -106,38 +96,6 @@ class Translate
      */
     static public function noopX($string, $context)
     {
-        return $string;
-    }
-
-    static public function multilangStringToArray($string)
-    {
-        $array = [];
-
-        if (strpos($string, "[:") !== false && preg_match("|^\[:[a-z]{2}\]|", $string))
-        {
-            $stringarray = preg_split("|\[:([a-z]{2})\]|", $string, -1, PREG_SPLIT_DELIM_CAPTURE);
-
-            // throw away (empty) first element and renumber.
-            // NOTE: we can't use PREG_SPLIT_NO_EMPTY above, because it would break empty translations.
-            array_shift($stringarray);
-            $stringarray = array_values($stringarray);
-
-            if (is_array($stringarray) && count($stringarray) >= 2)
-                foreach ($stringarray as $k=>$v)
-                    if (!($k % 2) && $v && isset($stringarray[$k + 1]))
-                        $array[$v] = $stringarray[$k + 1];
-        }
-
-        return $array;
-    }
-
-    static public function multilangArrayToString(array $array)
-    {
-        $string = "";
-
-        foreach($array as $lang => $text)
-            $string .= "[:$lang]$text";
-
         return $string;
     }
 
