@@ -135,10 +135,13 @@ class TranslationCatalogService
                 $replacements["#: $path"] = "#: @$bundleAlias/$id";
             });
 
-            $catalog = str_replace(array_keys($replacements), array_values($replacements), $catalog);
+            if ($counts[$locale]["total"])
+            {
+                $catalog = str_replace(array_keys($replacements), array_values($replacements), $catalog);
 
-            $this->checkCatalogFileAndCreateIfNeccessary($filepath, $locale);
-            $this->filesystem->dumpFile($filepath, $catalog);
+                $this->checkCatalogFileAndCreateIfNeccessary($filepath, $locale);
+                $this->filesystem->dumpFile($filepath, $catalog);
+            }
         }
 
         // allow extensions to clean up
