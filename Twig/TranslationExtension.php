@@ -12,9 +12,17 @@ namespace Agit\IntlBundle\Twig;
 use Twig_Extension;
 use Twig_Function_Method;
 use Agit\IntlBundle\Translate;
+use Agit\IntlBundle\Service\LocaleService;
 
 class TranslationExtension extends Twig_Extension
 {
+    private $localeService;
+
+    public function __construct(LocaleService $localeService)
+    {
+        $this->localeService = $localeService;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -24,7 +32,9 @@ class TranslationExtension extends Twig_Extension
             "t"  => new Twig_Function_Method($this, "t",  ["is_safe" => ["all"]]),
             "n"  => new Twig_Function_Method($this, "n",  ["is_safe" => ["all"]]),
             "x"  => new Twig_Function_Method($this, "x",  ["is_safe" => ["all"]]),
-            "ts" => new Twig_Function_Method($this, "ts", ["is_safe" => ["all"]])
+            "ts" => new Twig_Function_Method($this, "ts", ["is_safe" => ["all"]]),
+            "getActiveLocales" => new Twig_Function_Method($this, "getActiveLocales")
+
         ];
     }
 
@@ -58,5 +68,10 @@ class TranslationExtension extends Twig_Extension
         $args = array_slice(func_get_args(), 1);
         $translated = $this->t($string);
         return vsprintf($translated, $args);
+    }
+
+    public function getActiveLocales()
+    {
+        return $this->localeService->getActiveLocales();
     }
 }

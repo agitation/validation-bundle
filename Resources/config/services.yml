@@ -32,6 +32,7 @@ services:
     # (Optional) Twig extension for template text block translations
     agit.intl.twig.translation:
         class: Agit\IntlBundle\Twig\TranslationExtension
+        arguments: [ "@agit.intl.locale" ]
         tags: [{ name: twig.extension }]
 
     # checks if a bundle has Twig templates, and prepares them for extraction
@@ -44,4 +45,3 @@ services:
     agit.intl.bundle.twig.cleanup:
         parent: agit.intl.listener.files.cleanup
         tags: [{ name: kernel.event_listener, event: agit.intl.files.cleanup, method: onRegistration }]
-
