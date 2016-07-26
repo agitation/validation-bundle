@@ -43,14 +43,14 @@ class TranslationCatalogService
 
     protected $globalCatalogPath;
 
-    protected $keywords = ['t', 'x:2c,1', 'n:1,2', 'ts:1', 'noop', 'noopN:1,2', 'noopX:2c,1'];
+    protected $keywords = ["t", "x:2c,1", "n:1,2", "tl", "xl:2c,1", "nl:1,2", "ts:1", "noop", "noopN:1,2", "noopX:2c,1"];
 
-    // where we expect a bundle's translation files, relative to the bundle's base path
+    // where we expect a bundle’s translation files, relative to the bundle’s base path
     protected $bundleCatalogSubdir;
 
-    protected $catalogName = 'agit';
+    protected $catalogName = "agit";
 
-    protected $eventRegistrationTag = 'agit.intl';
+    protected $eventRegistrationTag = "agit.intl";
 
     // lists of source files added through event listeners
     protected $sourceFileList = [];
@@ -78,7 +78,7 @@ class TranslationCatalogService
         $bundlePath = $this->fileCollector->resolve($bundleAlias);
 
         if (!$bundlePath || !is_dir($bundlePath) || !is_readable($bundlePath))
-            throw new InternalErrorException("Invalid bundle alias '$bundleAlias'.");
+            throw new InternalErrorException("Invalid bundle alias `$bundleAlias`.");
 
         $bundleCatalogPath = "$bundlePath{$this->bundleCatalogSubdir}";
         $fileList = [];
@@ -92,12 +92,12 @@ class TranslationCatalogService
         foreach ($this->fileTypes as $ext => $progLang)
         {
             $langFileList = [];
-            $finder = (new Finder())->in($bundlePath)->notPath('/Test.*/')->notPath('/external/')->name("*\.$ext");
+            $finder = (new Finder())->in($bundlePath)->notPath("/Test.*/")->notPath("/external/")->name("*\.$ext");
 
             foreach ($finder as $file)
             {
                 $filePath = $file->getRealpath();
-                $fileRelPath = str_replace($bundlePath, '', $filePath);
+                $fileRelPath = str_replace($bundlePath, "", $filePath);
                 $langFileList[$fileRelPath] = $filePath;
             }
 
@@ -125,8 +125,8 @@ class TranslationCatalogService
             $catalog = $this->gettextService->msgmerge($catalog, $localeFoundMessages);
 
             $counts[$locale] = [
-                'total' => $this->gettextService->countAllMessages($catalog),
-                'translated' => $this->gettextService->countTranslatedMessages($catalog)
+                "total" => $this->gettextService->countAllMessages($catalog),
+                "translated" => $this->gettextService->countTranslatedMessages($catalog)
             ];
 
             $replacements = [];
@@ -192,8 +192,8 @@ class TranslationCatalogService
             $machineFormat = $this->gettextService->msgfmt($catalog, $stats);
 
             $counts[$locale] = [
-                'total' => $this->gettextService->countAllMessages($catalog),
-                'translated' => $stats[0]
+                "total" => $this->gettextService->countAllMessages($catalog),
+                "translated" => $stats[0]
             ];
 
             $this->checkDirectoryAndCreateIfNeccessary($locCatalogDirPath);
@@ -223,7 +223,7 @@ class TranslationCatalogService
         if (!$this->filesystem->exists($path))
             $this->filesystem->mkdir($path, 0755);
         elseif (!is_dir($path) || !is_writable($path))
-            throw new InternalErrorException("The path '$path' is not a directory or not writable.");
+            throw new InternalErrorException("The path `$path` is not a directory or not writable.");
     }
 
     protected function checkCatalogFileAndCreateIfNeccessary($path, $locale)
@@ -233,7 +233,7 @@ class TranslationCatalogService
         if (!$this->filesystem->exists($path))
             $this->filesystem->dumpFile($path, $this->gettextService->createCatalogHeader($locale));
         elseif (!is_file($path) || !is_writable($path))
-            throw new InternalErrorException("The file '$path' does not exist or is not writable.");
+            throw new InternalErrorException("The file `$path` does not exist or is not writable.");
     }
 
     protected function collectBundlePoFiles($bundleAliasList)
@@ -243,7 +243,7 @@ class TranslationCatalogService
             $bundlePath = $this->fileCollector->resolve($path);
             $bundleCatalogPath = "$bundlePath/{$this->bundleCatalogSubdir}";
 
-            // we ignore bundles that don't "participate"
+            // we ignore bundles that don’t "participate"
             if (!is_dir($bundleCatalogPath)) continue;
 
             $finder = (new Finder())->in($bundleCatalogPath)->name("*\.po");
@@ -251,7 +251,7 @@ class TranslationCatalogService
             foreach ($finder as $file)
             {
                 $filePath = $file->getRealpath();
-                $locale = preg_replace('|^.*([a-z]{2}_[A-Z]{2}).po$|', '\1', $filePath);
+                $locale = preg_replace("|^.*([a-z]{2}_[A-Z]{2}).po$|", "\1", $filePath);
                 $this->registerCatalogFile($locale, $filePath);
             }
         }
