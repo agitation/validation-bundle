@@ -176,8 +176,9 @@ class TranslationCatalogService
 
         foreach ($this->locales as $locale)
         {
-            $locCatalogDirPath = sprintf($catalogPath, $locale);
-            $locMachineFilePath = "$locCatalogDirPath/{$this->catalogName}.mo";
+            $locDirPath = sprintf($catalogPath, $locale);
+            $locCatalogFilePath = "$locDirPath/{$this->catalogName}.po";
+            $locMachineFilePath = "$locDirPath/{$this->catalogName}.mo";
 
             $localeHeader = $this->gettextService->createCatalogHeader($locale);
             $currentCatalog = $localeHeader;
@@ -196,7 +197,8 @@ class TranslationCatalogService
                 "translated" => $stats[0]
             ];
 
-            $this->checkDirectoryAndCreateIfNeccessary($locCatalogDirPath);
+            $this->checkDirectoryAndCreateIfNeccessary($locDirPath);
+            $this->filesystem->dumpFile($locCatalogFilePath, $catalog);
             $this->filesystem->dumpFile($locMachineFilePath, $machineFormat);
         }
 
@@ -243,7 +245,6 @@ class TranslationCatalogService
             $bundlePath = $this->fileCollector->resolve($path);
             $bundleCatalogPath = "$bundlePath/{$this->bundleCatalogSubdir}";
 
-            // we ignore bundles that don’t "participate"
             if (!is_dir($bundleCatalogPath)) continue;
 
             $finder = (new Finder())->in($bundleCatalogPath)->name("*\.po");
@@ -251,7 +252,7 @@ class TranslationCatalogService
             foreach ($finder as $file)
             {
                 $filePath = $file->getRealpath();
-                $locale = preg_replace("|^.*([a-z]{2}_[A-Z]{2}).po$|", "\1", $filePath);
+                $locale = preg_replace("|^.*([a-z]{2}_[A-Z]{2}).po$|", '\1', $filePath);
                 $this->registerCatalogFile($locale, $filePath);
             }
         }
