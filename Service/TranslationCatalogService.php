@@ -11,7 +11,7 @@ namespace Agit\IntlBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\CommonBundle\Service\FileCollector;
 use Agit\IntlBundle\Event\BundleFilesRegistrationEvent;
@@ -58,7 +58,7 @@ class TranslationCatalogService
     // lists of catalog files added through event listeners
     protected $catalogFileList = [];
 
-    public function __construct(GettextService $gettextService, FileCollector $fileCollector, EventDispatcher $eventDispatcher, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
+    public function __construct(GettextService $gettextService, FileCollector $fileCollector, EventDispatcherInterface $eventDispatcher, array $locales, array $fileTypes, $globalCatalogPath, $bundleCatalogSubdir)
     {
         $this->gettextService = $gettextService;
         $this->fileCollector = $fileCollector;
