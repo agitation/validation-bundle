@@ -42,6 +42,27 @@ var
                 throw new validationError(ag.ui.tool.fmt.sprintf(ag.intl.t("The value is too long, it must have at most %s characters."), maxLength));
         },
 
+        object : function(value, requiredProperties, noOtherProperties)
+        {
+            requiredProperties = requiredProperties || [];
+
+            if (!(value instanceof Object) || value instanceof Array)
+                throw new validationError(ag.intl.t("The value must be an object."));
+
+            if (requiredProperties.length)
+            {
+                keys = Object.keys(value);
+
+                if (noOtherProperties && keys.length !== requiredProperties.length)
+                    throw new validationError(ag.intl.t("The object has an invalid set of properties."));
+
+                requiredProperties.forEach(function(property){
+                    if (keys.indexOf(property) === -1)
+                        throw new validationError(ag.ui.tool.fmt.sprintf(ag.intl.t("The object is missing the mandatory “%s” property."), property));
+                });
+            }
+        },
+
         regex : function(value, regex)
         {
             if (!value.match(regex))
