@@ -34,6 +34,16 @@ trait DeletableTrait
      *
      * @return smallint
      */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return smallint
+     */
     public function isDeleted()
     {
         return $this->deleted;
