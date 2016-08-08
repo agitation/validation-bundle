@@ -17,20 +17,20 @@ ag.ns("ag.common");
         {
             var now = day ? null : new Date();
 
-            this.d = day || now.getUTCDate();
-            this.m = month || now.getUTCMonth() + 1;
-            this.y = yearOrString || now.getUTCFullYear();
+            this.day = day || now.getUTCDate();
+            this.month = month || now.getUTCMonth() + 1;
+            this.year = yearOrString || now.getUTCFullYear();
         }
     };
 
     ag.common.Date.prototype.toNumber = function()
     {
-        return this.y * 10000 + this.m * 100 + this.d;
+        return this.year * 10000 + this.month * 100 + this.day;
     };
 
     ag.common.Date.prototype.toString = function()
     {
-        return pad(this.y, 4) + "-" + pad(this.m) + "-" + pad(this.d);
+        return pad(this.year, 4) + "-" + pad(this.month) + "-" + pad(this.day);
     };
 
     // expects a string such as "2020-12-30"
@@ -40,15 +40,15 @@ ag.ns("ag.common");
 
         if (parts[0] >= 1900 && parts[0] <= 2100 && parts[1] >= 1 && parts[1] <= 12 && parts[2] >= 1 && parts[2] <= 31)
         {
-            this.y = parts[0];
-            this.m = parts[1];
-            this.d = parts[2];
+            this.year = parts[0];
+            this.month = parts[1];
+            this.day = parts[2];
         }
     };
 
     ag.common.Date.prototype.format = function(fmt)
     {
-        var date = new Date(new Date(Date.UTC(this.y, this.m - 1, this.d, 0, 0, 0)));
+        var date = new Date(new Date(Date.UTC(this.year, this.month - 1, this.day, 0, 0, 0)));
         return ag.ui.tool.date.format(date, fmt);
     };
 
@@ -67,12 +67,12 @@ ag.ns("ag.common");
 
     ag.common.Date.prototype.getDate = function()
     {
-        return new Date(Date.UTC(this.y, this.m - 1, this.d));
+        return new Date(Date.UTC(this.year, this.month - 1, this.day));
     };
 
     ag.common.Date.prototype.clone = function()
     {
-        return new ag.common.Date(this.y, this.m, this.d);
+        return new ag.common.Date(this.year, this.month, this.day);
     };
 
     ag.common.Date.prototype.diff = function(offset)
