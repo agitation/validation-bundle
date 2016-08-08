@@ -8,29 +8,34 @@ ag.ns("ag.common");
             return ag.ui.tool.fmt.numpad(num, 2);
         };
 
-    ag.common.Time = function(hourOrString, minute)
+    ag.common.Time = function(hourOrObjectOrString, minute)
     {
-        if (typeof(hourOrString) === "string")
+        if (typeof(hourOrObjectOrString) === "string")
         {
-            this.fromString(hourOrString);
+            this.fromString(hourOrObjectOrString);
+        }
+        else if (typeof(hourOrObjectOrString) === "object")
+        {
+            this.hour = hourOrObjectOrString.hour;
+            this.minute = hourOrObjectOrString.minute;
         }
         else
         {
             var now = minute === undefined ? null : new Date();
 
-            this.h = hourOrString || now.getUTCHours();
-            this.month = minute === undefined ? now.getUTCMinutes() : minute;
+            this.hour = hourOrObjectOrString || now.getUTCHours();
+            this.minute = minute === undefined ? now.getUTCMinutes() : minute;
         }
     };
 
     ag.common.Time.prototype.toNumber = function()
     {
-        return this.h * 1000 + this.month;
+        return this.hour * 1000 + this.minute;
     };
 
     ag.common.Time.prototype.toString = function()
     {
-        return pad(this.h) + ":" + pad(this.month);
+        return pad(this.hour) + ":" + pad(this.minute);
     };
 
     // expects a string such as "15:24"
@@ -40,14 +45,14 @@ ag.ns("ag.common");
 
         if (parts[0] >= 0 && parts[0] <= 23 && parts[1] >= 0 && parts[1] <= 59)
         {
-            this.h = parts[0];
-            this.month = parts[1];
+            this.hour = parts[0];
+            this.minute = parts[1];
         }
     };
 
     ag.common.Time.prototype.format = function(fmt)
     {
-        var date = new Date(new Date(Date.UTC(1970, 0, 1, this.h, this.month, 0)));
+        var date = new Date(new Date(Date.UTC(1970, 0, 1, this.hour, this.minute, 0)));
         return ag.ui.tool.date.format(date, fmt);
     };
 

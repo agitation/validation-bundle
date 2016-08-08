@@ -7,11 +7,17 @@ ag.ns("ag.common");
             return ag.ui.tool.fmt.numpad(num, len || 2);
         };
 
-    ag.common.Date = function(yearOrString, month, day)
+    ag.common.Date = function(yearOrObjectOrString, month, day)
     {
-        if (typeof(yearOrString) === "string")
+        if (typeof(yearOrObjectOrString) === "string")
         {
-            this.fromString(yearOrString);
+            this.fromString(yearOrObjectOrString);
+        }
+        else if (typeof(yearOrObjectOrString) === "object")
+        {
+            this.day = yearOrObjectOrString.day;
+            this.month = yearOrObjectOrString.month;
+            this.year = yearOrObjectOrString.year;
         }
         else
         {
@@ -19,7 +25,7 @@ ag.ns("ag.common");
 
             this.day = day || now.getUTCDate();
             this.month = month || now.getUTCMonth() + 1;
-            this.year = yearOrString || now.getUTCFullYear();
+            this.year = yearOrObjectOrString || now.getUTCFullYear();
         }
     };
 
