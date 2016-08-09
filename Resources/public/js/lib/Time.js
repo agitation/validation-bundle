@@ -14,7 +14,7 @@ ag.ns("ag.common");
         {
             this.fromString(hourOrObjectOrString);
         }
-        else if (typeof(hourOrObjectOrString) === "object")
+        else if (typeof(hourOrObjectOrString) === "object" && hourOrObjectOrString !== null)
         {
             this.hour = hourOrObjectOrString.hour;
             this.minute = hourOrObjectOrString.minute;
