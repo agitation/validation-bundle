@@ -13,7 +13,7 @@ ag.ns("ag.common");
         {
             this.fromString(yearOrObjectOrString);
         }
-        else if (typeof(yearOrObjectOrString) === "object")
+        else if (typeof(yearOrObjectOrString) === "object" && yearOrObjectOrString !== null)
         {
             this.day = yearOrObjectOrString.day;
             this.month = yearOrObjectOrString.month;
