@@ -24,7 +24,7 @@ class SelectionValidator extends AbstractValidator
             throw new InvalidValueException(sprintf(
                 Translate::t("The value must be one of the following: “%s”."),
                 implode(
-                    Translate::x('”, “', 'quotation inside collection'),
+                    Translate::x("quotation inside collection", "”, “"),
                     $possibleValues)
             ));
     }

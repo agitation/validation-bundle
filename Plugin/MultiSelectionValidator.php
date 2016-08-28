@@ -27,7 +27,7 @@ class MultiSelectionValidator extends AbstractValidator
             if (!in_array($val, $possibleValues))
                 throw new InvalidValueException(sprintf(
                     Translate::t("The value must be one of the following: “%s”."),
-                    implode(Translate::x('”, “', 'quotation inside collection'),
+                    implode(Translate::x("quotation inside collection", "”, “"),
                     $possibleValues)
                 ));
     }
