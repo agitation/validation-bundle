@@ -9,10 +9,10 @@
 
 namespace Agit\IntlBundle\EventListener;
 
-use Agit\IntlBundle\Event\CatalogCleanupEvent;
+use Agit\IntlBundle\Event\CleanupEvent;
 use Symfony\Component\Filesystem\Filesystem;
 
-// NOTE: Other than BundleFileCleanupListener, this listener does NOT have to be
+// NOTE: Unlike BundleFileCleanupListener, this listener does NOT have to be
 // used by each bundle creating files with the CatalogRegistrationListener: This
 // CatalogCleanupListener needs to run only once, and is registered by
 // AgitIntlBundle already.
@@ -28,7 +28,7 @@ class CatalogCleanupListener extends AbstractTemporaryFilesListener
         $this->filesystem = $filesystem;
     }
 
-    public function onRegistration(CatalogCleanupEvent $registrationEvent)
+    public function onRegistration(CleanupEvent $registrationEvent)
     {
         $cachePath = $this->getCachePath();
 

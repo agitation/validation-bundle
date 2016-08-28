@@ -9,21 +9,20 @@
 
 namespace Agit\IntlBundle\Command;
 
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Agit\CommonBundle\Command\SingletonCommandTrait;
 use Gettext\Translations;
-use Gettext\Merge;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Agit\IntlBundle\Event\BundleFilesRegistrationEvent;
-use Agit\IntlBundle\Event\BundleFilesCleanupEvent;
 use Agit\IntlBundle\Event\CatalogRegistrationEvent;
-use Agit\IntlBundle\Event\CatalogCleanupEvent;
+use Agit\IntlBundle\Event\CleanupEvent;
 
 
-class CreateCatalogsCommand extends AbstractCatalogCommand
+class CreateCatalogsCommand extends ContainerAwareCommand
 {
     use SingletonCommandTrait;
 
@@ -157,7 +156,9 @@ class CreateCatalogsCommand extends AbstractCatalogCommand
             $globalCatalog->toMoFile($globalCatalogMoFile);
         }
 
-        $filesystem->dumpFile("$bundlePath/$this->frontendSubdir/translations.js", $frontendCatalogs);
+        if ($frontendCatalogs)
+            $filesystem->dumpFile("$bundlePath/$this->frontendSubdir/translations.js", $frontendCatalogs);
+
         $this->dispatchCleanupEvents($bundleAlias);
     }
 
@@ -192,11 +193,11 @@ class CreateCatalogsCommand extends AbstractCatalogCommand
         $eventDispatcher = $this->getContainer()->get("event_dispatcher");
 
         $eventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.files.register",
-            new BundleFilesRegistrationEvent($this, $bundleAlias));
+            "{$this->eventRegistrationTag}.files.cleanup",
+            new CleanupEvent($this, $bundleAlias));
 
         $eventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.catalog.register",
-            new CatalogRegistrationEvent($this));
+            "{$this->eventRegistrationTag}.catalog.cleanup",
+            new CleanupEvent($this, $bundleAlias));
     }
 }

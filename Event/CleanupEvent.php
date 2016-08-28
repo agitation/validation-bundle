@@ -12,13 +12,24 @@ namespace Agit\IntlBundle\Event;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * This event is triggered after the files for generating a global catalog have
- * been collected and merged with the main catalog. Listeners can use this hook
- * to clean up temporary files.
+ * This event is triggered after the files for generating a bundle catalog have
+ * been collected and extracted. Listeners can use this hook to clean up
+ * temporary files.
  *
  * This event does not offer any registration methods, as it is only used for
  * notification.
  */
-class CatalogCleanupEvent extends Event
+class CleanupEvent extends Event
 {
+    private $bundleAlias;
+
+    public function __construct($bundleAlias)
+    {
+        $this->bundleAlias = $bundleAlias;
+    }
+
+    public function getBundleAlias()
+    {
+        return $this->bundleAlias;
+    }
 }

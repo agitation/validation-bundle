@@ -9,7 +9,7 @@
 
 namespace Agit\IntlBundle\EventListener;
 
-use Agit\IntlBundle\Event\BundleFilesCleanupEvent;
+use Agit\IntlBundle\Event\CleanupEvent;
 use Symfony\Component\Filesystem\Filesystem;
 
 // reusable listener for cleaning up a temporary storage path
@@ -22,7 +22,7 @@ class BundleFilesCleanupListener extends AbstractTemporaryFilesListener
         $this->filesystem = $filesystem;
     }
 
-    public function onRegistration(BundleFilesCleanupEvent $registrationEvent)
+    public function onRegistration(CleanupEvent $registrationEvent)
     {
         $cachePath = $this->getCachePath($registrationEvent->getBundleAlias());
 
