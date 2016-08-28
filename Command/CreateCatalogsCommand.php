@@ -63,7 +63,14 @@ class CreateCatalogsCommand extends ContainerAwareCommand
 
         // collect files
 
-        $finder = (new Finder())->in("$bundlePath")->name("*\.php")->name("*\.js")->notPath("public/js/ext");
+        $finder = (new Finder())->in("$bundlePath")
+            ->name("*\.php")
+            ->name("*\.js")
+            ->notPath("/test.*/i")
+            ->notPath("public/js/ext");
+
+
+
         $files = [];
 
         foreach ($finder as $file)
