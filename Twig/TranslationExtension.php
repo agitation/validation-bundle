@@ -58,9 +58,9 @@ class TranslationExtension extends Twig_Extension
         return Translate::n($string1, $string2, $num);
     }
 
-    public function x($string, $ctx)
+    public function x($ctxt, $string)
     {
-        return Translate::x($string, $ctx);
+        return Translate::x($ctxt, $string);
     }
 
     public function ts($string)

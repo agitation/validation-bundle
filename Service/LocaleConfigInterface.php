@@ -21,5 +21,5 @@ interface LocaleConfigInterface
 {
     public function getActiveLocales();
 
-    public function getPrimaryLocales();
+    public function getPrimaryLocale();
 }

@@ -1,32 +1,52 @@
-ag.ns("ag");
+ag.ns("ag.intl");
 
-ag.intl =
+(function(){
+
+var
+    catalogs = {},
+    curLoc = ag.cfg.locale,
+    curLang = curLoc.substr(0, 2),
+    pluralCallbacks = {},
+
+    getEntry = function(msgid)
+    {
+        return catalogs[curLoc] ? catalogs[curLoc][msgid] : undefined;
+    },
+
+    getPluralMessageIdx = function(amount)
+    {
+        if (!pluralCallbacks[curLang])
+            pluralCallbacks[curLang] = new Function("n", "return (" +  (ag.intl.plurals[curLang] || ag.intl.plurals["_default"]) + ") | 0");
+
+        return pluralCallbacks[curLang](amount);
+    };
+
+ag.intl = ag.intl || {};
+
+ag.intl.t = function(msgid)
 {
-    t : function(_string)
-    {
-        return (window.messages && window.messages[_string])
-            ? window.messages[_string]
-            : _string;
-    },
-
-    tc : function(origString)
-    {
-        var
-            string = ag.intl.t(origString),
-            lastpipe = string.lastIndexOf("|");
-
-        return (lastpipe === -1)
-            ? string
-            : string.slice(0, lastpipe);
-    },
-
-    // TODO: Fix for languages with more than one plural form
-    tn : function(string, num)
-    {
-        var
-            tString = ag.intl.t(string),
-            parts = tString.indexOf("|") > 0 ? tString.split("|") : [tString, tString];
-
-        return (num === 1) ? parts[0] : parts[1];
-    }
+    return getEntry(msgid) || msgid;
 };
+
+ag.intl.x = function(context, msgid)
+{
+    return getEntry(context + "\u0004" + msgid) || msgid;
+};
+
+ag.intl.n = function(msgid, msgidPlural, amount)
+{
+    var entry = getEntry(msgid);
+    return entry ? entry[getPluralMessageIdx(amount)] : msgidPlural;
+};
+
+ag.intl.register = function(locale, catalog)
+{
+    if (!catalogs[locale])
+        catalogs[locale] = {};
+
+    Object.keys(catalog).forEach(function(msgid){
+        catalogs[locale][msgid] = catalog[msgid];
+    });
+};
+
+})();

@@ -36,7 +36,7 @@ class Translate
         return ngettext($string1, $string2, $num);
     }
 
-    static public function x($string, $context)
+    static public function x($context, $string)
     {
         // based on http://www.php.net/manual/de/book.gettext.php#89975
         $contextString = "{$context}\004{$string}";
@@ -65,11 +65,11 @@ class Translate
     }
 
     // like x(), only in the appLocale. Useful for logging etc.
-    static public function xl($string, $context)
+    static public function xl($context, $string)
     {
         $locale = self::$locale;
         self::_setLocale(self::$appLocale);
-        $translation = self::x($string, $context);
+        $translation = self::x($context, $string);
         self::_setLocale($locale);
         return $translation;
     }
@@ -94,7 +94,7 @@ class Translate
     /**
      * Same as noop(), only for strings with context
      */
-    static public function noopX($string, $context)
+    static public function noopX($context, $string)
     {
         return $string;
     }

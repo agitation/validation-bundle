@@ -15,7 +15,7 @@ use Agit\IntlBundle\EventListener\AbstractTemporaryFilesListener;
 
 class BundleTwigFilesListener extends AbstractTemporaryFilesListener
 {
-    protected $bundleTemplatesPath = 'Resources/views';
+    protected $bundleTemplatesPath = "Resources/views";
 
     private $fileCollector;
 
@@ -32,7 +32,7 @@ class BundleTwigFilesListener extends AbstractTemporaryFilesListener
         $bundleAlias = $registrationEvent->getBundleAlias();
         $tplDir = $this->fileCollector->resolve($bundleAlias);
 
-        // storing the old values to reset them when we're done
+        // storing the old values to reset them when we’re done
         $actualCachePath = $this->twig->getCache();
         $actualAutoReload = $this->twig->isAutoReload();
 
@@ -40,17 +40,17 @@ class BundleTwigFilesListener extends AbstractTemporaryFilesListener
         $this->twig->enableAutoReload();
         $this->twig->setCache($this->getCachePath($bundleAlias));
 
-        foreach ($this->fileCollector->collect($tplDir, 'twig') as $file)
+        foreach ($this->fileCollector->collect($tplDir, "twig") as $file)
         {
             $this->twig->loadTemplate($file); // force rendering
             $cacheFilePath = $this->twig->getCacheFilename($file);
-            $fileId = str_replace($tplDir, '', $file);
-            $registrationEvent->registerSourceFile('php', $fileId, $cacheFilePath);
+            $fileId = str_replace($tplDir, "@$bundleAlias/", $file);
+            $registrationEvent->registerSourceFile($fileId, $cacheFilePath);
         }
 
         // resetting original values
         $this->twig->setCache($actualCachePath);
-        call_user_func([$this->twig, $actualAutoReload ? 'enableAutoReload' :  'disableAutoReload']);
+        call_user_func([$this->twig, $actualAutoReload ? "enableAutoReload" :  "disableAutoReload"]);
 
     }
 }

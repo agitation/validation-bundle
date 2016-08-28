@@ -10,7 +10,6 @@
 namespace Agit\IntlBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Agit\IntlBundle\Service\TranslationCatalogService;
 
 /**
  * This event is triggered after the files for generating a bundle catalog have

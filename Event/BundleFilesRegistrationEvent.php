@@ -10,7 +10,7 @@
 namespace Agit\IntlBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Agit\IntlBundle\Service\TranslationCatalogService;
+use Agit\IntlBundle\Command\CreateCatalogsCommand;
 
 /**
  * This event is triggered before the files for generating a bundle catalog are
@@ -23,12 +23,12 @@ class BundleFilesRegistrationEvent extends Event
 {
     private $bundleAlias;
 
-    private $translationCatalogService;
+    private $processor;
 
-    public function __construct(TranslationCatalogService $translationCatalogService, $bundleAlias)
+    public function __construct(CreateCatalogsCommand $processor, $bundleAlias)
     {
         $this->bundleAlias = $bundleAlias;
-        $this->translationCatalogService = $translationCatalogService;
+        $this->processor = $processor;
     }
 
     public function getBundleAlias()
@@ -36,8 +36,8 @@ class BundleFilesRegistrationEvent extends Event
         return $this->bundleAlias;
     }
 
-    public function registerSourceFile($progLang, $fileId, $filePath)
+    public function registerSourceFile($alias, $path)
     {
-        return $this->translationCatalogService->registerSourceFile($progLang, $fileId, $filePath);
+        return $this->processor->registerSourceFile($alias, $path);
     }
 }

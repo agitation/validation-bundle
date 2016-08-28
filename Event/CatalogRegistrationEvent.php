@@ -10,8 +10,7 @@
 namespace Agit\IntlBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Agit\IntlBundle\Service\TranslationCatalogService;
-use Agit\IntlBundle\Service\GettextService;
+use Agit\IntlBundle\Command\CreateCatalogsCommand;
 
 /**
  * This event is triggered before the files for generating a global catalog are
@@ -22,22 +21,15 @@ use Agit\IntlBundle\Service\GettextService;
  */
 class CatalogRegistrationEvent extends Event
 {
-    private $translationCatalogService;
+    private $processor;
 
-    private $gettextService;
-
-    public function __construct(TranslationCatalogService $translationCatalogService, GettextService $gettextService)
+    public function __construct(CreateCatalogsCommand $processor)
     {
-        $this->translationCatalogService = $translationCatalogService;
-        $this->gettextService = $gettextService;
+        $this->processor = $processor;
     }
 
-    public function createCatalogHeader($locale)
+    public function registerCatalogFile($locale, $path)
     {
-        return $this->gettextService->createCatalogHeader($locale);
-    }
-    public function registerCatalogFile($locale, $filePath)
-    {
-        return $this->translationCatalogService->registerCatalogFile($locale, $filePath);
+        return $this->processor->registerCatalogFile($locale, $path);
     }
 }
