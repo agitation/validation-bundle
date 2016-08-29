@@ -159,6 +159,7 @@ class CreateCatalogsCommand extends ContainerAwareCommand
             // NOTE: we delete all headers and only set language in order to avoid garbage commits
             $globalCatalog->deleteHeaders();
             $globalCatalog->setLanguage($locale);
+            $globalCatalog->setHeader("Content-Type", "text/plain; charset=UTF-8");
             $globalCatalog->toPoFile($globalCatalogFile);
             $globalCatalog->toMoFile($globalCatalogMoFile);
         }
