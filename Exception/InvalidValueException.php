@@ -9,7 +9,7 @@
 
 namespace Agit\ValidationBundle\Exception;
 
-use Agit\CommonBundle\Exception\AgitException;
+use Agit\BaseBundle\Exception\AgitException;
 
 /**
  * The validation of a value has failed, see the message field for details.
