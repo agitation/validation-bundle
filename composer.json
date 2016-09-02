@@ -1,5 +1,5 @@
 {
-    "name": "agitation/common-bundle",
+    "name": "agitation/base-bundle",
     "type": "symfony-bundle",
     "minimum-stability": "dev",
     "require": {
@@ -8,7 +8,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Agit\\CommonBundle\\": ""
+            "Agit\\BaseBundle\\": ""
         }
     },
     "license": "MIT",
