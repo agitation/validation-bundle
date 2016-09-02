@@ -9,7 +9,7 @@
 
 namespace Agit\IntlBundle\EventListener;
 
-use Agit\CommonBundle\Service\FileCollector;
+use Agit\BaseBundle\Service\FileCollector;
 use Agit\IntlBundle\Event\BundleFilesRegistrationEvent;
 use Agit\IntlBundle\EventListener\AbstractTemporaryFilesListener;
 

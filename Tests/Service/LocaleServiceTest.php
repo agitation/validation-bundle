@@ -7,7 +7,7 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CommonBundle\Tests\Intl;
+namespace Agit\BaseBundle\Tests\Intl;
 
 use Agit\IntlBundle\Service\LocaleService;
 
@@ -35,7 +35,7 @@ class LocaleServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSetLocaleThrowsException()
     {
-        $this->setExpectedException('\Agit\CommonBundle\Exception\InternalErrorException');
+        $this->setExpectedException('\Agit\BaseBundle\Exception\InternalErrorException');
         $localeService = $this->createLocaleService();
         $localeService->setLocale('nl_NL');
     }

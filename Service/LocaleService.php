@@ -9,7 +9,7 @@
 
 namespace Agit\IntlBundle\Service;
 
-use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Exception\InternalErrorException;
 use Agit\IntlBundle\Translate;
 
 class LocaleService
