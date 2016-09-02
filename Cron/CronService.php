@@ -9,7 +9,8 @@
 
 namespace Agit\CronBundle\Cron;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use DateTime;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Agit\CommonBundle\Exception\InternalErrorException;
 use Agit\CronBundle\Event\CronjobRegistrationEvent;
 
@@ -17,7 +18,7 @@ class CronService
 {
     private $eventDispatcher;
 
-    private $eventRegistrationTag = 'agit.cron.register';
+    private $eventRegistrationTag = "agit.cron.register";
 
     private $serviceList = [];
 
@@ -26,20 +27,20 @@ class CronService
 
     private $now;
 
-    public function __construct(EventDispatcher $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
-        $this->setDate(new \DateTime());
+        $this->setDate(new DateTime());
     }
 
-    public function setDate(\DateTime $dateTime)
+    public function setDate(DateTime $dateTime)
     {
         $this->now = [
-            (int)$dateTime->format('i'),
-            (int)$dateTime->format('H'),
-            (int)$dateTime->format('d'),
-            (int)$dateTime->format('m'),
-            (int)$dateTime->format('w')
+            (int)$dateTime->format("i"),
+            (int)$dateTime->format("H"),
+            (int)$dateTime->format("d"),
+            (int)$dateTime->format("m"),
+            (int)$dateTime->format("w")
         ];
     }
 
@@ -57,7 +58,7 @@ class CronService
 
     public function parseCronTime($cronTime)
     {
-        $cronParts = preg_split('|\s+|', $cronTime, null, PREG_SPLIT_NO_EMPTY);
+        $cronParts = preg_split("|\s+|", $cronTime, null, PREG_SPLIT_NO_EMPTY);
 
         if (count($cronParts) !== 5)
             throw new InternalErrorException("Invalid cron time.");
@@ -67,7 +68,7 @@ class CronService
         foreach ($cronParts as $pos => $value)
         {
 
-            if ($value === '*')
+            if ($value === "*")
             {
                 $parsedParts[$pos] = null;
             }
@@ -75,16 +76,16 @@ class CronService
             {
                 $elements = [];
 
-                if (preg_match('|^\*/\d+$|', $value))
+                if (preg_match("|^\*/\d+$|", $value))
                 {
                     $step = (int)substr($value, 2);
 
                     for ($i = $this->ranges[$pos][0]; $i < $this->ranges[$pos][1]; $i+=$step)
                         $elements[] = $i;
                 }
-                elseif (preg_match('|^\d+(,\d+)*$|', $value))
+                elseif (preg_match("|^\d+(,\d+)*$|", $value))
                 {
-                    $elements = array_map('intval', explode(',', $value));
+                    $elements = array_map("intval", explode(",", $value));
                 }
                 else
                 {
