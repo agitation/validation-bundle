@@ -9,7 +9,7 @@
 
 namespace Agit\PluggableBundle\Strategy;
 
-use Agit\CommonBundle\Annotation\AnnotationTrait;
+use Agit\BaseBundle\Annotation\AnnotationTrait;
 
 /**
  * @Annotation

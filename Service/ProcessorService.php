@@ -11,8 +11,8 @@ namespace Agit\PluggableBundle\Service;
 
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\HttpKernel\Kernel;
-use Agit\CommonBundle\Exception\InternalErrorException;
-use Agit\CommonBundle\Service\ClassCollector;
+use Agit\BaseBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Service\ClassCollector;
 use Agit\PluggableBundle\Strategy\ProcessorFactoryInterface;
 use Agit\PluggableBundle\Strategy\PluggableServiceInterface;
 use Agit\PluggableBundle\Strategy\PluginInterface;

@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ProcessorInterface;
 use Agit\PluggableBundle\Strategy\PluggableServiceInterface;
 use Agit\PluggableBundle\Strategy\PluginInterface;

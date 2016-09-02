@@ -9,7 +9,7 @@
 
 namespace Agit\PluggableBundle\Strategy;
 
-use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ServiceAwarePluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

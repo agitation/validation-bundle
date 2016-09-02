@@ -9,7 +9,7 @@
 
 namespace Agit\PluggableBundle\Strategy\Object;
 
-use Agit\CommonBundle\Annotation\AnnotationTrait;
+use Agit\BaseBundle\Annotation\AnnotationTrait;
 use Agit\PluggableBundle\Strategy\PluggableServiceInterface;
 
 class ObjectPluggableService implements PluggableServiceInterface

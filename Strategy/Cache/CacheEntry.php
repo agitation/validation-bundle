@@ -9,7 +9,7 @@
 
 namespace Agit\PluggableBundle\Strategy\Cache;
 
-use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Exception\InternalErrorException;
 
 class CacheEntry
 {

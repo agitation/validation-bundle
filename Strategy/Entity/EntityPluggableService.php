@@ -9,7 +9,7 @@
 
 namespace Agit\PluggableBundle\Strategy\Entity;
 
-use Agit\CommonBundle\Annotation\AnnotationTrait;
+use Agit\BaseBundle\Annotation\AnnotationTrait;
 use Agit\PluggableBundle\Strategy\PluggableServiceInterface;
 
 class EntityPluggableService implements PluggableServiceInterface

@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Cache\CacheProvider;
 use Agit\PluggableBundle\Strategy\Object\ObjectLoader;
-use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ServiceAwarePluginInterface;
 
 class EntityLoader extends ObjectLoader

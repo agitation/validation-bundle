@@ -11,7 +11,7 @@ namespace Agit\PluggableBundle\Strategy\Cache;
 
 use Doctrine\Common\Cache\CacheProvider;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ProcessorInterface;
 use Agit\PluggableBundle\Strategy\PluggableServiceInterface;
 use Agit\PluggableBundle\Strategy\PluginInterface;

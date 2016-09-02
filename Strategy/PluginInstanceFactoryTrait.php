@@ -10,7 +10,7 @@
 namespace Agit\PluggableBundle\Strategy;
 
 use ReflectionClass;
-use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Exception\InternalErrorException;
 
 trait PluginInstanceFactoryTrait
 {

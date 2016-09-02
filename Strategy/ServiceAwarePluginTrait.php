@@ -9,7 +9,7 @@
 
 namespace Agit\PluggableBundle\Strategy;
 
-use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Exception\InternalErrorException;
 
 trait ServiceAwarePluginTrait
 {

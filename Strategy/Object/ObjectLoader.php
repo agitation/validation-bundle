@@ -11,7 +11,7 @@ namespace Agit\PluggableBundle\Strategy\Object;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Cache\CacheProvider;
-use Agit\CommonBundle\Exception\InternalErrorException;
+use Agit\BaseBundle\Exception\InternalErrorException;
 use Agit\PluggableBundle\Strategy\ServiceInjectorTrait;
 
 class ObjectLoader
