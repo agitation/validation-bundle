@@ -1,6 +1,6 @@
 <?php
 
-namespace Agit\CommonBundle\DependencyInjection;
+namespace Agit\BaseBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

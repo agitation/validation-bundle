@@ -1,15 +1,15 @@
 <?php
 /**
  * @package    agitation/common
- * @link       http://github.com/agitation/AgitCommonBundle
+ * @link       http://github.com/agitation/AgitBaseBundle
  * @author     Alex Günsche <http://www.agitsol.com/>
  * @copyright  2012-2015 AGITsol GmbH
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CommonBundle\Tests\Service;
+namespace Agit\BaseBundle\Tests\Service;
 
-use Agit\CommonBundle\Service\UrlService;
+use Agit\BaseBundle\Service\UrlService;
 
 class UrlServiceTest extends \PHPUnit_Framework_TestCase
 {

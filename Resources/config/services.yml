@@ -13,12 +13,12 @@ services:
 
     agit.common.classcollector:
         arguments: [ @kernel ]
-        class: Agit\CommonBundle\Service\ClassCollector
+        class: Agit\BaseBundle\Service\ClassCollector
 
     agit.common.filecollector:
         arguments: [ @kernel ]
-        class: Agit\CommonBundle\Service\FileCollector
+        class: Agit\BaseBundle\Service\FileCollector
 
     agit.common.url:
-        class: Agit\CommonBundle\Service\UrlService
+        class: Agit\BaseBundle\Service\UrlService
         arguments: [ %agit.common.domain.app%, %agit.common.domain.cdn%, %agit.common.force.https% ]

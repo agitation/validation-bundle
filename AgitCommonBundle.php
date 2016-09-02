@@ -1,9 +1,9 @@
 <?php
 
-namespace Agit\CommonBundle;
+namespace Agit\BaseBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AgitCommonBundle extends Bundle
+class AgitBaseBundle extends Bundle
 {
 }

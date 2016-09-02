@@ -1,15 +1,15 @@
 <?php
 /**
  * @package    agitation/common
- * @link       http://github.com/agitation/AgitCommonBundle
+ * @link       http://github.com/agitation/AgitBaseBundle
  * @author     Alex Günsche <http://www.agitsol.com/>
  * @copyright  2012-2015 AGITsol GmbH
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\CommonBundle\Tests\Entity;
+namespace Agit\BaseBundle\Tests\Entity;
 
-use Agit\CommonBundle\Entity\IdentityAwareTrait;
+use Agit\BaseBundle\Entity\IdentityAwareTrait;
 
 class AbstractEntityTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class AbstractEntityTest extends \PHPUnit_Framework_TestCase
     private function createMockEntity($mockName = null)
     {
         $mockInst = $this
-            ->getMockBuilder('\Agit\CommonBundle\Entity\IdentityAwareTrait')
+            ->getMockBuilder('\Agit\BaseBundle\Entity\IdentityAwareTrait')
             ->setMethods(['getId']);
 
         if ($mockName)
