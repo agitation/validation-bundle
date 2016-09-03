@@ -1,7 +1,7 @@
 services:
     agit.intl.locale:
         class: Agit\IntlBundle\Service\LocaleService
-        arguments: [@?agit.intl.localeconfig, %agit.intl.locales%, %agit.intl.global.catalog.dir%, "agit"]
+        arguments: [ "@?agit.intl.localeconfig", "%agit.intl.locales%", "%kernel.root_dir%/Resources/translations", "agit" ]
 
     # reusable event listener for the agit.intl.files.cleanup event
     agit.intl.listener.files.cleanup:
