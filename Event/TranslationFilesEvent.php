@@ -7,28 +7,35 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\IntlBundle\Event;
+namespace Agit\BaseBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Agit\IntlBundle\Command\CreateCatalogsCommand;
+use Agit\BaseBundle\Command\TranslationCatalogCommand;
 
 /**
  * This event is triggered before the files for generating a bundle catalog are
- * collected and extracted. Listeners should set up the files for the bundle in
- * question, and pass them to the registerSourceFile method.
- *
- * To remove temporary files, listen to the BundleFilesCleanupEvent.
+ * collected and extracted. Listeners should pass them to the registerSourceFile
+ * method. A listener can store temporary files under the cacheBasePath, they
+ * be cleaned up automatically after processing.
  */
-class BundleFilesRegistrationEvent extends Event
+class TranslationFilesEvent extends Event
 {
     private $bundleAlias;
 
     private $processor;
 
-    public function __construct(CreateCatalogsCommand $processor, $bundleAlias)
+    private $cacheBasePath;
+
+    public function __construct(TranslationCatalogCommand $processor, $bundleAlias, $cacheBasePath)
     {
         $this->bundleAlias = $bundleAlias;
         $this->processor = $processor;
+        $this->cacheBasePath = $cacheBasePath;
+    }
+
+    public function getCacheBasePath()
+    {
+        return $this->cacheBasePath;
     }
 
     public function getBundleAlias()

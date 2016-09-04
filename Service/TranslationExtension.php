@@ -11,8 +11,8 @@ namespace Agit\IntlBundle\Twig;
 
 use Twig_Extension;
 use Twig_Function_Method;
-use Agit\IntlBundle\Translate;
-use Agit\IntlBundle\Service\LocaleService;
+use Agit\BaseBundle\Tool\Translate;
+use Agit\BaseBundle\Service\LocaleService;
 
 class TranslationExtension extends Twig_Extension
 {

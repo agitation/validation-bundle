@@ -7,30 +7,28 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\IntlBundle\Command;
+namespace Agit\BaseBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Agit\BaseBundle\Command\SingletonCommandTrait;
 use Gettext\Translations;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Agit\IntlBundle\Event\BundleFilesRegistrationEvent;
-use Agit\IntlBundle\Event\CatalogRegistrationEvent;
-use Agit\IntlBundle\Event\CleanupEvent;
+use Agit\BaseBundle\Event\TranslationFilesEvent;
+use Agit\BaseBundle\Event\TranslationCatalogEvent;
 
 
-class CreateCatalogsCommand extends ContainerAwareCommand
+class TranslationCatalogCommand extends ContainerAwareCommand
 {
     use SingletonCommandTrait;
-
-    private $eventRegistrationTag = "agit.intl";
 
     private $catalogSubdir = "Resources/translations";
 
     private $frontendSubdir = "Resources/public/js/var";
+
+    private $cacheBasePath;
 
     private $extractorOptions = ["functions" => [
         "t" => "gettext", "ts" => "gettext", "tl" => "gettext", "noop" => "gettext",
@@ -60,6 +58,9 @@ class CreateCatalogsCommand extends ContainerAwareCommand
         $bundlePath = $container->get("agit.common.filecollector")->resolve($bundleAlias);
         $globalCatalogPath = $container->getParameter("kernel.root_dir") . "/$this->catalogSubdir";
         $defaultLocale = $container->get("agit.intl.locale")->getDefaultLocale();
+        $this->cacheBasePath = sprintf("%s/agit.intl.temp/%s", sys_get_temp_dir(), $bundleAlias);
+
+        $filesystem->mkdir($this->cacheBasePath);
 
         // collect files
 
@@ -68,8 +69,6 @@ class CreateCatalogsCommand extends ContainerAwareCommand
             ->name("*\.js")
             ->notPath("/test.*/i")
             ->notPath("public/js/ext");
-
-
 
         $files = [];
 
@@ -167,7 +166,7 @@ class CreateCatalogsCommand extends ContainerAwareCommand
         if ($frontendCatalogs)
             $filesystem->dumpFile("$bundlePath/$this->frontendSubdir/translations.js", $frontendCatalogs);
 
-        $this->dispatchCleanupEvents($bundleAlias);
+        $filesystem->remove($this->cacheBasePath);
     }
 
     public function registerSourceFile($alias, $path)
@@ -188,24 +187,11 @@ class CreateCatalogsCommand extends ContainerAwareCommand
         $eventDispatcher = $this->getContainer()->get("event_dispatcher");
 
         $eventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.files.register",
-            new BundleFilesRegistrationEvent($this, $bundleAlias));
+            "agit.intl.files.register",
+            new TranslationFilesEvent($this, $bundleAlias, $this->cacheBasePath));
 
         $eventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.catalog.register",
-            new CatalogRegistrationEvent($this));
-    }
-
-    private function dispatchCleanupEvents($bundleAlias)
-    {
-        $eventDispatcher = $this->getContainer()->get("event_dispatcher");
-
-        $eventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.files.cleanup",
-            new CleanupEvent($this, $bundleAlias));
-
-        $eventDispatcher->dispatch(
-            "{$this->eventRegistrationTag}.catalog.cleanup",
-            new CleanupEvent($this, $bundleAlias));
+            "agit.intl.catalog.register",
+            new TranslationCatalogEvent($this));
     }
 }

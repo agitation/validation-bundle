@@ -7,7 +7,7 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\IntlBundle;
+namespace Agit\BaseBundle\Tool;
 
 class Translate
 {

@@ -7,10 +7,10 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\IntlBundle\Event;
+namespace Agit\BaseBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Agit\IntlBundle\Command\CreateCatalogsCommand;
+use Agit\BaseBundle\Command\TranslationCatalogCommand;
 
 /**
  * This event is triggered before the files for generating a global catalog are
@@ -23,7 +23,7 @@ class CatalogRegistrationEvent extends Event
 {
     private $processor;
 
-    public function __construct(CreateCatalogsCommand $processor)
+    public function __construct(TranslationCatalogCommand $processor)
     {
         $this->processor = $processor;
     }

@@ -7,9 +7,9 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\IntlBundle\Tests\Service;
+namespace Agit\BaseBundle\Tests\Service;
 
-use Agit\IntlBundle\Translate;
+use Agit\BaseBundle\Tool\Translate;
 
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {

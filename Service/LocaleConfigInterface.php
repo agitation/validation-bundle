@@ -7,7 +7,7 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\IntlBundle\Service;
+namespace Agit\BaseBundle\Service;
 
 /**
  * May be implemented by a bundle to provide a UI-configured services (e.g.

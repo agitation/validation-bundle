@@ -7,9 +7,9 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\BaseBundle\Tests\Intl;
+namespace Agit\BaseBundle\Tests\Service;
 
-use Agit\IntlBundle\Service\LocaleService;
+use Agit\BaseBundle\Service\LocaleService;
 
 class LocaleServiceTest extends \PHPUnit_Framework_TestCase
 {

@@ -7,10 +7,10 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\IntlBundle\Service;
+namespace Agit\BaseBundle\Service;
 
 use Agit\BaseBundle\Exception\InternalErrorException;
-use Agit\IntlBundle\Translate;
+use Agit\BaseBundle\Tool\Translate;
 
 class LocaleService
 {
