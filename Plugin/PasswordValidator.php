@@ -11,7 +11,7 @@ namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
-use Agit\IntlBundle\Translate;
+use Agit\BaseBundle\Tool\Translate;
 
 /**
  * @ObjectPlugin(tag="agit.validation", id="password")
