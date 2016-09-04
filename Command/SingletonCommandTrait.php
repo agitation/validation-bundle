@@ -1,9 +1,9 @@
 <?php
-/**
- * @package    agitation/common
- * @link       http://github.com/agitation/AgitBaseBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
@@ -19,7 +19,9 @@ trait SingletonCommandTrait
         $this->selfFileHandle = fopen($scriptfile, 'r');
         $ok = flock($this->selfFileHandle, LOCK_EX | LOCK_NB);
 
-        if (!$ok) print("Another instance is already running.\n");
+        if (! $ok) {
+            print "Another instance is already running.\n";
+        }
 
         return $ok;
     }

@@ -1,9 +1,9 @@
 <?php
-/**
- * @package    agitation/intl
- * @link       http://github.com/agitation/AgitIntlBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
@@ -30,13 +30,10 @@ class LocaleService
     {
         $this->availableLocales = $availableLocales;
 
-        if (!$localeConfigService)
-        {
+        if (! $localeConfigService) {
             $this->primaryLocale = $this->defaultLocale;
             $this->activeLocales = $this->availableLocales;
-        }
-        else
-        {
+        } else {
             $this->primaryLocale = $localeConfigService->getPrimaryLocale();
             $this->activeLocales = $localeConfigService->getActiveLocales();
         }
@@ -74,8 +71,9 @@ class LocaleService
 
     public function setLocale($locale)
     {
-        if (!in_array($locale, $this->availableLocales))
+        if (! in_array($locale, $this->availableLocales)) {
             throw new InternalErrorException("The locale `$locale` is not available.");
+        }
 
         Translate::_setLocale($locale);
 
@@ -96,12 +94,9 @@ class LocaleService
             : "";
 
         // try locales with same language but different country
-        if (!$userLocale)
-        {
-            foreach ($this->availableLocales as $locale)
-            {
-                if (strtolower(substr($locale, 0, 2)) == strtolower(substr($browserLocale, 0, 2)))
-                {
+        if (! $userLocale) {
+            foreach ($this->availableLocales as $locale) {
+                if (strtolower(substr($locale, 0, 2)) === strtolower(substr($browserLocale, 0, 2))) {
                     $userLocale = $locale;
                     break;
                 }
@@ -110,6 +105,4 @@ class LocaleService
 
         return $userLocale ?: reset($this->availableLocales);
     }
-
-
 }

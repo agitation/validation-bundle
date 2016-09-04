@@ -1,9 +1,9 @@
 <?php
-/**
- * @package    agitation/common
- * @link       http://github.com/agitation/AgitBaseBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
@@ -21,7 +21,7 @@ abstract class AgitException extends \Exception
     /**
      * Returns an HTTP status which indicates the type of error.
      *
-     * @return integer the numeric HTTP status code.
+     * @return int the numeric HTTP status code.
      */
     public function getHttpStatus()
     {

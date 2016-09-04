@@ -1,9 +1,9 @@
 <?php
-/**
- * @package    agitation/common
- * @link       http://github.com/agitation/AgitBaseBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
@@ -14,9 +14,9 @@ trait IdentityAwareTrait
     // NOTE: The $id property and its annotations must be defined in a "child" trait or an entity.
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -28,18 +28,20 @@ trait IdentityAwareTrait
      */
     public function __toString()
     {
-        return get_class() . '-' . (string)$this->getId();
+        return get_class() . '-' . (string) $this->getId();
     }
 
     public function getEntityClass()
     {
         $className = get_class($this);
 
-        if (strpos($className, 'Prox') !== false)
+        if (strpos($className, 'Prox') !== false) {
             $className = get_parent_class($this);
+        }
 
-        if (strpos($className, '\\') !== false)
+        if (strpos($className, '\\') !== false) {
             $className = substr(strrchr($className, "\\"), 1);
+        }
 
         return $className;
     }

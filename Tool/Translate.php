@@ -1,9 +1,9 @@
 <?php
-/**
- * @package    agitation/intl
- * @link       http://github.com/agitation/AgitIntlBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
@@ -12,65 +12,69 @@ namespace Agit\BaseBundle\Tool;
 class Translate
 {
     // used internally to store the currently set locale
-    static private $locale = "en_GB";
+    private static $locale = "en_GB";
 
-    static private $appLocale = "en_GB";
+    private static $appLocale = "en_GB";
 
-    static public function getLocale()
+    public static function getLocale()
     {
         return self::$locale;
     }
 
-    static public function getAppLocale()
+    public static function getAppLocale()
     {
         return self::$appLocale;
     }
 
-    static public function t($string)
+    public static function t($string)
     {
         return gettext($string);
     }
 
-    static public function n($string1, $string2, $num)
+    public static function n($string1, $string2, $num)
     {
         return ngettext($string1, $string2, $num);
     }
 
-    static public function x($context, $string)
+    public static function x($context, $string)
     {
         // based on http://www.php.net/manual/de/book.gettext.php#89975
         $contextString = "{$context}\004{$string}";
         $translation = self::t($contextString);
+
         return ($translation === $contextString) ? $string : $translation;
     }
 
     // like t(), only in the appLocale. Useful for logging etc.
-    static public function tl($string)
+    public static function tl($string)
     {
         $locale = self::$locale;
         self::_setLocale(self::$appLocale);
         $translation = self::t($string);
         self::_setLocale($locale);
+
         return $translation;
     }
 
     // like n(), only in the appLocale. Useful for logging etc.
-    static public function nl($string1, $string2, $num)
+    public static function nl($string1, $string2, $num)
     {
         $locale = self::$locale;
         self::_setLocale(self::$appLocale);
         $translation = self::n($string1, $string2, $num);
         self::_setLocale($locale);
+
         return $translation;
     }
 
     // like x(), only in the appLocale. Useful for logging etc.
-    static public function xl($context, $string)
+    public static function xl($context, $string)
     {
         $locale = self::$locale;
         self::_setLocale(self::$appLocale);
         $translation = self::x($context, $string);
         self::_setLocale($locale);
+
         return $translation;
     }
 
@@ -78,23 +82,23 @@ class Translate
      * This method is just a helper to ensure that strings are caught by xgettext.
      * The string itself will usually be translated in a different context.
      */
-    static public function noop($string)
+    public static function noop($string)
     {
         return $string;
     }
 
     /**
-     * Same as noop(), only for strings with plural forms
+     * Same as noop(), only for strings with plural forms.
      */
-    static public function noopN($string1, $string2, $num)
+    public static function noopN($string1, $string2, $num)
     {
         return $string1;
     }
 
     /**
-     * Same as noop(), only for strings with context
+     * Same as noop(), only for strings with context.
      */
-    static public function noopX($context, $string)
+    public static function noopX($context, $string)
     {
         return $string;
     }
@@ -104,7 +108,7 @@ class Translate
      * This method is only public because both Translate and LocaleService
      * need its functionality and we want to avoid duplicate code.
      */
-    static public function _setLocale($locale)
+    public static function _setLocale($locale)
     {
         putenv("LANGUAGE=$locale.UTF-8"); // for CLI
         setlocale(LC_ALL, "$locale.utf8");
@@ -115,7 +119,7 @@ class Translate
     /**
      * DO NOT CALL THIS METHOD; it is only public for LocaleService.
      */
-    static public function _setAppLocale($locale)
+    public static function _setAppLocale($locale)
     {
         self::$appLocale = $locale;
     }

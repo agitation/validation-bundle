@@ -1,18 +1,17 @@
 <?php
-/**
- * @package    agitation/intl
- * @link       http://github.com/agitation/AgitIntlBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
 namespace Agit\BaseBundle\Service;
 
+use Agit\BaseBundle\Tool\Translate;
 use Twig_Extension;
 use Twig_Function_Method;
-use Agit\BaseBundle\Tool\Translate;
-use Agit\BaseBundle\Service\LocaleService;
 
 class TranslationExtension extends Twig_Extension
 {
@@ -29,10 +28,10 @@ class TranslationExtension extends Twig_Extension
     public function getFunctions()
     {
         return [
-            "t"  => new Twig_Function_Method($this, "t",  ["is_safe" => ["all"]]),
-            "n"  => new Twig_Function_Method($this, "n",  ["is_safe" => ["all"]]),
-            "x"  => new Twig_Function_Method($this, "x",  ["is_safe" => ["all"]]),
-            "ts" => new Twig_Function_Method($this, "ts", ["is_safe" => ["all"]]),
+            "t"                => new Twig_Function_Method($this, "t",  ["is_safe" => ["all"]]),
+            "n"                => new Twig_Function_Method($this, "n",  ["is_safe" => ["all"]]),
+            "x"                => new Twig_Function_Method($this, "x",  ["is_safe" => ["all"]]),
+            "ts"               => new Twig_Function_Method($this, "ts", ["is_safe" => ["all"]]),
             "getActiveLocales" => new Twig_Function_Method($this, "getActiveLocales")
 
         ];
@@ -67,6 +66,7 @@ class TranslationExtension extends Twig_Extension
     {
         $args = array_slice(func_get_args(), 1);
         $translated = $this->t($string);
+
         return vsprintf($translated, $args);
     }
 

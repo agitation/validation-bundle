@@ -1,9 +1,9 @@
 <?php
-/**
- * @package    agitation/common
- * @link       http://github.com/agitation/AgitBaseBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
@@ -23,7 +23,7 @@ class UrlService
             'app' => $appDomain,
             'cdn' => $cdnDomain];
 
-        $this->protocol = ($forceHttps || (isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] && strtolower($_SERVER['HTTPS']) !== 'off'))
+        $this->protocol = ($forceHttps || (isset($_SERVER['HTTPS']) && (bool) $_SERVER['HTTPS'] && strtolower($_SERVER['HTTPS']) !== 'off'))
             ? 'https'
             : 'http';
     }
@@ -50,43 +50,43 @@ class UrlService
 
     public function createUrl($type, $path = '', array $params = [])
     {
-        if (!isset($this->domains[$type]))
+        if (! isset($this->domains[$type])) {
             throw new InternalErrorException("Invalid domain type");
+        }
 
         $url = sprintf("%s://%s/%s", $this->protocol, $this->domains[$type], ltrim($path, '/'));
 
-        if (count($params))
+        if (count($params)) {
             $url = $this->append($url, $params);
+        }
 
         return $url;
     }
 
     /**
-     * append request parameters to a given URL
+     * append request parameters to a given URL.
      */
-    public function append($url, array $params, $enctype='')
+    public function append($url, array $params, $enctype = '')
     {
-        if ($enctype === 'html')
+        if ($enctype === 'html') {
             $amp = '&amp;';
-        elseif ($enctype === 'url')
+        } elseif ($enctype === 'url') {
             $amp = '%26';
-        else
+        } else {
             $amp = '&';
+        }
 
-        foreach ($params as $key=>$value)
-        {
-            if (is_array($value))
-            {
+        foreach ($params as $key => $value) {
+            if (is_array($value)) {
                 $key     .= "[]";
                 $urlpart  = [];
 
-                foreach ($value as $val)
+                foreach ($value as $val) {
                     $urlpart[] = "$key=$val";
+                }
 
                 $urlpart = implode($amp, $urlpart);
-            }
-            else
-            {
+            } else {
                 $urlpart = "$key=$value";
             }
 

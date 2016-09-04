@@ -1,9 +1,9 @@
 <?php
-/**
- * @package    agitation/common
- * @link       http://github.com/agitation/AgitBaseBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
@@ -16,8 +16,8 @@ class ClassCollector extends FileCollector
     private $resolved = [];
 
     /**
-     * @param string $location something like `FoobarBundle:Directory:Subdir`
-     * @param bool $ignoreBrokenClasses ignore classes that are broken e.g. due to a missing parent class
+     * @param string $location            something like `FoobarBundle:Directory:Subdir`
+     * @param bool   $ignoreBrokenClasses ignore classes that are broken e.g. due to a missing parent class
      */
     public function collect($location, $ignoreBrokenClasses = false)
     {
@@ -30,26 +30,27 @@ class ClassCollector extends FileCollector
         $files = parent::collect($location, 'php');
         $classes = [];
 
-        foreach ($files as $file)
-        {
-            try
-            {
+        foreach ($files as $file) {
+            try {
                 $className = $this->getFullClass($file);
-                if (!$className) continue;
+                if (! $className) {
+                    continue;
+                }
 
                 $classExists = class_exists($className);
 
-                if ($classExists)
-                {
+                if ($classExists) {
                     $refl = new \ReflectionClass($className);
-                    if ($refl->isAbstract()) continue;
+                    if ($refl->isAbstract()) {
+                        continue;
+                    }
 
                     $classes[] = $className;
                 }
-            }
-            catch (\Exception $e)
-            {
-                if (!$ignoreBrokenClasses) throw $e;
+            } catch (\Exception $e) {
+                if (! $ignoreBrokenClasses) {
+                    throw $e;
+                }
             }
         }
 
@@ -67,8 +68,9 @@ class ClassCollector extends FileCollector
     {
         $dir = dirname($file);
 
-        if (!isset($this->resolved[$file]))
+        if (! isset($this->resolved[$file])) {
             $this->resolved += array_flip(ClassMapGenerator::createMap($dir));
+        }
 
         return isset($this->resolved[$file]) ? $this->resolved[$file] : '';
     }

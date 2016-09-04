@@ -1,9 +1,16 @@
 <?php
 
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
+ * @license    http://opensource.org/licenses/MIT
+ */
+
 namespace Agit\BaseBundle\EventListener;
 
-use Agit\BaseBundle\Service\FileCollector;
 use Agit\BaseBundle\Event\TranslationFilesEvent;
+use Agit\BaseBundle\Service\FileCollector;
 use Symfony\Component\Filesystem\Filesystem;
 
 class TranslationTwigListener
@@ -14,7 +21,7 @@ class TranslationTwigListener
 
     private $twig;
 
-    public function __construct(FileCollector $fileCollector,\Twig_Environment $twig)
+    public function __construct(FileCollector $fileCollector, \Twig_Environment $twig)
     {
         $this->fileCollector = $fileCollector;
         $this->twig = $twig;
@@ -38,8 +45,7 @@ class TranslationTwigListener
         $this->twig->enableAutoReload();
         $this->twig->setCache($cachePath);
 
-        foreach ($this->fileCollector->collect($tplDir, "twig") as $file)
-        {
+        foreach ($this->fileCollector->collect($tplDir, "twig") as $file) {
             $this->twig->loadTemplate($file); // force rendering
             $cacheFilePath = $this->twig->getCacheFilename($file);
             $fileId = str_replace($tplDir, "@$bundleAlias/", $file);
@@ -49,6 +55,5 @@ class TranslationTwigListener
         // resetting original values
         $this->twig->setCache($actualCachePath);
         call_user_func([$this->twig, $actualAutoReload ? "enableAutoReload" :  "disableAutoReload"]);
-
     }
 }

@@ -1,9 +1,9 @@
 <?php
-/**
- * @package    agitation/intl
- * @link       http://github.com/agitation/AgitIntlBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
@@ -16,22 +16,21 @@ class LocaleServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultLocale()
     {
         $localeService = $this->createLocaleService();
-        $this->assertEquals('en_GB', $localeService->getDefaultLocale());
+        $this->assertSame('en_GB', $localeService->getDefaultLocale());
     }
 
     public function testGetAvailableLocales()
     {
         $localeService = $this->createLocaleService();
-        $this->assertEquals(['en_GB', 'de_DE'], $localeService->getAvailableLocales());
+        $this->assertSame(['en_GB', 'de_DE'], $localeService->getAvailableLocales());
     }
 
     public function testSetLocale()
     {
         $localeService = $this->createLocaleService();
         $localeService->setLocale('de_DE');
-        $this->assertEquals('de_DE', $localeService->getLocale());
+        $this->assertSame('de_DE', $localeService->getLocale());
     }
-
 
     public function testSetLocaleThrowsException()
     {

@@ -1,24 +1,23 @@
 <?php
-/**
- * @package    agitation/intl
- * @link       http://github.com/agitation/AgitIntlBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
 namespace Agit\BaseBundle\Command;
 
+use Agit\BaseBundle\Event\TranslationCatalogEvent;
+use Agit\BaseBundle\Event\TranslationFilesEvent;
+use Gettext\Translations;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Gettext\Translations;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Agit\BaseBundle\Event\TranslationFilesEvent;
-use Agit\BaseBundle\Event\TranslationCatalogEvent;
-
 
 class TranslationCatalogCommand extends ContainerAwareCommand
 {
@@ -50,7 +49,9 @@ class TranslationCatalogCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->flock(__FILE__)) return;
+        if (! $this->flock(__FILE__)) {
+            return;
+        }
 
         $container = $this->getContainer();
         $filesystem = new Filesystem();
@@ -72,8 +73,7 @@ class TranslationCatalogCommand extends ContainerAwareCommand
 
         $files = [];
 
-        foreach ($finder as $file)
-        {
+        foreach ($finder as $file) {
             $filePath = $file->getRealpath();
             $alias = str_replace($bundlePath, "@$bundleAlias/", $filePath);
             $files[$alias] = $filePath;
@@ -82,13 +82,12 @@ class TranslationCatalogCommand extends ContainerAwareCommand
         $this->dispatchRegistrationEvents($bundleAlias);
         $files += $this->extraSourceFiles;
 
-        $frontendFiles = array_filter($files, function($file){ return preg_match("|\.js$|", $file); });
-        $backendFiles = array_filter($files, function($file){ return !preg_match("|\.js$|", $file); });
+        $frontendFiles = array_filter($files, function ($file) { return preg_match("|\.js$|", $file); });
+        $backendFiles = array_filter($files, function ($file) { return ! preg_match("|\.js$|", $file); });
 
         $frontendCatalogs = "";
 
-        foreach ($container->getParameter("agit.intl.locales") as $locale)
-        {
+        foreach ($container->getParameter("agit.intl.locales") as $locale) {
             $globalCatalogFile = "$globalCatalogPath/$locale/LC_MESSAGES/agit.po";
             $globalCatalogMoFile = "$globalCatalogPath/$locale/LC_MESSAGES/agit.mo";
             $globalCatalog = $filesystem->exists($globalCatalogFile)
@@ -107,18 +106,17 @@ class TranslationCatalogCommand extends ContainerAwareCommand
 
             // first: only JS messages
 
-            foreach ($frontendFiles as $file)
+            foreach ($frontendFiles as $file) {
                 $bundleCatalog->addFromJsCodeFile($file, $this->extractorOptions);
+            }
 
             $bundleCatalog->mergeWith($oldBundleCatalog, 0);
             $bundleCatalog->mergeWith($globalCatalog, 0);
 
-            if ($bundleCatalog->count() && $locale !== $defaultLocale)
-            {
+            if ($bundleCatalog->count() && $locale !== $defaultLocale) {
                 $transMap = [];
 
-                foreach ($bundleCatalog as $entry)
-                {
+                foreach ($bundleCatalog as $entry) {
                     $msgid = ltrim($entry->getId(), "\004");
                     $msgstr = $entry->getTranslation();
 
@@ -135,8 +133,9 @@ class TranslationCatalogCommand extends ContainerAwareCommand
 
             // now the same with all messages
 
-            foreach ($backendFiles as $file)
+            foreach ($backendFiles as $file) {
                 $bundleCatalog->addFromPhpCodeFile($file, $this->extractorOptions);
+            }
 
             $bundleCatalog->mergeWith($oldBundleCatalog, 0);
             $bundleCatalog->mergeWith($globalCatalog, 0);
@@ -144,16 +143,19 @@ class TranslationCatalogCommand extends ContainerAwareCommand
             $catalog = $bundleCatalog->toPoString();
             $catalog = str_replace(array_values($files), array_keys($files), $catalog);
 
-            if ($bundleCatalog->count())
+            if ($bundleCatalog->count()) {
                 $filesystem->dumpFile("$bundlePath/$this->catalogSubdir/bundle.$locale.po", $catalog);
+            }
 
             // finally, create the global catalog
 
             $globalCatalog->addFromPoString($catalog);
 
-            if (isset($this->extraCatalogFiles[$locale]))
-                foreach ($this->extraCatalogFiles[$locale] as $extraCatalogFile)
+            if (isset($this->extraCatalogFiles[$locale])) {
+                foreach ($this->extraCatalogFiles[$locale] as $extraCatalogFile) {
                     $globalCatalog->addFromPoFile($extraCatalogFile);
+                }
+            }
 
             // NOTE: we delete all headers and only set language in order to avoid garbage commits
             $globalCatalog->deleteHeaders();
@@ -163,8 +165,9 @@ class TranslationCatalogCommand extends ContainerAwareCommand
             $globalCatalog->toMoFile($globalCatalogMoFile);
         }
 
-        if ($frontendCatalogs)
+        if ($frontendCatalogs) {
             $filesystem->dumpFile("$bundlePath/$this->frontendSubdir/translations.js", $frontendCatalogs);
+        }
 
         $filesystem->remove($this->cacheBasePath);
     }
@@ -176,8 +179,9 @@ class TranslationCatalogCommand extends ContainerAwareCommand
 
     public function registerCatalogFile($locale, $path)
     {
-        if (!isset($this->extraCatalogFiles[$locale]))
+        if (! isset($this->extraCatalogFiles[$locale])) {
             $this->extraCatalogFiles[$locale] = [];
+        }
 
         $this->extraCatalogFiles[$locale][] = $path;
     }

@@ -1,16 +1,16 @@
 <?php
-/**
- * @package    agitation/intl
- * @link       http://github.com/agitation/AgitIntlBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
 namespace Agit\BaseBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Agit\BaseBundle\Command\TranslationCatalogCommand;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * This event is triggered before the files for generating a bundle catalog are

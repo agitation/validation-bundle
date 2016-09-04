@@ -1,24 +1,23 @@
 <?php
-/**
- * @package    agitation/common
- * @link       http://github.com/agitation/AgitBaseBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
 namespace Agit\BaseBundle\Tests\Pluggable;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Doctrine\Common\Cache\ArrayCache;
-use Agit\BaseBundle\Pluggable\AbstractPluggableService;
 use Agit\BaseBundle\Pluggable\RegistrationData;
+use Doctrine\Common\Cache\ArrayCache;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class AbstractPluggableServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterPluginWorks()
     {
-//         $pluggableService = $this->createMockPluggableService(new EventDispatcher(), new ArrayCache());
+        //         $pluggableService = $this->createMockPluggableService(new EventDispatcher(), new ArrayCache());
 //         $registrationData = $this->createRegistrationData();
 //
 //         // as we have just a dummy processor, the output equals the input
@@ -29,7 +28,7 @@ class AbstractPluggableServiceTest extends \PHPUnit_Framework_TestCase
 
     private function createMockPluggableService($eventDispatcher, $cacheProvider)
     {
-//         $pluggableService = $this->getMockBuilder('\Agit\BaseBundle\Pluggable\AbstractPluggableService')
+        //         $pluggableService = $this->getMockBuilder('\Agit\BaseBundle\Pluggable\AbstractPluggableService')
 //             ->setMethods(['getServiceTag', 'register'])
 //             ->getMock();
 //
@@ -48,7 +47,7 @@ class AbstractPluggableServiceTest extends \PHPUnit_Framework_TestCase
 
     private function createRegistrationData()
     {
-//         $registrationData = new RegistrationData();
+        //         $registrationData = new RegistrationData();
 //         $registrationData->set('foo', 'bar');
 //
 //         return $registrationData;

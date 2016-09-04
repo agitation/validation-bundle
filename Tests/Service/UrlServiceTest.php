@@ -1,9 +1,9 @@
 <?php
-/**
- * @package    agitation/common
- * @link       http://github.com/agitation/AgitBaseBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
@@ -16,20 +16,20 @@ class UrlServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAppDomain()
     {
         $urlService = $this->getServiceInstance();
-        $this->assertEquals('app.example.com', $urlService->getAppDomain());
+        $this->assertSame('app.example.com', $urlService->getAppDomain());
     }
 
     public function testGetCdnDomain()
     {
         $urlService = $this->getServiceInstance();
-        $this->assertEquals('cdn.example.com', $urlService->getCdnDomain());
+        $this->assertSame('cdn.example.com', $urlService->getCdnDomain());
     }
 
     public function testCreateAppUrl()
     {
         $urlService = $this->getServiceInstance();
 
-        $this->assertEquals(
+        $this->assertSame(
             'https://app.example.com/foo/bar?a=b&c=d',
             $urlService->createAppUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
     }
@@ -38,7 +38,7 @@ class UrlServiceTest extends \PHPUnit_Framework_TestCase
     {
         $urlService = $this->getServiceInstance();
 
-        $this->assertEquals(
+        $this->assertSame(
             'https://cdn.example.com/foo/bar?a=b&c=d',
             $urlService->createCdnUrl('/foo/bar', ['a' => 'b', 'c' => 'd']));
     }
@@ -47,7 +47,7 @@ class UrlServiceTest extends \PHPUnit_Framework_TestCase
     {
         $urlService = $this->getServiceInstance();
 
-        $this->assertEquals(
+        $this->assertSame(
             'https://cdn.example.com/foo/bar?a=b&c=d',
             $urlService->createUrl('cdn', '/foo/bar', ['a' => 'b', 'c' => 'd']));
     }
@@ -56,10 +56,10 @@ class UrlServiceTest extends \PHPUnit_Framework_TestCase
     {
         $urlService = $this->getServiceInstance();
 
-        $this->assertEquals('/test?a=b&c=d', $urlService->append('/test', ['a' => 'b', 'c' => 'd']));
-        $this->assertEquals('/test?a=b&amp;c=d', $urlService->append('/test', ['a' => 'b', 'c' => 'd'], 'html'));
-        $this->assertEquals('/test?a=b%26c=d', $urlService->append('/test', ['a' => 'b', 'c' => 'd'], 'url'));
-        $this->assertEquals('/test?a[]=a1&a[]=b1&c=d', $urlService->append('/test', ['a' => ['a1', 'b1'], 'c' => 'd']));
+        $this->assertSame('/test?a=b&c=d', $urlService->append('/test', ['a' => 'b', 'c' => 'd']));
+        $this->assertSame('/test?a=b&amp;c=d', $urlService->append('/test', ['a' => 'b', 'c' => 'd'], 'html'));
+        $this->assertSame('/test?a=b%26c=d', $urlService->append('/test', ['a' => 'b', 'c' => 'd'], 'url'));
+        $this->assertSame('/test?a[]=a1&a[]=b1&c=d', $urlService->append('/test', ['a' => ['a1', 'b1'], 'c' => 'd']));
     }
 
     private function getServiceInstance()
