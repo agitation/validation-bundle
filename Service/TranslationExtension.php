@@ -7,7 +7,7 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\IntlBundle\Twig;
+namespace Agit\BaseBundle\Service;
 
 use Twig_Extension;
 use Twig_Function_Method;

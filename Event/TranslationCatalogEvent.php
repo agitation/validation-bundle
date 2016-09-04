@@ -14,18 +14,22 @@ use Agit\BaseBundle\Command\TranslationCatalogCommand;
 
 /**
  * This event is triggered before the files for generating a global catalog are
- * collected and merged with the global catalog. Listeners can generate files in
- * a temporary location and pass them to the registerCatalogFile method.
- *
- * To remove temporary files, listen to the BundleFilesCleanupEvent.
+ * collected and merged with the global catalog. Listeners can generate files
+ * under getCacheBasePath and pass them to the registerCatalogFile method.
  */
-class CatalogRegistrationEvent extends Event
+class TranslationCatalogEvent extends Event
 {
     private $processor;
 
-    public function __construct(TranslationCatalogCommand $processor)
+    public function __construct(TranslationCatalogCommand $processor, $cacheBasePath)
     {
         $this->processor = $processor;
+        $this->cacheBasePath = $cacheBasePath;
+    }
+
+    public function getCacheBasePath()
+    {
+        return $this->cacheBasePath;
     }
 
     public function registerCatalogFile($locale, $path)

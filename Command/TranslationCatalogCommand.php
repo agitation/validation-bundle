@@ -192,6 +192,6 @@ class TranslationCatalogCommand extends ContainerAwareCommand
 
         $eventDispatcher->dispatch(
             "agit.intl.catalog.register",
-            new TranslationCatalogEvent($this));
+            new TranslationCatalogEvent($this, $this->cacheBasePath));
     }
 }

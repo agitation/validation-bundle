@@ -1,19 +1,12 @@
 <?php
-/**
- * @package    agitation/intl
- * @link       http://github.com/agitation/AgitIntlBundle
- * @author     Alex Günsche <http://www.agitsol.com/>
- * @copyright  2012-2015 AGITsol GmbH
- * @license    http://opensource.org/licenses/MIT
- */
 
-namespace Agit\IntlBundle\EventListener;
+namespace Agit\BaseBundle\EventListener;
 
 use Agit\BaseBundle\Service\FileCollector;
-use Agit\IntlBundle\Event\BundleFilesRegistrationEvent;
-use Agit\IntlBundle\EventListener\AbstractTemporaryFilesListener;
+use Agit\BaseBundle\Event\TranslationFilesEvent;
+use Symfony\Component\Filesystem\Filesystem;
 
-class BundleTwigFilesListener extends AbstractTemporaryFilesListener
+class TranslationTwigListener
 {
     protected $bundleTemplatesPath = "Resources/views";
 
@@ -27,25 +20,30 @@ class BundleTwigFilesListener extends AbstractTemporaryFilesListener
         $this->twig = $twig;
     }
 
-    public function onRegistration(BundleFilesRegistrationEvent $registrationEvent)
+    public function onRegistration(TranslationFilesEvent $event)
     {
-        $bundleAlias = $registrationEvent->getBundleAlias();
+        $bundleAlias = $event->getBundleAlias();
         $tplDir = $this->fileCollector->resolve($bundleAlias);
 
         // storing the old values to reset them when we’re done
         $actualCachePath = $this->twig->getCache();
         $actualAutoReload = $this->twig->isAutoReload();
 
+        // create tmp cache path
+        $filesystem = new Filesystem();
+        $cachePath = $event->getCacheBasePath() . md5(__CLASS__);
+        $filesystem->mkdir($cachePath);
+
         // setting temporary values
         $this->twig->enableAutoReload();
-        $this->twig->setCache($this->getCachePath($bundleAlias));
+        $this->twig->setCache($cachePath);
 
         foreach ($this->fileCollector->collect($tplDir, "twig") as $file)
         {
             $this->twig->loadTemplate($file); // force rendering
             $cacheFilePath = $this->twig->getCacheFilename($file);
             $fileId = str_replace($tplDir, "@$bundleAlias/", $file);
-            $registrationEvent->registerSourceFile($fileId, $cacheFilePath);
+            $event->registerSourceFile($fileId, $cacheFilePath);
         }
 
         // resetting original values
