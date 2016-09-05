@@ -1,59 +1,28 @@
 <?php
 
 /*
- * @package    agitation/base-bundle
- * @link       http://github.com/agitation/base-bundle
+ * @package    agitation/validation-bundle
+ * @link       http://github.com/agitation/validation-bundle
  * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\BaseBundle
+namespace Agit\ValidationBundle;
+
+use Agit\ValidationBundle\DependencyInjection\RegisterValidatorsCompilerPass;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class AgitValidationBundle extends Bundle
 {
-    use Agit\BaseBundle\DependencyInjection\RegisterPluggableServicesCompilerPass;
-    use Agit\BaseBundle\DependencyInjection\RegisterProcessorsCompilerPass;
-    use Agit\BaseBundle\DependencyInjection\RegisterValidatorsCompilerPass;
-    use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-    use Symfony\Component\DependencyInjection\ContainerBuilder;
-    use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-    class AgitBaseBundle extends Bundle
+    public function build(ContainerBuilder $containerBuilder)
     {
-        public function build(ContainerBuilder $containerBuilder)
-        {
-            parent::build($containerBuilder);
+        parent::build($containerBuilder);
 
-            $containerBuilder->addCompilerPass(new RegisterProcessorsCompilerPass());
-
-            $containerBuilder->addCompilerPass(
-                new RegisterPluggableServicesCompilerPass(),
-                PassConfig::TYPE_AFTER_REMOVING
-            );
-
-            $containerBuilder->addCompilerPass(
-                new RegisterValidatorsCompilerPass(),
-                PassConfig::TYPE_AFTER_REMOVING
-            );
-        }
-    }
-}
-
-// quick and dirty variable dumper
-namespace
-{
-    function p()
-    {
-        if (php_sapi_name() !== "cli") {
-            @header("Content-Type: text/plain; charset=UTF-8");
-        }
-
-        foreach (func_get_args() as $arg) {
-            if (is_null($arg) || is_bool($arg)) {
-                var_dump($arg);
-            } else {
-                print_r($arg);
-            }
-
-            echo "\n\n";
-        }
+        $containerBuilder->addCompilerPass(
+            new RegisterValidatorsCompilerPass(),
+            PassConfig::TYPE_AFTER_REMOVING
+        );
     }
 }

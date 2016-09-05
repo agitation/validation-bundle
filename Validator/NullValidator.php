@@ -1,16 +1,16 @@
 <?php
 
 /*
- * @package    agitation/base-bundle
- * @link       http://github.com/agitation/base-bundle
+ * @package    agitation/validation-bundle
+ * @link       http://github.com/agitation/validation-bundle
  * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
 
 namespace Agit\ValidationBundle\Validator;
 
-use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\BaseBundle\Tool\Translate;
+use Agit\ValidationBundle\Exception\InvalidValueException;
 
 class NullValidator extends AbstractValidator
 {

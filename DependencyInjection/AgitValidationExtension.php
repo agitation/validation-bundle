@@ -1,8 +1,8 @@
 <?php
 
 /*
- * @package    agitation/base-bundle
- * @link       http://github.com/agitation/base-bundle
+ * @package    agitation/validation-bundle
+ * @link       http://github.com/agitation/validation-bundle
  * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class AgitBaseExtension extends Extension
+class AgitValidationExtension extends Extension
 {
     /**
      * {@inheritdoc}

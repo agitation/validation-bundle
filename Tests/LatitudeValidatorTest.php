@@ -1,8 +1,8 @@
 <?php
 
 /*
- * @package    agitation/base-bundle
- * @link       http://github.com/agitation/base-bundle
+ * @package    agitation/validation-bundle
+ * @link       http://github.com/agitation/validation-bundle
  * @author     Alexander Günsche
  * @license    http://opensource.org/licenses/MIT
  */
