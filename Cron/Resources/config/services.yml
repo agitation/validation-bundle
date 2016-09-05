@@ -1,4 +1,0 @@
-services:
-    agit.cron:
-        class: Agit\CronBundle\Cron\CronService
-        arguments: [@event_dispatcher]
