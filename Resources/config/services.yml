@@ -1,13 +1,11 @@
 services:
     agit.validation:
-        class: Agit\ValidationBundle\Validator\ValidationService
+        class: Agit\ValidationBundle\ValidationService
         arguments: [ "@agit.pluggable.object.loader_factory" ]
 
     agit.validator:
         abstract: true
         class: Agit\ValidationBundle\Validator\AbstractValidator
-        calls:
-            - [ setValidationService, [ "@agit.validation" ] ]
 
     agit.validator.array:
         parent: agit.validator
