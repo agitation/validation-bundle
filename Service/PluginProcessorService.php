@@ -94,14 +94,7 @@ class PluginProcessorService
                 continue;
             }
 
-            // NOTE: It is possible that a plugin class extends a non-existent
-            // other class. This is not unusual, because a bundle may
-            // ship optional plugins, which are ignored if a matching
-            // pluggable component is not present.
-            //
-            // This is why we simply ignore "broken" classes when collecting.
-
-            $classes = $this->classCollector->collect($pluginPath, true);
+            $classes = $this->classCollector->collect($pluginPath);
 
             foreach ($classes as $class) {
                 $annotations = $this->getAllAnnotations($class);
