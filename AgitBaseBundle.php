@@ -29,3 +29,23 @@ class AgitBaseBundle extends Bundle
         );
     }
 }
+
+// quick and dirty variable dumper
+namespace
+{
+    function p()
+    {
+        if (php_sapi_name() !== 'cli')
+            @header("Content-Type: text/plain; charset=UTF-8");
+
+        foreach (func_get_args() as $arg)
+        {
+            if (is_null($arg) || is_bool($arg))
+                var_dump($arg);
+            else
+                print_r($arg);
+
+            echo "\n\n";
+        }
+    }
+}
