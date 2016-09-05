@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\LongitudeValidator;
+use Agit\BaseBundle\Validation\LongitudeValidator;
 
 class LongitudeValidatorTest extends \PHPUnit_Framework_TestCase
 {

@@ -7,21 +7,17 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\BaseBundle\Plugin\Validator;
+namespace Agit\BaseBundle\Validation;
 
 use Agit\BaseBundle\Exception\InvalidValueException;
-use Agit\BaseBundle\Pluggable\Object\ObjectPlugin;
 use Agit\BaseBundle\Tool\Translate;
 
-/**
- * @ObjectPlugin(tag="agit.validation", id="notNull")
- */
-class NotNullValidator extends AbstractValidator
+class ScalarValidator extends AbstractValidator
 {
     public function validate($value)
     {
-        if (is_null($value)) {
-            throw new InvalidValueException(Translate::t("The value must not be NULL."));
+        if (! is_scalar($value)) {
+            throw new InvalidValueException(Translate::t("The value must be scalar."));
         }
     }
 }

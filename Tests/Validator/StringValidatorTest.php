@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\StringValidator;
+use Agit\BaseBundle\Validation\StringValidator;
 
 class StringValidatorTest extends \PHPUnit_Framework_TestCase
 {

@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\ArrayValidator;
+use Agit\BaseBundle\Validation\ArrayValidator;
 
 class ArrayValidatorTest extends \PHPUnit_Framework_TestCase
 {

@@ -9,10 +9,10 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\ArrayValidator;
-use Agit\BaseBundle\Plugin\Validator\GeolocationValidator;
-use Agit\BaseBundle\Plugin\Validator\LatitudeValidator;
-use Agit\BaseBundle\Plugin\Validator\LongitudeValidator;
+use Agit\BaseBundle\Validation\ArrayValidator;
+use Agit\BaseBundle\Validation\GeolocationValidator;
+use Agit\BaseBundle\Validation\LatitudeValidator;
+use Agit\BaseBundle\Validation\LongitudeValidator;
 
 class GeolocationValidatorTest extends \PHPUnit_Framework_TestCase
 {

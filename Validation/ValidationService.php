@@ -7,28 +7,25 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\BaseBundle\Service;
+namespace Agit\BaseBundle\Validation;
 
 use Agit\BaseBundle\Exception\InvalidValueException;
-use Agit\BaseBundle\Pluggable\Object\ObjectLoaderFactory;
 use Agit\BaseBundle\Tool\Translate;
 
 class ValidationService
 {
-    private $objectLoader;
+    private $validators = [];
 
-    private $validatorList = [];
-
-    public function __construct(ObjectLoaderFactory $objectLoaderFactory)
+    public function addValidator($id, AbstractValidator $validator)
     {
-        $this->objectLoader = $objectLoaderFactory->create("agit.validation");
+        $this->validators[$id] = $validator;
     }
 
     // shortcut
     public function validate($id, $value)
     {
         call_user_func_array(
-            [$this->getValidator($id), 'validate'],
+            [$this->validators[$id], 'validate'],
             array_slice(func_get_args(), 1));
     }
 
@@ -37,9 +34,9 @@ class ValidationService
     {
         try {
             call_user_func_array(
-                [$this->getValidator($id), 'validate'],
+                [$this->validators[$id], 'validate'],
                 array_slice(func_get_args(), 2));
-        } catch (\Exception $e) {
+        } catch (InvalidValueException $e) {
             throw new InvalidValueException(sprintf(Translate::t("Invalid value for %s: %s"), $fieldName, $e->getMessage()));
         }
     }
@@ -52,19 +49,9 @@ class ValidationService
         try {
             call_user_func_array([$this, 'validate'], func_get_args());
             $isValid = true;
-        } catch (\Exception $e) {
+        } catch (InvalidValueException $e) {
         }
 
         return $isValid;
-    }
-
-    public function getValidator($id)
-    {
-        if (! isset($validatorList[$id])) {
-            $validatorList[$id] = $this->objectLoader->getObject($id);
-            $validatorList[$id]->setValidationService($this);
-        }
-
-        return $validatorList[$id];
     }
 }

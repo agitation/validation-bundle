@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\BooleanValidator;
+use Agit\BaseBundle\Validation\BooleanValidator;
 
 class BooleanValidatorTest extends \PHPUnit_Framework_TestCase
 {

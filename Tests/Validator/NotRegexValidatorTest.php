@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\NotRegexValidator;
+use Agit\BaseBundle\Validation\NotRegexValidator;
 
 class NotRegexValidatorTest extends \PHPUnit_Framework_TestCase
 {

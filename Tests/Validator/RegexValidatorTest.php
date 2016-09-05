@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\RegexValidator;
+use Agit\BaseBundle\Validation\RegexValidator;
 
 class RegexValidatorTest extends \PHPUnit_Framework_TestCase
 {

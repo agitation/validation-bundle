@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\PasswordValidator;
+use Agit\BaseBundle\Validation\PasswordValidator;
 
 class PasswordValidatorTest extends \PHPUnit_Framework_TestCase
 {

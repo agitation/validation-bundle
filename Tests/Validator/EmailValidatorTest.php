@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\EmailValidator;
+use Agit\BaseBundle\Validation\EmailValidator;
 
 class EmailValidatorTest extends \PHPUnit_Framework_TestCase
 {

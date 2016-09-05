@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\NotNullValidator;
+use Agit\BaseBundle\Validation\NotNullValidator;
 
 class NotNullValidatorTest extends \PHPUnit_Framework_TestCase
 {

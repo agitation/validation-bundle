@@ -7,15 +7,11 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\BaseBundle\Plugin\Validator;
+namespace Agit\BaseBundle\Validation;
 
 use Agit\BaseBundle\Exception\InvalidValueException;
-use Agit\BaseBundle\Pluggable\Object\ObjectPlugin;
 use Agit\BaseBundle\Tool\Translate;
 
-/**
- * @ObjectPlugin(tag="agit.validation", id="password")
- */
 class PasswordValidator extends AbstractValidator
 {
     private $allowedSpecialChars = '!§$%&/()[]{}=?@+*~#-_.:,;';

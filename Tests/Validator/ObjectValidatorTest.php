@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\ObjectValidator;
+use Agit\BaseBundle\Validation\ObjectValidator;
 
 class ObjectValidatorTest extends \PHPUnit_Framework_TestCase
 {

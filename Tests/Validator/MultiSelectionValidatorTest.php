@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\MultiSelectionValidator;
+use Agit\BaseBundle\Validation\MultiSelectionValidator;
 
 class MultiSelectionValidatorTest extends \PHPUnit_Framework_TestCase
 {

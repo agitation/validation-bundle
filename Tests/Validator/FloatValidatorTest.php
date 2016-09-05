@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\FloatValidator;
+use Agit\BaseBundle\Validation\FloatValidator;
 
 class FloatValidatorTest extends \PHPUnit_Framework_TestCase
 {

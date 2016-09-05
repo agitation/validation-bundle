@@ -7,17 +7,19 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\BaseBundle\Plugin\Validator;
+namespace Agit\BaseBundle\Validation;
 
-use Agit\BaseBundle\Pluggable\Object\ObjectPlugin;
-
-/**
- * @ObjectPlugin(tag="agit.validation", id="phoneNumber")
- */
 class PhoneNumberValidator extends AbstractValidator
 {
+    private $regexValidator;
+
+    public function __construct(RegexValidator $regexValidator)
+    {
+        $this->regexValidator = $regexValidator;
+    }
+
     public function validate($value)
     {
-        $this->getValidator('regex')->validate($value, '|^\+[1-9]\d{1,3}\-?\d{2,7}\-?\d{3,12}(-?\d{1,6})?$|');
+        $this->regexValidator->validate($value, "|^\+[1-9]\d{1,3}\-?\d{2,7}\-?\d{3,12}(-?\d{1,6})?$|");
     }
 }

@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\IntegerValidator;
+use Agit\BaseBundle\Validation\IntegerValidator;
 
 class IntegerValidatorTest extends \PHPUnit_Framework_TestCase
 {

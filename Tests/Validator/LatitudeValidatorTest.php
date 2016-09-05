@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\LatitudeValidator;
+use Agit\BaseBundle\Validation\LatitudeValidator;
 
 class LatitudeValidatorTest extends \PHPUnit_Framework_TestCase
 {

@@ -9,8 +9,8 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\PhoneNumberValidator;
-use Agit\BaseBundle\Plugin\Validator\RegexValidator;
+use Agit\BaseBundle\Validation\PhoneNumberValidator;
+use Agit\BaseBundle\Validation\RegexValidator;
 
 class PhoneNumberValidatorTest extends \PHPUnit_Framework_TestCase
 {

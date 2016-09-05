@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\UrlValidator;
+use Agit\BaseBundle\Validation\UrlValidator;
 
 class UrlValidatorTest extends \PHPUnit_Framework_TestCase
 {

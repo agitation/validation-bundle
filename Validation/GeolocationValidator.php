@@ -7,27 +7,36 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\BaseBundle\Plugin\Validator;
+namespace Agit\BaseBundle\Validation;
 
 use Agit\BaseBundle\Exception\InvalidValueException;
-use Agit\BaseBundle\Pluggable\Object\ObjectPlugin;
 use Agit\BaseBundle\Tool\Translate;
 
-/**
- * @ObjectPlugin(tag="agit.validation", id="geolocation")
- */
 class GeolocationValidator extends AbstractValidator
 {
+    private $arrayValidator;
+
+    private $latitudeValidator;
+
+    private $longitudeValidator;
+
+    public function __construct(ArrayValidator $arrayValidator, LatitudeValidator $latitudeValidator, LongitudeValidator $longitudeValidator)
+    {
+        $this->arrayValidator = $arrayValidator;
+        $this->latitudeValidator = $latitudeValidator;
+        $this->longitudeValidator = $longitudeValidator;
+    }
+
     public function validate($value)
     {
         try {
-            $this->getValidator('array')->validate($value, 2);
+            $this->arrayValidator->validate($value, 2);
 
             $lat = reset($value);
             $lon = end($value);
 
-            $this->getValidator('latitude')->validate($lat);
-            $this->getValidator('longitude')->validate($lon);
+            $this->latitudeValidator->validate($lat);
+            $this->longitudeValidator->validate($lon);
 
             if ($lat > -2 && $lat < 2 && $lon > -2 && $lon < 2) {
                 throw new InvalidValueException(Translate::t("The location is off-shore."));

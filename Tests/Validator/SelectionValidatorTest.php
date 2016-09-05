@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\SelectionValidator;
+use Agit\BaseBundle\Validation\SelectionValidator;
 
 class SelectionValidatorTest extends \PHPUnit_Framework_TestCase
 {

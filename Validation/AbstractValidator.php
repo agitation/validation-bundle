@@ -7,9 +7,7 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\BaseBundle\Plugin\Validator;
-
-use Agit\BaseBundle\Service\ValidationService;
+namespace Agit\BaseBundle\Validation;
 
 abstract class AbstractValidator
 {

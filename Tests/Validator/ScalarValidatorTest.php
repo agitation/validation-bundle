@@ -9,7 +9,7 @@
 
 namespace Agit\BaseBundle\Tests\Validator;
 
-use Agit\BaseBundle\Plugin\Validator\ScalarValidator;
+use Agit\BaseBundle\Validation\ScalarValidator;
 
 class ScalarValidatorTest extends \PHPUnit_Framework_TestCase
 {

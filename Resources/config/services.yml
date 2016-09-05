@@ -27,11 +27,7 @@ services:
         class: Agit\BaseBundle\Service\CronService
         arguments: [ "@event_dispatcher" ]
 
-    agit.validation:
-        class: Agit\BaseBundle\Service\ValidationService
-        arguments: [ "@agit.pluggable.object.loader_factory" ]
-        tags: [{ name: "agit.pluggable", type: "object", tag: "agit.validation", baseClass: Agit\BaseBundle\Plugin\Validator\AbstractValidator }]
-
 imports :
     - { resource: services.intl.yml }
+    - { resource: services.validation.yml }
     - { resource: services.pluggable.yml }
