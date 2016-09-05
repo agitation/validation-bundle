@@ -1,5 +1,5 @@
-# AgitBaseBundle
+# AgitValidationBundle
 
-The AgitBaseBundle is a Symfony2 bundle for the Agitation components. It
-contains some common classes and traits to be used by other Agitation and
-Tixys bundles.
+The AgitValidationBundle is a Symfony2 bundle which provides various validators.
+These can either be injected directly as `agit.validator.*` services or used
+through the `agit.validation` service and their registered ID.

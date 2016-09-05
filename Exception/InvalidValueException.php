@@ -7,7 +7,9 @@
  * @license    http://opensource.org/licenses/MIT
  */
 
-namespace Agit\BaseBundle\Exception;
+namespace Agit\ValidationBundle\Exception;
+
+use Agit\BaseBundle\Exception\AgitException;
 
 /**
  * The validation of a value has failed, see the message field for details.

@@ -1,33 +1,117 @@
-parameters:
-    agit.common.cachedir: %kernel.cache_dir%/agit
-    agit.common.php.version: ">=5.4.9"
-    agit.common.symfony.version: "2.3.*"
-
 services:
-    agit.common.cache.persistent:
-        class: Doctrine\Common\Cache\FilesystemCache
-        arguments: [ "%agit.common.cachedir%" ]
+    agit.validation:
+        class: Agit\ValidationBundle\Validator\ValidationService
+        arguments: [ "@agit.pluggable.object.loader_factory" ]
 
-    agit.common.cache.volatile:
-        class: Doctrine\Common\Cache\ApcCache
+    agit.validator:
+        abstract: true
+        class: Agit\ValidationBundle\Validator\AbstractValidator
+        calls:
+            - [ setValidationService, [ "@agit.validation" ] ]
 
-    agit.common.filecollector:
-        class: Agit\BaseBundle\Service\FileCollector
-        arguments: [ "@kernel" ]
+    agit.validator.array:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\ArrayValidator
+        tags: [{ name: agit.validator, id: array }]
 
-    agit.common.classcollector:
-        class: Agit\BaseBundle\Service\ClassCollector
-        arguments: [ "@agit.common.filecollector" ]
+    agit.validator.boolean:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\BooleanValidator
+        tags: [{ name: agit.validator, id: boolean }]
 
-    agit.common.url:
-        class: Agit\BaseBundle\Service\UrlService
-        arguments: [ "%agit.common.domain.app%", "%agit.common.domain.cdn%", "%agit.common.force.https%" ]
+    agit.validator.email:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\EmailValidator
+        tags: [{ name: agit.validator, id: email }]
 
-    agit.cron:
-        class: Agit\BaseBundle\Service\CronService
-        arguments: [ "@event_dispatcher" ]
+    agit.validator.float:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\FloatValidator
+        tags: [{ name: agit.validator, id: float }]
 
-imports :
-    - { resource: services.intl.yml }
-    - { resource: services.validation.yml }
-    - { resource: services.pluggable.yml }
+    agit.validator.geolocation:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\GeolocationValidator
+        arguments: [ "@agit.validator.array", "@agit.validator.latitude", "@agit.validator.longitude" ]
+        tags: [{ name: agit.validator, id: geolocation }]
+
+    agit.validator.integer:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\IntegerValidator
+        tags: [{ name: agit.validator, id: integer }]
+
+    agit.validator.latitude:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\LatitudeValidator
+        tags: [{ name: agit.validator, id: latitude }]
+
+    agit.validator.longitude:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\LongitudeValidator
+        tags: [{ name: agit.validator, id: longitude }]
+
+    agit.validator.multiselection:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\MultiSelectionValidator
+        tags: [{ name: agit.validator, id: multiselection }]
+
+    agit.validator.notnull:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\NotNullValidator
+        tags: [{ name: agit.validator, id: notnull }]
+
+    agit.validator.notregex:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\NotRegexValidator
+        tags: [{ name: agit.validator, id: notregex }]
+
+    agit.validator.null:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\NullValidator
+        tags: [{ name: agit.validator, id: null }]
+
+    agit.validator.numeric:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\NumericValidator
+        tags: [{ name: agit.validator, id: numeric }]
+
+    agit.validator.object:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\ObjectValidator
+        tags: [{ name: agit.validator, id: object }]
+
+    agit.validator.password:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\PasswordValidator
+        tags: [{ name: agit.validator, id: password }]
+
+    agit.validator.phonenumber:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\PhoneNumberValidator
+        arguments: [ "@agit.validator.regex" ]
+        tags: [{ name: agit.validator, id: phonenumber }]
+
+    agit.validator.regex:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\RegexValidator
+        tags: [{ name: agit.validator, id: regex }]
+
+    agit.validator.scalar:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\ScalarValidator
+        tags: [{ name: agit.validator, id: scalar }]
+
+    agit.validator.selection:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\SelectionValidator
+        tags: [{ name: agit.validator, id: selection }]
+
+    agit.validator.string:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\StringValidator
+        tags: [{ name: agit.validator, id: string }]
+
+    agit.validator.url:
+        parent: agit.validator
+        class: Agit\ValidationBundle\Validator\UrlValidator
+        tags: [{ name: agit.validator, id: url }]
