@@ -10,7 +10,7 @@
 namespace Agit\ValidationBundle\Plugin;
 
 use Agit\ValidationBundle\Exception\InvalidValueException;
-use Agit\PluggableBundle\Strategy\Object\ObjectPlugin;
+use Agit\BaseBundle\Pluggable\Object\ObjectPlugin;
 use Agit\BaseBundle\Tool\Translate;
 
 /**
