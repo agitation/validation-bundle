@@ -14,6 +14,7 @@ use Agit\BaseBundle\Pluggable\PluggableServiceInterface;
 use Agit\BaseBundle\Pluggable\PluginInterface;
 use Agit\BaseBundle\Pluggable\ProcessorInterface;
 use Doctrine\Common\Cache\CacheProvider;
+use ReflectionClass;
 
 class ObjectProcessor implements ProcessorInterface
 {
@@ -38,7 +39,7 @@ class ObjectProcessor implements ProcessorInterface
             throw new InternalErrorException("Invalid plugin class.");
         }
 
-        $classRefl = new \ReflectionClass($class);
+        $classRefl = new ReflectionClass($class);
 
         if (! $classRefl->isSubclassOf($this->baseClass)) {
             throw new InternalErrorException(sprintf("%s must be a subclass of %s.", $class, $this->baseClass));

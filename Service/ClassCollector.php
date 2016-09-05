@@ -51,11 +51,6 @@ class ClassCollector
         return $classes;
     }
 
-    // public function fallbackAutoloader($className)
-    // {
-    //     throw new \Exception("Class $className could not be loaded!");
-    // }
-
     private function getFullClass($file)
     {
         $dir = dirname($file);
