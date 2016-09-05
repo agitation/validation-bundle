@@ -1,0 +1,6 @@
+services:
+
+    agit.validation:
+        class: Agit\ValidationBundle\Service\ValidationService
+        arguments: [ @agit.pluggable.object.loader_factory ]
+        tags: [{ name: agit.pluggable, type: object, tag: agit.validation, baseClass: Agit\ValidationBundle\Plugin\AbstractValidator }]
