@@ -25,3 +25,4 @@ services:
 
 imports :
     - { resource: services.intl.yml }
+    - { resource: services.pluggable.yml }
