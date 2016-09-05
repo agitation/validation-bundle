@@ -24,7 +24,7 @@ services:
         arguments: [ "%agit.common.domain.app%", "%agit.common.domain.cdn%", "%agit.common.force.https%" ]
 
     agit.cron:
-        class: Agit\CronBundle\Cron\CronService
+        class: Agit\BaseBundle\Service\CronService
         arguments: [ "@event_dispatcher" ]
 
     agit.validation:
