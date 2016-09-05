@@ -1,0 +1,41 @@
+<?php
+
+/*
+ * @package    agitation/base-bundle
+ * @link       http://github.com/agitation/base-bundle
+ * @author     Alexander Günsche
+ * @license    http://opensource.org/licenses/MIT
+ */
+
+namespace Agit\BaseBundle\Plugin\Validator;
+
+use Agit\BaseBundle\Exception\InvalidValueException;
+use Agit\BaseBundle\Pluggable\Object\ObjectPlugin;
+use Agit\BaseBundle\Tool\Translate;
+
+/**
+ * @ObjectPlugin(tag="agit.validation", id="password")
+ */
+class PasswordValidator extends AbstractValidator
+{
+    private $allowedSpecialChars = '!§$%&/()[]{}=?@+*~#-_.:,;';
+
+    public function validate($pass1, $pass2 = null)
+    {
+        if (strlen($pass1) < 8) {
+            throw new InvalidValueException(sprintf(Translate::t("The password must have at least %d characters."), 8));
+        }
+
+        if (! preg_match('|\d|', $pass1) || ! preg_match('|[a-z]|i', $pass1)) {
+            throw new InvalidValueException(Translate::t("The password must contain at least one letter and one number."));
+        }
+
+        if (preg_match('|[^a-z0-9' . preg_quote($this->allowedSpecialChars, '|') . ']|i', $pass1)) {
+            throw new InvalidValueException(sprintf(Translate::t("The password must only consist of letters, numbers and the characters %s."), $this->allowedSpecialChars));
+        }
+
+        if (! is_null($pass2) && $pass1 !== $pass2) {
+            throw new InvalidValueException(Translate::t("Both passwords must be identical."));
+        }
+    }
+}
