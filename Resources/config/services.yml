@@ -51,22 +51,22 @@ services:
     agit.validator.multiselection:
         parent: agit.validator
         class: Agit\ValidationBundle\Validator\MultiSelectionValidator
-        tags: [{ name: agit.validator, id: multiselection }]
+        tags: [{ name: agit.validator, id: multiSelection }]
 
     agit.validator.notnull:
         parent: agit.validator
         class: Agit\ValidationBundle\Validator\NotNullValidator
-        tags: [{ name: agit.validator, id: notnull }]
+        tags: [{ name: agit.validator, id: notNull }]
 
     agit.validator.notregex:
         parent: agit.validator
         class: Agit\ValidationBundle\Validator\NotRegexValidator
-        tags: [{ name: agit.validator, id: notregex }]
+        tags: [{ name: agit.validator, id: notRegex }]
 
     agit.validator.null:
         parent: agit.validator
         class: Agit\ValidationBundle\Validator\NullValidator
-        tags: [{ name: agit.validator, id: null }]
+        tags: [{ name: agit.validator, id: "null" }]
 
     agit.validator.numeric:
         parent: agit.validator
@@ -87,7 +87,7 @@ services:
         parent: agit.validator
         class: Agit\ValidationBundle\Validator\PhoneNumberValidator
         arguments: [ "@agit.validator.regex" ]
-        tags: [{ name: agit.validator, id: phonenumber }]
+        tags: [{ name: agit.validator, id: phoneNumber }]
 
     agit.validator.regex:
         parent: agit.validator
