@@ -9,7 +9,7 @@
 
 namespace Agit\ValidationBundle\Validator;
 
-use Agit\BaseBundle\Tool\Translate;
+use Agit\IntlBundle\Tool\Translate;
 use Agit\ValidationBundle\Exception\InvalidValueException;
 
 class NotNullValidator extends AbstractValidator

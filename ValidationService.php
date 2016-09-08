@@ -9,7 +9,7 @@
 
 namespace Agit\ValidationBundle;
 
-use Agit\BaseBundle\Tool\Translate;
+use Agit\IntlBundle\Tool\Translate;
 use Agit\ValidationBundle\Exception\InvalidValueException;
 use Agit\ValidationBundle\Validator\AbstractValidator;
 
