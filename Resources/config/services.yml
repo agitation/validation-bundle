@@ -1,7 +1,6 @@
 services:
     agit.validation:
         class: Agit\ValidationBundle\ValidationService
-        arguments: [ "@agit.pluggable.object.loader_factory" ]
 
     agit.validator:
         abstract: true
