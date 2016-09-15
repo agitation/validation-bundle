@@ -10,7 +10,6 @@
 namespace Agit\ValidationBundle;
 
 use Agit\ValidationBundle\DependencyInjection\RegisterValidatorsCompilerPass;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -19,10 +18,6 @@ class AgitValidationBundle extends Bundle
     public function build(ContainerBuilder $containerBuilder)
     {
         parent::build($containerBuilder);
-
-        $containerBuilder->addCompilerPass(
-            new RegisterValidatorsCompilerPass(),
-            PassConfig::TYPE_AFTER_REMOVING
-        );
+        $containerBuilder->addCompilerPass(new RegisterValidatorsCompilerPass());
     }
 }
