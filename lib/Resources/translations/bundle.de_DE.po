@@ -5,7 +5,7 @@ msgstr ""
 
 #: @AgitValidationBundle/Resources/public/js/lib/Validation.js:18
 msgid "The selected value is invalid."
-msgstr ""
+msgstr "Der gewählte Wert ist ungültig."
 
 #: @AgitValidationBundle/Resources/public/js/lib/Validation.js:24
 #: @AgitValidationBundle/Validator/IntegerValidator.php:20
@@ -67,11 +67,11 @@ msgstr "Der Wert entspricht nicht dem geforderten Format."
 #: @AgitValidationBundle/Resources/public/js/lib/Validation.js:92
 #: @AgitValidationBundle/Resources/public/js/lib/Validation.js:109
 msgid "The creditcard number is invalid."
-msgstr ""
+msgstr "Die Kreditkartennummer ist ungültig."
 
 #: @AgitValidationBundle/Resources/public/js/lib/Validation.js:140
 msgid "Error in field “%s”: %s"
-msgstr ""
+msgstr "Fehler im Feld „%s“: %s"
 
 #: @AgitValidationBundle/Validator/FloatValidator.php:20
 msgid "The value must be a number."
@@ -88,11 +88,11 @@ msgstr "Der Wert muss skalar sein."
 #: @AgitValidationBundle/Validator/UrlValidator.php:20
 #: @AgitValidationBundle/Validator/UrlValidator.php:26
 msgid "The URL is invalid."
-msgstr ""
+msgstr "Die URL ist ungültig."
 
 #: @AgitValidationBundle/Validator/UrlValidator.php:30
 msgid "The URL is malformed."
-msgstr ""
+msgstr "Die URL hat das falsche Format."
 
 #: @AgitValidationBundle/Validator/MultiSelectionValidator.php:20
 #: @AgitValidationBundle/Validator/ArrayValidator.php:20
@@ -165,21 +165,21 @@ msgstr "Beide Passwörter müssen identisch sein."
 #: @AgitValidationBundle/Validator/ArrayValidator.php:24
 #, php-format
 msgid "The array is too short, it must have at least %s elements."
-msgstr ""
+msgstr "Die Liste ist zu kurz, sie muss mindestens %s Elemente haben."
 
 #: @AgitValidationBundle/Validator/ArrayValidator.php:28
 #, php-format
 msgid "The array is too long, it must have at most %s elements."
-msgstr ""
+msgstr "Die Liste ist zu lang, sie darf höchstens %s Elemente haben."
 
 #: @AgitValidationBundle/Validator/ArrayValidator.php:35
 msgid "The array has invalid keys."
-msgstr ""
+msgstr "Die Liste hat ungültige Eigenschaften."
 
 #: @AgitValidationBundle/Validator/ArrayValidator.php:40
 #, php-format
 msgid "The array is missing the mandatory `%s` key."
-msgstr ""
+msgstr "Der Liste fehlt die notwendige Eigenschaft `%s`."
 
 #: @AgitValidationBundle/Validator/NumericValidator.php:20
 msgid "The value must be numeric."
