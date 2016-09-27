@@ -70,6 +70,7 @@ msgid "The creditcard number is invalid."
 msgstr "Die Kreditkartennummer ist ungültig."
 
 #: @AgitValidationBundle/Resources/public/js/lib/Validation.js:140
+#, javascript-format
 msgid "Error in field “%s”: %s"
 msgstr "Fehler im Feld „%s“: %s"
 
