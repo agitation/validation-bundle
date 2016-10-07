@@ -17,7 +17,7 @@ class NullValidator extends AbstractValidator
     public function validate($value)
     {
         if (! is_null($value)) {
-            throw new InvalidValueException(Translate::t("The value must be NULL."));
+            throw new InvalidValueException(Translate::t("The value must be empty."));
         }
     }
 }

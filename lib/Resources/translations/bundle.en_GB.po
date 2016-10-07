@@ -112,11 +112,11 @@ msgid "”, “"
 msgstr ""
 
 #: @AgitValidationBundle/Validator/NotNullValidator.php:20
-msgid "The value must not be NULL."
+msgid "The value must not be empty."
 msgstr ""
 
 #: @AgitValidationBundle/Validator/NullValidator.php:20
-msgid "The value must be NULL."
+msgid "The value must be empty."
 msgstr ""
 
 #: @AgitValidationBundle/Validator/GeolocationValidator.php:42
