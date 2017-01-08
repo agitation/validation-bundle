@@ -9,12 +9,12 @@
 
 namespace Agit\ValidationBundle\Exception;
 
-use Agit\BaseBundle\Exception\AgitException;
+use Agit\BaseBundle\Exception\PublicException;
 
 /**
  * The validation of a value has failed, see the message field for details.
  */
-class InvalidValueException extends AgitException
+class InvalidValueException extends PublicException
 {
     protected $statusCode = 400;
 }
