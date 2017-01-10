@@ -1,18 +1,18 @@
 {
     "name": "agitation/validation-bundle",
     "type": "symfony-bundle",
-    "license": "MIT",
-    "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.9",
         "symfony/symfony": "2.8.*",
-        "agitation/base-bundle" : "dev-master"
+        "agitation/base-bundle" : "~1.0",
+        "agitation/intl-bundle": "~1.0"
     },
     "autoload": {
         "psr-4": {
             "Agit\\ValidationBundle\\": "lib/"
         }
     },
+    "license": "MIT",
     "authors": [
         {
             "name": "Alexander Günsche",
