@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -16,12 +16,14 @@ class SelectionValidator extends AbstractValidator
 {
     public function validate($value, array $possibleValues = [])
     {
-        if (! in_array($value, $possibleValues)) {
+        if (! in_array($value, $possibleValues))
+        {
             throw new InvalidValueException(sprintf(
-                Translate::t("The value must be one of the following: “%s”."),
+                Translate::t('The value must be one of the following: “%s”.'),
                 implode(
-                    Translate::x("quotation inside collection", "”, “"),
-                    $possibleValues)
+                    Translate::x('quotation inside collection', '”, “'),
+                    $possibleValues
+                )
             ));
         }
     }

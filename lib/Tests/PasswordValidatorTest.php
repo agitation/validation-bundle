@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,19 @@ class PasswordValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed      $value
+     * @param null|mixed $value2
      */
     public function testValidateGood($value, $value2 = null)
     {
-        try {
+        try
+        {
             $success = true;
             $passwordValidator = new PasswordValidator();
             $passwordValidator->validate($value, $value2);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -31,6 +36,8 @@ class PasswordValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed      $value
+     * @param null|mixed $value2
      */
     public function testValidateBad($value, $value2 = null)
     {

@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -27,18 +27,23 @@ class ValidationService
     {
         call_user_func_array(
             [$this->validators[$id], 'validate'],
-            array_slice(func_get_args(), 1));
+            array_slice(func_get_args(), 1)
+        );
     }
 
     // shortcut. extends the error message with a reference to the field.
     public function validateField($fieldName, $id, $value)
     {
-        try {
+        try
+        {
             call_user_func_array(
                 [$this->validators[$id], 'validate'],
-                array_slice(func_get_args(), 2));
-        } catch (InvalidValueException $e) {
-            throw new InvalidValueException(sprintf(Translate::t("Invalid value for %s: %s"), $fieldName, $e->getMessage()));
+                array_slice(func_get_args(), 2)
+            );
+        }
+        catch (InvalidValueException $e)
+        {
+            throw new InvalidValueException(sprintf(Translate::t('Invalid value for %s: %s'), $fieldName, $e->getMessage()));
         }
     }
 
@@ -47,10 +52,13 @@ class ValidationService
     {
         $isValid = false;
 
-        try {
+        try
+        {
             call_user_func_array([$this, 'validate'], func_get_args());
             $isValid = true;
-        } catch (InvalidValueException $e) {
+        }
+        catch (InvalidValueException $e)
+        {
         }
 
         return $isValid;

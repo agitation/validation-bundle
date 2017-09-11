@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -16,8 +16,9 @@ class NullValidator extends AbstractValidator
 {
     public function validate($value)
     {
-        if (! is_null($value)) {
-            throw new InvalidValueException(Translate::t("The value must be empty."));
+        if ($value !== null)
+        {
+            throw new InvalidValueException(Translate::t('The value must be empty.'));
         }
     }
 }

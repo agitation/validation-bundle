@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,18 @@ class SelectionValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed $value
      */
     public function testValidateGood($value, array $possibleValues = [])
     {
-        try {
+        try
+        {
             $success = true;
             $selectionValidator = new SelectionValidator();
             $selectionValidator->validate($value, $possibleValues);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -31,6 +35,7 @@ class SelectionValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed $value
      */
     public function testValidateBad($value, array $possibleValues = [])
     {

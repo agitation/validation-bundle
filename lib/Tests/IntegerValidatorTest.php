@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,20 @@ class IntegerValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed      $value
+     * @param null|mixed $min
+     * @param null|mixed $max
      */
     public function testValidateGood($value, $min = null, $max = null)
     {
-        try {
+        try
+        {
             $success = true;
             $integerValidator = new IntegerValidator();
             $integerValidator->validate($value, $min, $max);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -31,6 +37,9 @@ class IntegerValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed      $value
+     * @param null|mixed $min
+     * @param null|mixed $max
      */
     public function testValidateBad($value, $min = null, $max = null)
     {

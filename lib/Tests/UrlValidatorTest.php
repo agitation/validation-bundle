@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,19 @@ class UrlValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed $value
+     * @param mixed $strict
      */
     public function testValidateGood($value, $strict = true)
     {
-        try {
+        try
+        {
             $success = true;
             $urlValidator = new UrlValidator();
             $urlValidator->validate($value, $strict);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -31,6 +36,8 @@ class UrlValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed $value
+     * @param mixed $strict
      */
     public function testValidateBad($value, $strict = true)
     {

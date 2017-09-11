@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,19 @@ class BooleanValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed $value
+     * @param mixed $allowNull
      */
     public function testValidateGood($value, $allowNull)
     {
-        try {
+        try
+        {
             $success = true;
             $booleanValidator = new BooleanValidator();
             $booleanValidator->validate($value, $allowNull);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -31,6 +36,8 @@ class BooleanValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed $value
+     * @param mixed $allowNull
      */
     public function testValidateBad($value, $allowNull)
     {

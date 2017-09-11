@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,20 @@ class ArrayValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed $value
+     * @param mixed $minLength
+     * @param mixed $maxLength
      */
     public function testValidateGood($value, $minLength, $maxLength)
     {
-        try {
+        try
+        {
             $success = true;
             $arrayValidator = new ArrayValidator();
             $arrayValidator->validate($value, $minLength, $maxLength);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -31,6 +37,9 @@ class ArrayValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed $value
+     * @param mixed $minLength
+     * @param mixed $maxLength
      */
     public function testValidateBad($value, $minLength, $maxLength)
     {

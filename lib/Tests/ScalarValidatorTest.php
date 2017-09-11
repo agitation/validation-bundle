@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,18 @@ class ScalarValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed $value
      */
     public function testValidateGood($value)
     {
-        try {
+        try
+        {
             $success = true;
             $scalarValidator = new ScalarValidator();
             $scalarValidator->validate($value);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -31,6 +35,7 @@ class ScalarValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed $value
      */
     public function testValidateBad($value)
     {
@@ -56,7 +61,8 @@ class ScalarValidatorTest extends \PHPUnit_Framework_TestCase
             [null],
             [[]],
             [new \stdClass()],
-            [function () {}]
+            [function () {
+            }]
         ];
     }
 }

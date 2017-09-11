@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,19 @@ class NotRegexValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed $value
+     * @param mixed $regex
      */
     public function testValidateGood($value, $regex)
     {
-        try {
+        try
+        {
             $success = true;
             $notRegexValidator = new NotRegexValidator();
             $notRegexValidator->validate($value, $regex);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -31,6 +36,8 @@ class NotRegexValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed $value
+     * @param mixed $regex
      */
     public function testValidateBad($value, $regex)
     {

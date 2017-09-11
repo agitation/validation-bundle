@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,19 @@ class ObjectValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed $value
+     * @param mixed $onlyGivenProperties
      */
     public function testValidateGood($value, array $properties = [], $onlyGivenProperties = true)
     {
-        try {
+        try
+        {
             $success = true;
             $objectValidator = new ObjectValidator();
             $objectValidator->validate($value, $properties, $onlyGivenProperties);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             p($e->getMEssage());
             $success = false;
         }
@@ -32,6 +37,8 @@ class ObjectValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed $value
+     * @param mixed $onlyGivenProperties
      */
     public function testValidateBad($value, array $properties = [], $onlyGivenProperties = true)
     {

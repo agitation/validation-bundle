@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -16,15 +16,19 @@ class PhoneNumberValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed $value
      */
     public function testValidateGood($value)
     {
-        try {
+        try
+        {
             $success = true;
             $phoneNumberValidator = new PhoneNumberValidator();
             $phoneNumberValidator->setValidator('regex', new RegexValidator());
             $phoneNumberValidator->validate($value);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -33,6 +37,7 @@ class PhoneNumberValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed $value
      */
     public function testValidateBad($value)
     {

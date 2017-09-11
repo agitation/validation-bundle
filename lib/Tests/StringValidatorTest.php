@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -15,14 +15,21 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider providerTestValidateGood
+     * @param mixed $value
+     * @param mixed $minLength
+     * @param mixed $maxLength
+     * @param mixed $noCtl
      */
     public function testValidateGood($value, $minLength, $maxLength, $noCtl)
     {
-        try {
+        try
+        {
             $success = true;
             $stringValidator = new StringValidator();
             $stringValidator->validate($value, $minLength, $maxLength, $noCtl);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $success = false;
         }
 
@@ -31,6 +38,10 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider providerTestValidateBad
+     * @param mixed $value
+     * @param mixed $minLength
+     * @param mixed $maxLength
+     * @param mixed $noCtl
      */
     public function testValidateBad($value, $minLength, $maxLength, $noCtl)
     {
@@ -54,8 +65,8 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
         return [
             [['foo'], null, null, false],       // arrays are not allowed
             [15, null, null, false],            // same with integers
-            ["foo", 6, 20, false],              // string too short
-            ["bar", 1, 2, false],               // string too long
+            ['foo', 6, 20, false],              // string too short
+            ['bar', 1, 2, false],               // string too long
             ["\n", null, null, true],           // noCtl is true, so newline is not allowed
             ["\0", null, null, false]           // null bytes are always evil
 

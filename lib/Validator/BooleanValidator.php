@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -16,8 +16,9 @@ class BooleanValidator extends AbstractValidator
 {
     public function validate($value, $acceptNull = false)
     {
-        if ((! is_bool($value) && ! $acceptNull) || ($acceptNull && $value !== null)) {
-            throw new InvalidValueException(Translate::t("The value must be a boolean."));
+        if ((! is_bool($value) && ! $acceptNull) || ($acceptNull && $value !== null))
+        {
+            throw new InvalidValueException(Translate::t('The value must be a boolean.'));
         }
     }
 }

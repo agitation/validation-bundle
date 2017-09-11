@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -19,12 +19,14 @@ class RegisterValidatorsCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $containerBuilder)
     {
-        $processor = $containerBuilder->findDefinition("agit.validation");
-        $services = $containerBuilder->findTaggedServiceIds("agit.validator");
+        $processor = $containerBuilder->findDefinition('agit.validation');
+        $services = $containerBuilder->findTaggedServiceIds('agit.validator');
 
-        foreach ($services as $name => $tags) {
-            foreach ($tags as $tag) {
-                $processor->addMethodCall("addValidator", [$tag["id"], new Reference($name)]);
+        foreach ($services as $name => $tags)
+        {
+            foreach ($tags as $tag)
+            {
+                $processor->addMethodCall('addValidator', [$tag['id'], new Reference($name)]);
             }
         }
     }

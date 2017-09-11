@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * @package    agitation/validation-bundle
  * @link       http://github.com/agitation/validation-bundle
@@ -29,7 +29,8 @@ class GeolocationValidator extends AbstractValidator
 
     public function validate($value)
     {
-        try {
+        try
+        {
             $this->arrayValidator->validate($value, 2);
 
             $lat = reset($value);
@@ -38,11 +39,14 @@ class GeolocationValidator extends AbstractValidator
             $this->latitudeValidator->validate($lat);
             $this->longitudeValidator->validate($lon);
 
-            if ($lat > -2 && $lat < 2 && $lon > -2 && $lon < 2) {
-                throw new InvalidValueException(Translate::t("The location is off-shore."));
+            if ($lat > -2 && $lat < 2 && $lon > -2 && $lon < 2)
+            {
+                throw new InvalidValueException(Translate::t('The location is off-shore.'));
             }
-        } catch (InvalidValueException $e) {
-            throw new InvalidValueException(sprintf(Translate::t("The geographical location is invalid: %s"), $e->getMessage()));
+        }
+        catch (InvalidValueException $e)
+        {
+            throw new InvalidValueException(sprintf(Translate::t('The geographical location is invalid: %s'), $e->getMessage()));
         }
     }
 }
