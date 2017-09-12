@@ -33,7 +33,7 @@ class PasswordValidator extends AbstractValidator
             throw new InvalidValueException(sprintf(Translate::t('The password must only consist of letters, numbers and the characters %s.'), $this->allowedSpecialChars));
         }
 
-        if ($pass2 !== null&& $pass1 !== $pass2)
+        if ($pass2 !== null && $pass1 !== $pass2)
         {
             throw new InvalidValueException(Translate::t('Both passwords must be identical.'));
         }

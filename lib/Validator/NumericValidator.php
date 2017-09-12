@@ -21,7 +21,7 @@ class NumericValidator extends AbstractValidator
             throw new InvalidValueException(Translate::t('The value must be numeric.'));
         }
 
-        if ($positiveInt === true && preg_match('|[^\d]|', $value))
+        if ($positiveInt === true && preg_match('|[^\d]|', (string)$value))
         {
             throw new InvalidValueException(Translate::t('The value must be a positive integer number.'));
         }
