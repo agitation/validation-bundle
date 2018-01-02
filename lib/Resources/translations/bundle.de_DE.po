@@ -165,21 +165,21 @@ msgstr "Beide Passwörter müssen identisch sein."
 
 #: @AgitValidationBundle/Validator/ArrayValidator.php:24
 #, php-format
-msgid "The array is too short, it must have at least %s elements."
+msgid "The list is too short, it must have at least %s elements."
 msgstr "Die Liste ist zu kurz, sie muss mindestens %s Elemente haben."
 
 #: @AgitValidationBundle/Validator/ArrayValidator.php:28
 #, php-format
-msgid "The array is too long, it must have at most %s elements."
+msgid "The list is too long, it must have at most %s elements."
 msgstr "Die Liste ist zu lang, sie darf höchstens %s Elemente haben."
 
 #: @AgitValidationBundle/Validator/ArrayValidator.php:35
-msgid "The array has invalid keys."
+msgid "The list has invalid keys."
 msgstr "Die Liste hat ungültige Eigenschaften."
 
 #: @AgitValidationBundle/Validator/ArrayValidator.php:40
 #, php-format
-msgid "The array is missing the mandatory `%s` key."
+msgid "The list is missing the mandatory `%s` key."
 msgstr "Der Liste fehlt die notwendige Eigenschaft `%s`."
 
 #: @AgitValidationBundle/Validator/NumericValidator.php:20

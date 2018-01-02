@@ -23,12 +23,12 @@ class ArrayValidator extends AbstractValidator
 
         if (is_int($minLength) && count($value) < $minLength)
         {
-            throw new InvalidValueException(sprintf(Translate::t('The array is too short, it must have at least %s elements.'), $minLength));
+            throw new InvalidValueException(sprintf(Translate::t('The list is too short, it must have at least %s elements.'), $minLength));
         }
 
         if (is_int($maxLength) && count($value) > $maxLength)
         {
-            throw new InvalidValueException(sprintf(Translate::t('The array is too long, it must have at most %s elements.'), $maxLength));
+            throw new InvalidValueException(sprintf(Translate::t('The list is too long, it must have at most %s elements.'), $maxLength));
         }
 
         if ($requireKeys !== null)
@@ -37,14 +37,14 @@ class ArrayValidator extends AbstractValidator
 
             if ($allowOtherKeys && count($keys) !== count($requireKeys))
             {
-                throw new InvalidValueException(Translate::t('The array has invalid keys.'));
+                throw new InvalidValueException(Translate::t('The list has invalid keys.'));
             }
 
             foreach ($requireKeys as $key)
             {
                 if (! in_array($key, $keys))
                 {
-                    throw new InvalidValueException(sprintf(Translate::t('The array is missing the mandatory `%s` key.'), $key));
+                    throw new InvalidValueException(sprintf(Translate::t('The list is missing the mandatory `%s` key.'), $key));
                 }
             }
         }
