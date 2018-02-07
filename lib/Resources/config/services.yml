@@ -2,6 +2,12 @@ services:
     agit.validation:
         class: Agit\ValidationBundle\ValidationService
 
+    # transional alias to allow autowiring
+    Agit\ValidationBundle\ValidationService: '@agit.validation'
+
+
+    ### actual validators
+
     agit.validator:
         abstract: true
         class: Agit\ValidationBundle\Validator\AbstractValidator
