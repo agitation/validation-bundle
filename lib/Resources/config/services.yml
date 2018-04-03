@@ -83,11 +83,6 @@ services:
         class: Agit\ValidationBundle\Validator\ObjectValidator
         tags: [{ name: agit.validator, id: object }]
 
-    agit.validator.password:
-        parent: agit.validator
-        class: Agit\ValidationBundle\Validator\PasswordValidator
-        tags: [{ name: agit.validator, id: password }]
-
     agit.validator.phonenumber:
         parent: agit.validator
         class: Agit\ValidationBundle\Validator\PhoneNumberValidator
